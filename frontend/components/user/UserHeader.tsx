@@ -1,7 +1,9 @@
 import { useAppSelector } from "../../redux/store"
 import { selectUserDisplay } from "../../redux/user/userSelectors"
+import { UserAvatar } from "./UserAvatar";
 import { UserBanner } from "./UserBanner";
 import { UserText } from "./UserText";
+import styles from '../../styles/User.module.scss';
 
 export const UserHeader = () => {
     const user = useAppSelector(selectUserDisplay);
@@ -12,11 +14,14 @@ export const UserHeader = () => {
     return(
         <>
             <UserBanner bannerURL={bannerURL} />
-            <UserText 
-                username={username}
-                name={name} 
-                bio={bio}
-            />
+            <div className={styles['header-content']}>
+                <UserAvatar avatarURL={avatarURL} />
+                <UserText 
+                    username={username}
+                    name={name} 
+                    bio={bio}
+                />
+            </div>
         </>
     )
 }
