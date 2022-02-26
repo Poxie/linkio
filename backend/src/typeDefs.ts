@@ -9,5 +9,9 @@ export default gql`
         username: ID!
         name: String!
         bio: String
+        banner: String
+        bannerURL: String
+        avatar: String
+        avatarURL: String
     }
 `

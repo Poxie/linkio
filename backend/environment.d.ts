@@ -6,6 +6,7 @@ declare global {
             MYSQL_PASSWORD: string;
             MYSQL_DATABASE: string;
             PORT: number;
+            IMAGE_ENDPOINT: string;
         }
     }
 }
