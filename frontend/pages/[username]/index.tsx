@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
+import { UserPage } from "../../components/user/UserPage";
 import { getUserByUsername } from "../../utils";
 import { User as UserType } from "../../utils/types";
 
@@ -13,7 +14,10 @@ export default function User({ user }: UserProps) {
                 <title>
                     {user.name}
                 </title>
+                <meta name="description" content={user.bio} />
             </Head>
+            
+            <UserPage user={user} />
         </>
     )
 }
