@@ -70,11 +70,10 @@
 .item-icon {
     height: 30px;
     width: 30px;
-    position: relative;
+    position: absolute;
 }
 .item-text {
     margin: 0 auto;
-    transform: translateX(-15px);
-    padding: 0 25px;
+    padding: 0 30px;
     font-weight: 500;
 }
