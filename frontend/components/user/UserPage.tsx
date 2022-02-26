@@ -3,6 +3,7 @@ import { useAppSelector } from "../../redux/store"
 import { selectUserDisplay } from "../../redux/user/userSelectors"
 import { UserHeader } from "./UserHeader";
 import styles from '../../styles/User.module.scss';
+import { UserItems } from "./UserItems";
 
 export const UserPage = () => {
     const user = useAppSelector(selectUserDisplay);
@@ -10,6 +11,7 @@ export const UserPage = () => {
     return(
         <div className={styles.container}>
             <UserHeader />
+            <UserItems />
         </div>
     )
 }

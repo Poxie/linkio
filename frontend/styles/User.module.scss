@@ -47,3 +47,33 @@
     font-size: 16px;
     display: block;
 }
+
+.item-container {
+    margin-top: var(--spacing-primary);
+}
+.item {
+    padding: var(--spacing-primary);
+    background-color: var(--background-primary);
+    margin: calc(var(--spacing-primary) / 1.5) 0;
+    border-radius: var(--border-radius-primary);
+    text-align: center;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px 0px;
+    }
+}
+.item-icon {
+    height: 30px;
+    width: 30px;
+    position: relative;
+}
+.item-text {
+    margin: 0 auto;
+    transform: translateX(-20px);
+    font-weight: 500;
+}
