@@ -8,5 +8,6 @@ export default gql`
     type User {
         username: ID!
         name: String!
+        bio: String
     }
 `
