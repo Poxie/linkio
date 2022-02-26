@@ -2,6 +2,7 @@
     width: 900px;
     max-width: 95%;
     margin: 0 auto;
+    padding-top: 40px;
 }
 .banner {
     --br: var(--border-radius-primary);
@@ -36,4 +37,13 @@
     background-color: var(--background-primary);
     padding-bottom: var(--spacing-primary);
     border-radius: var(--border-radius-primary);
+}
+.header-name {
+    font-size: 28px;
+    font-weight: 600;
+}
+.header-bio {
+    margin-top: 8px;
+    font-size: 16px;
+    display: block;
 }

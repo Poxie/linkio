@@ -1,15 +1,20 @@
 import React from 'react';
+import styles from '../../styles/User.module.scss';
 
 export const UserText: React.FC<{username: string, name?: string, bio?: string}> = ({ name, bio }) => {
     return(
-        <div>
-            {name}
+        <>
+            <div>
+                <span className={styles['header-name']}>
+                    {name}
+                </span>
+            </div>
 
             {bio && (
-                <div>
+                <span className={styles['header-bio']}>
                     {bio}
-                </div>
+                </span>
             )}
-        </div>
+        </>
     )
 }
