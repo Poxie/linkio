@@ -9,7 +9,7 @@ export const UserPage = () => {
     const user = useAppSelector(selectUserDisplay);
 
     return(
-        <div className={styles.container}>
+        <div className={`${styles.container} ${!user.bannerURL && styles['no-banner']}`}>
             <UserHeader />
             <UserItems />
         </div>
