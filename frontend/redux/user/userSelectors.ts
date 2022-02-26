@@ -12,3 +12,7 @@ export const selectUserDisplay = createSelector(
         bannerURL: user?.bannerURL
     })
 );
+export const selectUserItems = createSelector(
+    [selectUser],
+    (user) => user?.items
+);
