@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
 import { getUserByUsername } from "../../utils";
 import { User as UserType } from "../../utils/types";
 
@@ -7,9 +8,13 @@ type UserProps = {
 }
 export default function User({ user }: UserProps) {
     return(
-        <div>
-            {user.name}
-        </div>
+        <>
+            <Head>
+                <title>
+                    {user.name}
+                </title>
+            </Head>
+        </>
     )
 }
 
