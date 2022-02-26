@@ -4,8 +4,12 @@
     margin: 0 auto;
 }
 .banner {
+    --br: var(--border-radius-primary);
+
     position: relative;
     height: 270px;
+    border-radius: var(--br) var(--br) 0 0;
+    overflow: hidden;
 }
 .avatar {
     height: 140px;
@@ -30,4 +34,6 @@
     text-align: center;
     margin-top: -90px;
     background-color: var(--background-primary);
+    padding-bottom: var(--spacing-primary);
+    border-radius: var(--border-radius-primary);
 }
