@@ -1,9 +1,12 @@
-import { User } from "../../utils/types";
+import { useAppSelector } from "../../redux/store"
+import { selectUserDisplay } from "../../redux/user/userSelectors"
 
-export const UserPage = ({ user } : {user: User}) => {
+export const UserPage = () => {
+    const user = useAppSelector(selectUserDisplay);
+
     return(
         <>
-            {user.username}
+            {user?.name}
         </>
     )
 }
