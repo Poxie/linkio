@@ -1,13 +1,15 @@
 import React from "react";
 import { useAppSelector } from "../../redux/store"
 import { selectUserDisplay } from "../../redux/user/userSelectors"
+import { UserHeader } from "./UserHeader";
+import styles from '../../styles/User.module.scss';
 
 export const UserPage = () => {
     const user = useAppSelector(selectUserDisplay);
 
     return(
-        <>
-            {user?.name}
-        </>
+        <div className={styles.container}>
+            <UserHeader />
+        </div>
     )
 }
