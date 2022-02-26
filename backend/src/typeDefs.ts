@@ -5,6 +5,12 @@ export default gql`
         getUserByUsername(username: String!): User
     }
 
+    type Item {
+        url: String!
+        content: String!
+        icon: String
+    } 
+    
     type User {
         username: ID!
         name: String!
@@ -13,5 +19,6 @@ export default gql`
         bannerURL: String
         avatar: String
         avatarURL: String
+        items: [Item]
     }
 `
