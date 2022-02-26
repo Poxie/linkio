@@ -7,6 +7,7 @@ export const selectUserDisplay = createSelector(
     (user) => ({
         username: user?.username,
         name: user?.name,
+        bio: user?.bio,
         avatarURL: user?.avatarURL,
         bannerURL: user?.bannerURL
     })
