@@ -8,6 +8,11 @@ const USER_PROPERTIES = `
     avatarURL
     banner
     bannerURL
+    items {
+        url
+        icon
+        content
+    }
 `
 
 export const GET_USER_BY_USERNAME = gql`

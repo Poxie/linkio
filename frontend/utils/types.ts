@@ -1,3 +1,8 @@
+export type Item = {
+    url: string;
+    content: string;
+    icon?: string;
+}
 export type User = {
     username: string;
     name: string;
@@ -6,4 +11,5 @@ export type User = {
     avatarURL?: string;
     banner?: string;
     bannerURL?: string;
+    items: Item[];
 }
