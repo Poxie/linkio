@@ -15,6 +15,9 @@ const request = async (query: string, values?: any[]) => {
  * @param object required, the object of keys to map
  * @param table required, the table of insertion
  * @returns object with query (string) and values (array of values) as properties
+ * @example
+ * const { query, values } = keysToInsertQuery({ username: 'Poxen', 'password': '123' }); // returns query and values
+ * await request(query, values); // simply insert query and values into request function
 */
 const keysToInsertQuery = (object: Object, table: string) => {
     // Definiing what properties should be inserted
