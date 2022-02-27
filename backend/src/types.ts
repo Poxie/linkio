@@ -16,6 +16,7 @@ export type UserItem = {
     content: string;
     url: string;
     icon?: string;
+    iconURL?: string;
 }
 
 export type getUserResolver = (_: any, args: { username: string }) => User | undefined;
