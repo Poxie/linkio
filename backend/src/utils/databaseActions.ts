@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { Snowflake } from 'nodejs-snowflake';
 import { CreateUserArgs, CreateUserItemArgs } from "../mutations/user";
 import { connection } from '../index';
-import { SELECT_USER_BY_USERNAME, SELECT_USER_ITEM_BY_ID } from "./queries";
+import { SELECT_USER_BY_USERNAME, SELECT_USER_ITEMS_BY_USER_ID, SELECT_USER_ITEM_BY_ID } from "./queries";
 import { User, UserItem } from "../types";
 
 const request = async (query: string, values?: any[]) => {
@@ -88,6 +88,16 @@ export const selectUserByUsername = async (username: string, withPassword?: bool
 
     // Returning user
     return user;
+}
+
+/**
+ * Selects items by userId
+ * @param userId required
+ * @returns an array of item objects
+*/
+export const selectItemsByUserId = async (userId: string) => {
+    const items = await request(SELECT_USER_ITEMS_BY_USER_ID, [userId]);
+    return items;
 }
 
 /**

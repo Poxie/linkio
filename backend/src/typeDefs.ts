@@ -13,7 +13,7 @@ export default gql`
     type User {
         id: ID!
         username: String!
-        name: String!
+        name: String
         bio: String
         banner: String
         bannerURL: String

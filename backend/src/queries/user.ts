@@ -11,9 +11,10 @@ const users = [
 ];
 
 // @ts-ignore
-export const getUserByUsername: getUserResolver = (_, args) => {
+export const getUserByUsername: getUserResolver = async (_, args) => {
     const { username } = args;
-    return users.find(user => user.username === username);
+    const user = await selectUserByUsername(username);
+    return user;
 }
 
 export const login = async (_:any, { username, password }: {username: string, password: string}) => {
