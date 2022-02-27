@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { Snowflake } from 'nodejs-snowflake';
-import { CreateUserArgs, CreateUserItemArgs, UpdateUserArgs } from "../mutations/user";
+import { CreateUserArgs, CreateUserItemArgs, UpdateUserArgs, UpdateUserItemArgs } from "../mutations/user";
 import { connection } from '../index';
 import { DELETE_USER_ITEM_BY_ID, SELECT_USER_BY_ID, SELECT_USER_BY_USERNAME, SELECT_USER_ITEMS_BY_USER_ID, SELECT_USER_ITEM_BY_ID } from "./queries";
 import { User, UserItem } from "../types";
@@ -202,4 +202,24 @@ export const createUserItemAction = async (itemArgs: CreateUserItemArgs) => {
 export const destroyUserItemAction = async (id: string) => {
     await request(DELETE_USER_ITEM_BY_ID, [id]);
     return true;
+}
+
+/** 
+ * Updates a user item
+ * @param partialItem required, with id being required, other properties optional
+ * @returns an item object
+*/
+export const updateUserItemAction = async (item: UpdateUserItemArgs) => {
+    // Creating query and values
+    const { query, values } = keysToUpdateQuery(item, 'items', 'WHERE id = ?');
+
+    // Pushing values since we manually added question mark in where clause
+    values.push(item.id as any);
+
+    // Updating item
+    await request(query, values);
+
+    // Retrieving new item
+    const newItem = await selectUserItemById(item.id);
+    return newItem;
 }

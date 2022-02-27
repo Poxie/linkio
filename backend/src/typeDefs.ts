@@ -10,6 +10,7 @@ export default gql`
         updateUser(id: String!, username: String, name: String): User!
         createUserItem(userId: String!, content: String!, url: String!): UserItem
         destroyUserItem(id: String!): Boolean
+        updateUserItem(id: String!, content: String, url: String): UserItem
     }
     
     type User {
