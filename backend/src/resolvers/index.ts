@@ -1,4 +1,4 @@
-import { createUser, createUserItem, destroyUserItem } from "../mutations/user";
+import { createUser, createUserItem, destroyUserItem, updateUser } from "../mutations/user";
 import { getUserByUsername, login } from "../queries/user";
 import User from "./User";
 
@@ -9,6 +9,7 @@ export default {
     },
     Mutation: {
         createUser,
+        updateUser,
         createUserItem,
         destroyUserItem
     },

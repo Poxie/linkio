@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
 import { Snowflake } from 'nodejs-snowflake';
-import { CreateUserArgs, CreateUserItemArgs } from "../mutations/user";
+import { CreateUserArgs, CreateUserItemArgs, UpdateUserArgs } from "../mutations/user";
 import { connection } from '../index';
-import { DELETE_USER_ITEM_BY_ID, SELECT_USER_BY_USERNAME, SELECT_USER_ITEMS_BY_USER_ID, SELECT_USER_ITEM_BY_ID } from "./queries";
+import { DELETE_USER_ITEM_BY_ID, SELECT_USER_BY_ID, SELECT_USER_BY_USERNAME, SELECT_USER_ITEMS_BY_USER_ID, SELECT_USER_ITEM_BY_ID } from "./queries";
 import { User, UserItem } from "../types";
 
 const request = async (query: string, values?: any[]) => {
@@ -29,6 +29,28 @@ const keysToInsertQuery = (object: Object, table: string) => {
     query += 'VALUES (';
     const questionMarks = Object.keys(object).map(key => '?').join(', ');
     query += `${questionMarks})`;
+
+    // Creating array of values
+    const values = Object.keys(object).map(key => object[key as keyof typeof object]);
+
+    return { query, values };
+}
+
+/**
+ * Converts object with keys to an update query
+ * @param object required, the object of keys to map
+ * @param table required, the table of insertion
+ * @param where required, defines the where query
+ * @returns object with query (string) and values (array of values) as properties
+*/
+const keysToUpdateQuery = (object: Object, table: string, where: string) => {
+    // Defining what properties should be updated
+    let query = `UPDATE ${table} SET `;
+    const keys = Object.keys(object).map(key => `${key} = ?`).join(', ');
+    query += keys;
+
+    // Adding where this update should take place
+    query += ` ${where}`;
 
     // Creating array of values
     const values = Object.keys(object).map(key => object[key as keyof typeof object]);
@@ -73,14 +95,52 @@ export const createUserAction = async (user: CreateUserArgs) => {
     const _user = await selectUserByUsername(user.username);
     return _user;
 }
+/**
+ * Updates a user
+ * @param userArgs a partial user object, with property id being required
+ * @returns a user object
+ */
+export const updateUserAction = async (userArgs: UpdateUserArgs) => {
+    const id = userArgs.id;
+
+    // Getting query and values
+    const { query, values } = keysToUpdateQuery(userArgs, 'users', `WHERE id = ?`);
+    
+    // Pushing id to values since we added our own question mark as WHERE query
+    values.push(id as any);
+
+    // Updating user
+    await request(query, values);
+
+    // Returning new user object
+    const user = await selectUserById(id);
+    return user;
+}
 
 /**
- * Select a user by the username
+ * Select a user by username
  @param username required
+ @param withPassword optional
  @returns a user object or undefined if no user is found
 */
 export const selectUserByUsername = async (username: string, withPassword?: boolean) => {
     const data = await request(SELECT_USER_BY_USERNAME, [username]) as (User & {password?: string})[];
+    let user = data[0];
+
+    // If should not return password, prevent it from being sent
+    if(!withPassword) delete user?.password;
+
+    // Returning user
+    return user;
+}
+/**
+ * Select a user by id
+ @param id required
+ @param withPassword optional 
+ @returns a user object or undefined if no user is found
+*/
+export const selectUserById = async (id: string, withPassword?: boolean) => {
+    const data = await request(SELECT_USER_BY_ID, [id]) as (User & {password?: string})[];
     let user = data[0];
 
     // If should not return password, prevent it from being sent

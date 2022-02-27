@@ -1,5 +1,5 @@
 import { RequestAuth, User, UserItem } from "../types";
-import { createUserAction, createUserItemAction, destroyUserItemAction, selectUserItemById } from "../utils/databaseActions";
+import { createUserAction, createUserItemAction, destroyUserItemAction, selectUserItemById, updateUserAction } from "../utils/databaseActions";
 
 export type CreateUserArgs = Partial<User> & {
     username: string;
@@ -7,6 +7,18 @@ export type CreateUserArgs = Partial<User> & {
 }
 export const createUser = async (_: any, userArgs: CreateUserArgs) => {
     const user = createUserAction(userArgs);
+    return user;
+}
+
+export type UpdateUserArgs = Partial<User> & {
+    id: string;
+};
+export const updateUser = async (_: any, userArgs: UpdateUserArgs, { userId }: RequestAuth) => {
+    // Checking for authorization
+    if(userId !== userArgs.id) throw new Error('Unauthorized.');
+
+    // Updating user
+    const user = await updateUserAction(userArgs);
     return user;
 }
 
