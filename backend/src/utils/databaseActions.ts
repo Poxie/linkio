@@ -14,6 +14,10 @@ const request = async (query: string, values?: any[]) => {
  @returns a user object
 **/
 export const createUserAction = async (user: CreateUserArgs) => {
+    // Checking if user with username already exists
+    const prevUser = await selectUserByUsername(user.username);
+    if(prevUser) throw new Error('Username unavailable.');
+
     // Definiing what properties should be inserted
     let query = 'INSERT INTO users (';
     const keys = Object.keys(user).join(', ');
