@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { CreateUserArgs } from "../mutations/user";
 import { connection } from '../index';
 import { SELECT_USER_BY_USERNAME } from "./queries";
@@ -17,6 +18,10 @@ export const createUserAction = async (user: CreateUserArgs) => {
     // Checking if user with username already exists
     const prevUser = await selectUserByUsername(user.username);
     if(prevUser) throw new Error('Username unavailable.');
+
+    // Encrypting password
+    const hashedPassword = await bcrypt.hash(user.password, parseInt(process.env.BCRYPT_SALT_ROUNDS as string));
+    user.password = hashedPassword;
 
     // Definiing what properties should be inserted
     let query = 'INSERT INTO users (';

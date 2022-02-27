@@ -7,6 +7,7 @@ declare global {
             MYSQL_DATABASE: string;
             PORT: number;
             IMAGE_ENDPOINT: string;
+            BCRYPT_SALT_ROUNDS: string;
         }
     }
 }
