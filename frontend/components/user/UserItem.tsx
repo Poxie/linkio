@@ -7,10 +7,10 @@ export const UserItem: React.FC<User['items'][0]> = (item) => {
     return(
         <a href={item.url} target="_blank">
             <div className={styles.item}>
-                {item.icon && (
+                {item.iconURL && (
                     <div className={styles['item-icon']}>
                         <Image 
-                            src={item.icon}
+                            src={item.iconURL}
                             layout={'fill'}
                             objectFit={'contain'}
                         />

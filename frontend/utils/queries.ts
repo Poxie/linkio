@@ -9,8 +9,10 @@ const USER_PROPERTIES = `
     banner
     bannerURL
     items {
+        id
         url
         icon
+        iconURL
         content
     }
 `

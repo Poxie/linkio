@@ -1,7 +1,9 @@
 export type Item = {
+    id: string;
     url: string;
     content: string;
     icon?: string;
+    iconURL?: string;
 }
 export type User = {
     username: string;
