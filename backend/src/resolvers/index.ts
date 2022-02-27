@@ -1,7 +1,6 @@
-import { createUser } from "../mutations/user";
+import { createUser, createUserItem } from "../mutations/user";
 import { getUserByUsername, login } from "../queries/user";
 import User from "./User";
-
 
 export default {
     Query: {
@@ -9,7 +8,8 @@ export default {
         login
     },
     Mutation: {
-        createUser
+        createUser,
+        createUserItem
     },
     User
 }

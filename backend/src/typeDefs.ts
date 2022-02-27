@@ -7,13 +7,8 @@ export default gql`
     }
     type Mutation {
         createUser(username: String!, password: String!): User!
+        createUserItem(userId: String!, content: String!, url: String!): UserItem
     }
-
-    type Item {
-        url: String!
-        content: String!
-        icon: String
-    } 
     
     type User {
         id: ID!
@@ -24,7 +19,14 @@ export default gql`
         bannerURL: String
         avatar: String
         avatarURL: String
-        items: [Item]
+        items: [UserItem]
+    }
+    type UserItem {
+        id: String!
+        userId: String!
+        content: String!
+        url: String!
+        icon: String
     }
 
     type AuthResponse {

@@ -10,6 +10,13 @@ export type User = {
     banner?: string;
     bannerURL?: string;
 }
+export type UserItem = {
+    id: string;
+    userId: string;
+    content: string;
+    url: string;
+    icon?: string;
+}
 
 export type getUserResolver = (_: any, args: { username: string }) => User | undefined;
 
