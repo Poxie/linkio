@@ -14,7 +14,7 @@ export type User = {
 export type getUserResolver = (_: any, args: { username: string }) => User | undefined;
 
 export type RequestAuth = {
-    username?: string;
+    userId?: string;
     isAuth: boolean;
 }
 export type ExtendedRequest = Request & RequestAuth;

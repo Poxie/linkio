@@ -23,6 +23,6 @@ export const isAuth = async (req: ExtendedRequest, res: Response, next: NextFunc
 
     // Setting context values
     req.isAuth = true;
-    req.username = decodedToken.username;
+    req.userId = decodedToken.userId;
     return next();
 }

@@ -17,7 +17,7 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     context: ({ req }: {req: ExtendedRequest}) => ({
-        username: req.username
+        userId: req.userId
     })
 })
 

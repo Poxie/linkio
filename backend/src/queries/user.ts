@@ -27,9 +27,9 @@ export const login = async (_:any, { username, password }: {username: string, pa
 
     // Creating access token
     const token = jwt.sign(
-        { username: user.username }, 
+        { userId: user.id }, 
         process.env.JSON_WEB_TOKEN_KEY as string,
         { expiresIn: '7d' }
     )
-    return { token, username, expiration: 7 };
+    return { token, userId: user.id, expiration: 7 };
 }

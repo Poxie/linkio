@@ -29,7 +29,7 @@ export default gql`
 
     type AuthResponse {
         token: String!
-        username: String!
+        userId: String!
         expiration: Int!
     }
 `
