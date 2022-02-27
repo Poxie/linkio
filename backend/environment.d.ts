@@ -8,6 +8,7 @@ declare global {
             PORT: number;
             IMAGE_ENDPOINT: string;
             BCRYPT_SALT_ROUNDS: string;
+            JSON_WEB_TOKEN_KEY: string;
         }
     }
 }
