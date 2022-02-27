@@ -4,6 +4,9 @@ export default gql`
     type Query {
         getUserByUsername(username: String!): User
     }
+    type Mutation {
+        createUser(username: String!): User!
+    }
 
     type Item {
         url: String!

@@ -1,0 +1,1 @@
+export const SELECT_USER_BY_USERNAME = 'SELECT * FROM users WHERE username = ?';
