@@ -16,7 +16,8 @@ export default gql`
     } 
     
     type User {
-        username: ID!
+        id: ID!
+        username: String!
         name: String!
         bio: String
         banner: String

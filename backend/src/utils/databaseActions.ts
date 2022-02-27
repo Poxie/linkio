@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import { Snowflake } from 'nodejs-snowflake';
 import { CreateUserArgs } from "../mutations/user";
 import { connection } from '../index';
 import { SELECT_USER_BY_USERNAME } from "./queries";
@@ -18,6 +19,11 @@ export const createUserAction = async (user: CreateUserArgs) => {
     // Checking if user with username already exists
     const prevUser = await selectUserByUsername(user.username);
     if(prevUser) throw new Error('Username unavailable.');
+
+    // Creating new id
+    const snowflake = new Snowflake();
+    const id = snowflake.getUniqueID().toString();
+    user.id = id;
 
     // Encrypting password
     const hashedPassword = await bcrypt.hash(user.password, parseInt(process.env.BCRYPT_SALT_ROUNDS as string));
@@ -54,7 +60,8 @@ export const selectUserByUsername = async (username: string, withPassword?: bool
     let user = data[0];
 
     // If should not return password, prevent it from being sent
-    if(!withPassword) delete user.password;
+    if(!withPassword) delete user?.password;
 
+    // Returning user
     return user;
 }
