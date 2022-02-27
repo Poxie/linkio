@@ -3,6 +3,7 @@ import { createUserAction } from "../utils/databaseActions";
 
 export type CreateUserArgs = Partial<User> & {
     username: string;
+    password: string;
 }
 export const createUser = async (_: any, userArgs: CreateUserArgs) => {
     const user = createUserAction(userArgs);

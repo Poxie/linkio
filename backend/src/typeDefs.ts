@@ -5,7 +5,7 @@ export default gql`
         getUserByUsername(username: String!): User
     }
     type Mutation {
-        createUser(username: String!): User!
+        createUser(username: String!, password: String!): User!
     }
 
     type Item {
