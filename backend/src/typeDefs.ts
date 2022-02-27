@@ -8,6 +8,7 @@ export default gql`
     type Mutation {
         createUser(username: String!, password: String!): User!
         createUserItem(userId: String!, content: String!, url: String!): UserItem
+        destroyUserItem(id: String!): Boolean
     }
     
     type User {

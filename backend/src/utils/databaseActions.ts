@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { Snowflake } from 'nodejs-snowflake';
 import { CreateUserArgs, CreateUserItemArgs } from "../mutations/user";
 import { connection } from '../index';
-import { SELECT_USER_BY_USERNAME, SELECT_USER_ITEMS_BY_USER_ID, SELECT_USER_ITEM_BY_ID } from "./queries";
+import { DELETE_USER_ITEM_BY_ID, SELECT_USER_BY_USERNAME, SELECT_USER_ITEMS_BY_USER_ID, SELECT_USER_ITEM_BY_ID } from "./queries";
 import { User, UserItem } from "../types";
 
 const request = async (query: string, values?: any[]) => {
@@ -129,4 +129,14 @@ export const createUserItemAction = async (itemArgs: CreateUserItemArgs) => {
     // Retrieving created item
     const item = await selectUserItemById(itemArgs.id);
     return item;
+}
+
+/** 
+ * Destorys a user item
+ * @param id required, the ID of the item
+ * @returns true
+*/
+export const destroyUserItemAction = async (id: string) => {
+    await request(DELETE_USER_ITEM_BY_ID, [id]);
+    return true;
 }
