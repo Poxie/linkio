@@ -49,7 +49,12 @@ export const createUserAction = async (user: CreateUserArgs) => {
  @param username required
  @returns a user object or undefined if no user is found
 */
-export const selectUserByUsername = async (username: string) => {
-    const data = await request(SELECT_USER_BY_USERNAME, [username]) as User[];
-    return data[0];
+export const selectUserByUsername = async (username: string, withPassword?: boolean) => {
+    const data = await request(SELECT_USER_BY_USERNAME, [username]) as (User & {password?: string})[];
+    let user = data[0];
+
+    // If should not return password, prevent it from being sent
+    if(!withPassword) delete user.password;
+
+    return user;
 }

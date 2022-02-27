@@ -3,6 +3,7 @@ import { gql } from 'apollo-server-express';
 export default gql`
     type Query {
         getUserByUsername(username: String!): User
+        login(username: String!, password: String!): AuthResponse!
     }
     type Mutation {
         createUser(username: String!, password: String!): User!
@@ -23,5 +24,11 @@ export default gql`
         avatar: String
         avatarURL: String
         items: [Item]
+    }
+
+    type AuthResponse {
+        token: String!
+        username: String!
+        expiration: Int!
     }
 `

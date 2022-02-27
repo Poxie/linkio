@@ -1,5 +1,8 @@
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import { getUserResolver } from "../types";
 import dotenv from 'dotenv';
+import { selectUserByUsername } from "../utils/databaseActions";
 dotenv.config();
 
 const users = [
@@ -7,7 +10,26 @@ const users = [
     { username: 'marre', name: 'Martin' }
 ];
 
+// @ts-ignore
 export const getUserByUsername: getUserResolver = (_, args) => {
     const { username } = args;
     return users.find(user => user.username === username);
+}
+
+export const login = async (_:any, { username, password }: {username: string, password: string}) => {
+    // Checking if user exists
+    const user = await selectUserByUsername(username, true);
+    if(!user) throw new Error('User not found.');
+
+    // Comparing passwords
+    const match = await bcrypt.compare(password, user.password || '');
+    if(!match) throw new Error('Incorrect credentials');
+
+    // Creating access token
+    const token = jwt.sign(
+        { username: user.username }, 
+        process.env.JSON_WEB_TOKEN_KEY as string,
+        { expiresIn: '7d' }
+    )
+    return { token, username, expiration: 7 };
 }

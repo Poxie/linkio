@@ -1,3 +1,5 @@
+import { Request } from "express";
+
 export type User = {
     username: string;
     name: string;
@@ -5,3 +7,9 @@ export type User = {
 }
 
 export type getUserResolver = (_: any, args: { username: string }) => User | undefined;
+
+export type RequestAuth = {
+    username?: string;
+    isAuth: boolean;
+}
+export type ExtendedRequest = Request & RequestAuth;
