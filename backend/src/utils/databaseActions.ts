@@ -102,6 +102,9 @@ export const createUserAction = async (user: CreateUserArgs) => {
  */
 export const updateUserAction = async (userArgs: UpdateUserArgs) => {
     const id = userArgs.id;
+    
+    // Checking if user updates username, and if it already exists
+    if(userArgs.username && (await selectUserByUsername(userArgs.username))) throw new Error('Username already taken.'); 
 
     // Getting query and values
     const { query, values } = keysToUpdateQuery(userArgs, 'users', `WHERE id = ?`);
