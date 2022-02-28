@@ -15,6 +15,12 @@ const USER_PROPERTIES = `
         iconURL
         content
     }
+    colorScheme {
+        background {
+            primary
+            secondary
+        }
+    }
 `
 
 export const GET_USER_BY_USERNAME = gql`

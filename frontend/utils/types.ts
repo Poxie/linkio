@@ -14,4 +14,10 @@ export type User = {
     banner?: string;
     bannerURL?: string;
     items: Item[];
+    colorScheme: {
+        background: {
+            primary?: string;
+            secondary?: string;
+        }
+    }
 }

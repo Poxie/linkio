@@ -17,7 +17,7 @@ export default function User({ user }: UserProps) {
     const _user = useAppSelector(selectUser);
     
     // On user update, update redux store
-    if(_user?.username !== user.username) {
+    if(user && _user?.username !== user.username) {
         dispatch(setUser(user));
     }
 
@@ -29,6 +29,13 @@ export default function User({ user }: UserProps) {
                 </title>
                 <meta name="description" content={user.bio} />
             </Head>
+
+            <style jsx global>{`
+                :root {
+                    ${user.colorScheme.background.primary && '--background-primary: ' + user.colorScheme.background.primary};
+                    ${user.colorScheme.background.secondary && '--background-secondary: ' + user.colorScheme.background.secondary};
+                }
+            `}</style>
             
             <UserPage />
         </>
