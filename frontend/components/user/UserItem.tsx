@@ -28,6 +28,9 @@ export const UserItem: React.FC<User['items'][0]> = (item) => {
 
         setIsEditing(true);
     }
+    const toggleIsEditing = () => {
+        isEditing ? stopEditing() : edit();
+    }
 
     return(
         <a href={!isMe ? item.url : undefined} className={isMe ? styles['is-my-item'] : ''} target="_blank">
@@ -51,7 +54,7 @@ export const UserItem: React.FC<User['items'][0]> = (item) => {
                     {item.content}
                 </span>
                 {isMe && (
-                    <div className={styles['edit-icon']} onClick={edit}>
+                    <div className={styles['edit-icon']} onClick={toggleIsEditing}>
                         <EditIcon />
                     </div>
                 )}
