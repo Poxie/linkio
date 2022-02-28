@@ -43,11 +43,13 @@ export const UserItem: React.FC<User['items'][0]> = (item) => {
 
                 {item.iconURL && (
                     <div className={styles['item-icon']}>
-                        <Image 
-                            src={item.iconURL}
-                            layout={'fill'}
-                            objectFit={'contain'}
-                        />
+                        <div className={styles['item-icon-container']}>
+                            <Image 
+                                src={item.iconURL}
+                                layout={'fill'}
+                                objectFit={'contain'}
+                            />
+                        </div>
                     </div>
                 )}
                 <span className={styles['item-text']}>
