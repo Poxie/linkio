@@ -65,6 +65,7 @@
     margin-top: var(--spacing-primary);
 }
 .item {
+    position: relative;
     padding: var(--spacing-primary);
     background-color: var(--background-primary);
     margin: calc(var(--spacing-primary) / 1.5) 0;
@@ -89,4 +90,23 @@
     margin: 0 auto;
     padding: 0 30px;
     font-weight: 500;
+}
+.edit-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: calc(var(--spacing-primary) / 2);
+    background-color: var(--background-tertiary);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--color-primary);
+    }
 }
