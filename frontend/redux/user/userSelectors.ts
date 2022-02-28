@@ -1,6 +1,8 @@
 import { createSelector } from "reselect";
 import { RootState } from "../store";
 
+const selectSecondaryId = (state: RootState, id: string) => id;
+
 export const selectUser = (state: RootState) => state.user.user;
 export const selectUserDisplay = createSelector(
     [selectUser],
@@ -18,3 +20,7 @@ export const selectUserItems = createSelector(
 );
 
 export const selectUserIsMe = (state: RootState) => state.user.user?.isMe;
+export const selectUserItemById = createSelector(
+    [selectUserItems, selectSecondaryId],
+    (items, itemId) => items?.find(item => item.id === itemId)
+);
