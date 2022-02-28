@@ -4,6 +4,7 @@ import { useAppSelector } from '../../redux/store';
 import { setUserItem } from '../../redux/user/userActions';
 import { selectUserItemById } from '../../redux/user/userSelectors';
 import styles from '../../styles/User.module.scss';
+import { IMAGE_ENDPOINT } from '../../utils/constants';
 import { Item } from '../../utils/types';
 import { Input } from '../Input';
 import { EditorContainerHeader } from './EditorContainerHeader';
@@ -36,7 +37,13 @@ export const EditorContainer: React.FC<{itemId: string}> = ({ itemId }) => {
                 value={item?.content}
                 onChange={value => updateProperty('content', value)}
             />
-            <EditorContainerPresets active={item?.icon} />
+            <EditorContainerPresets 
+                active={item?.icon}
+                onClick={value => {
+                    updateProperty('icon', value);
+                    updateProperty('iconURL', `${IMAGE_ENDPOINT}/icons/${value}.png`);
+                }}
+            />
         </div>
     )
 }
