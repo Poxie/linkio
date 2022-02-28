@@ -41,3 +41,8 @@ export const login = async (username: string, password: string) => {
     localStorage.accessToken = token;
     return token;
 }
+// Get me
+export const getMe = async () => {
+    const me = await request(GET_ME);
+    return me;
+}

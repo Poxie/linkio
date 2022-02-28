@@ -39,3 +39,11 @@ export const LOGIN = gql`
         }
     }
 `
+
+export const GET_ME = gql`
+    query {
+        getMe {
+            ${USER_PROPERTIES}
+        }
+    }
+`
