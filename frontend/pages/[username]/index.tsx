@@ -3,8 +3,9 @@ import Head from "next/head";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { UserPage } from "../../components/user/UserPage";
+import { selectMe } from "../../redux/me/userSelectors";
 import { useAppSelector } from "../../redux/store";
-import { setUser } from "../../redux/user/userActions";
+import { setUser, setUserIsMe } from "../../redux/user/userActions";
 import { selectUser } from "../../redux/user/userSelectors";
 import { getUserByUsername } from "../../utils";
 import { User as UserType } from "../../utils/types";
@@ -15,6 +16,17 @@ type UserProps = {
 export default function User({ user }: UserProps) {
     const dispatch = useDispatch();
     const _user = useAppSelector(selectUser);
+    const me = useAppSelector(selectMe);
+
+    // Checking if user is owner
+    useEffect(() => {
+        const isMe = _user?.id === me?.id;
+        if(isMe && !_user?.isMe) {
+            dispatch(setUserIsMe(true));
+        } else if(!isMe && _user?.isMe) {
+            dispatch(setUserIsMe(false));
+        }
+    }, [_user]);
     
     // On user update, update redux store
     if(user && _user?.username !== user.username) {

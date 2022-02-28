@@ -16,3 +16,5 @@ export const selectUserItems = createSelector(
     [selectUser],
     (user) => user?.items
 );
+
+export const selectUserIsMe = (state: RootState) => state.user.user?.isMe;
