@@ -32,10 +32,18 @@ export const EditorContainer: React.FC<{itemId: string}> = ({ itemId }) => {
         <div className={styles['editor-container']}>
             <EditorContainerHeader />
             <Input 
+                label={'Description'}
                 placeholder={'Item description...'}
                 className={styles['editor-input']}
                 value={item?.content}
                 onChange={value => updateProperty('content', value)}
+            />
+            <Input 
+                label={'URL'}
+                placeholder={`https://example.com/myusername`}
+                className={styles['editor-input']}
+                value={item?.url}
+                onChange={value => updateProperty('url', value)}
             />
             <EditorContainerPresets 
                 active={item?.icon}
