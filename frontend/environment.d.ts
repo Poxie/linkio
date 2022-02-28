@@ -4,6 +4,7 @@ declare global {
             NODE_ENV: 'development' | 'production';
             NEXT_PUBLIC_API_ENDPOINT: string;
             NEXT_PUBLIC_API_ORIGIN: string;
+            NEXT_PUBLIC_IMAGE_ENDPOINT: string;
         }
     }
 }
