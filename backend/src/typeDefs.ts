@@ -7,7 +7,7 @@ export default gql`
     }
     type Mutation {
         createUser(username: String!, password: String!): User!
-        updateUser(id: String!, username: String, name: String, backgroundPrimary: String, backgroundSecondary: String): User!
+        updateUser(id: String!, username: String, name: String, backgroundPrimary: String, backgroundSecondary: String, bannerColor: String): User!
         createUserItem(userId: String!, content: String!, url: String!): UserItem
         destroyUserItem(id: String!): Boolean
         updateUserItem(id: String!, content: String, url: String, icon: String): UserItem
@@ -40,6 +40,7 @@ export default gql`
     type ColorSchemeBackground {
         primary: String
         secondary: String
+        banner: String
     }
     type AuthResponse {
         token: String!
