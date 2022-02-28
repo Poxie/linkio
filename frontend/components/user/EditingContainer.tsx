@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../redux/store';
-import { setUserItem } from '../../redux/user/userActions';
+import { setUser, setUserItem } from '../../redux/user/userActions';
 import { selectUserItemById } from '../../redux/user/userSelectors';
 import styles from '../../styles/User.module.scss';
+import { updateUserItem } from '../../utils';
 import { IMAGE_ENDPOINT } from '../../utils/constants';
 import { Item } from '../../utils/types';
 import { Input } from '../Input';
@@ -15,6 +16,17 @@ export const EditorContainer: React.FC<{itemId: string}> = ({ itemId }) => {
     const dispatch = useDispatch();
     const item = useAppSelector(state => selectUserItemById(state, itemId));
     const [tempItem, setTempItem] = useState(item);
+    const tempItemRef = useRef(item);
+
+    // Updating user on unmount
+    useEffect(() => {
+        return () => {
+            if(!tempItemRef.current) return;
+            
+            // Updating user
+            updateUserItem(tempItemRef.current);
+        }
+    }, []);
 
     const updateProperty = (property: keyof Item, value: any) => {
         setTempItem(prev => {
@@ -23,6 +35,7 @@ export const EditorContainer: React.FC<{itemId: string}> = ({ itemId }) => {
                 [property]: value
             } as Item;
 
+            tempItemRef.current = newItem;
             dispatch(setUserItem(newItem));
             
             return newItem;
