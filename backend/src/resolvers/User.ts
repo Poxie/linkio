@@ -7,5 +7,19 @@ export default {
         const { id } = parent;
         const items = await selectItemsByUserId(id);
         return items;
+    },
+    colorScheme: async (parent: User) => {
+        // Getting properties
+        const { backgroundPrimary, backgroundSecondary } = parent;
+
+        // Creating scheme object
+        const scheme = {
+            background: {
+                primary: backgroundPrimary,
+                secondary: backgroundSecondary
+            }
+        }
+
+        return scheme;
     }
 }

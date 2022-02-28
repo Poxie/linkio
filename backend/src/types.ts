@@ -9,6 +9,8 @@ export type User = {
     avatarURL?: string;
     banner?: string;
     bannerURL?: string;
+    backgroundPrimary?: string;
+    backgroundSecondary?: string;
 }
 export type UserItem = {
     id: string;
