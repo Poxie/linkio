@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { API_ENDPOINT } from './constants';
-import { GET_USER_BY_USERNAME, LOGIN } from './queries';
+import { GET_ME, GET_USER_BY_USERNAME, LOGIN } from './queries';
 import { User } from './types';
 
 const sanitizeData = (data: any) => {
@@ -10,7 +10,12 @@ const sanitizeData = (data: any) => {
 }
 
 // Createing GraphQL client
-export const client = new GraphQLClient(API_ENDPOINT);
+export const client = new GraphQLClient(API_ENDPOINT, {
+    headers: {
+        // Adding authorization header if not ssr
+        Authorization: typeof window !== 'undefined' ? `Bearer ${localStorage.accessToken}` : ''
+    }
+});
 
 // General request function
 const request = async (query: string, variables?: Object) => {
