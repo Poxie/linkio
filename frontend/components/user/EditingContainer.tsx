@@ -23,6 +23,9 @@ export const EditorContainer: React.FC<{itemId: string}> = ({ itemId }) => {
         return () => {
             if(!tempItemRef.current) return;
             
+            // If no changes have been made
+            if(JSON.stringify(tempItemRef.current) === JSON.stringify(item)) return;
+
             // Updating user
             updateUserItem(tempItemRef.current);
         }
