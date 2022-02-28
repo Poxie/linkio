@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../redux/store';
@@ -29,7 +30,12 @@ export const EditorContainer: React.FC<{itemId: string}> = ({ itemId }) => {
     }
 
     return(
-        <div className={styles['editor-container']}>
+        <motion.div 
+            className={styles['editor-container']} 
+            animate={{ opacity: 1, translateY: 0 }} 
+            initial={{ opacity: 0, translateY: 20 }}
+            exit={{ opacity: 0, translateY: 20 }}
+        >
             <EditorContainerHeader />
             <Input 
                 label={'Description'}
@@ -52,6 +58,6 @@ export const EditorContainer: React.FC<{itemId: string}> = ({ itemId }) => {
                     updateProperty('iconURL', `${IMAGE_ENDPOINT}/icons/${value}.png`);
                 }}
             />
-        </div>
+        </motion.div>
     )
 }

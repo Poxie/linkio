@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 import { EditIcon } from '../../icons/EditIcon';
@@ -23,9 +24,11 @@ export const UserItem: React.FC<User['items'][0]> = (item) => {
     return(
         <a href={!isMe ? item.url : undefined} className={isMe ? styles['is-my-item'] : ''} target="_blank">
             <div className={styles.item} ref={ref}>
-                {isEditing && (
-                    <EditorContainer itemId={item.id} />
-                )}
+                <AnimatePresence>
+                    {isEditing && (
+                        <EditorContainer itemId={item.id} />
+                    )}
+                </AnimatePresence>
 
                 {item.iconURL && (
                     <div className={styles['item-icon']}>
@@ -45,9 +48,13 @@ export const UserItem: React.FC<User['items'][0]> = (item) => {
                     </div>
                 )}
             </div>
-            {isEditing && (
-                <div className={styles.backdrop} />
-            )}
+            <motion.div 
+                className={styles.backdrop} 
+                animate={{ opacity: isEditing ? 1 : 0 }}
+                transition={{ duration: .200 }}
+                style={{ pointerEvents: isEditing ? 'all' : 'none' }}
+                onClick={() => setIsEditing(false)} 
+            />
         </a>
     )
 }
