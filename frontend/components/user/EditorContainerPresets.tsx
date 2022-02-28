@@ -21,8 +21,16 @@ export const EditorContainerPresets: React.FC<{active?: string, onClick: (type: 
                 const isActive = id === active;
                 const className = [styles['preset-item'], isActive && styles['active-preset']].join(' ');
                 return(
-                    <div className={styles['preset-item-container']} style={{ animationDelay: `${key * 80 + 100}ms` }}>
-                        <div className={className} style={{ background }} key={id} onClick={() => onClick(id)}>
+                    <div 
+                        className={styles['preset-item-container']} 
+                        style={{ animationDelay: `${key * 80 + 100}ms` }}
+                        key={id}
+                    >
+                        <div 
+                            className={className} 
+                            style={{ background }} 
+                            onClick={() => onClick(id)}
+                        >
                             {icon}
 
                             {isActive && (
