@@ -166,6 +166,12 @@
         transition: transform .3s ease;
     }
 }
+.preset-item-container {
+    flex: 1;
+    animation: preset-item .3s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
 .preset-item {
     border-radius: var(--border-radius);
     height: 130px;
@@ -184,6 +190,16 @@
         svg {
             transform: scale(1.2);
         }
+    }
+}
+@keyframes preset-item {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 .preset-check {
