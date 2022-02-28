@@ -24,7 +24,7 @@ export const UserItem: React.FC<User['items'][0]> = (item) => {
         <a href={!isMe ? item.url : undefined} className={isMe ? styles['is-my-item'] : ''} target="_blank">
             <div className={styles.item} ref={ref}>
                 {isEditing && (
-                    <EditorContainer />
+                    <EditorContainer itemId={item.id} />
                 )}
 
                 {item.iconURL && (
