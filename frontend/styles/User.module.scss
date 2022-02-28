@@ -153,7 +153,7 @@
     padding-bottom: var(--spacing-primary);
 }
 .editor-input {
-    margin-bottom: var(--spacing-primary);
+    margin-bottom: var(--spacing-primary) !important;
 }
 .preset-container {
     display: flex;
