@@ -64,6 +64,9 @@
 .item-container {
     margin-top: var(--spacing-primary);
 }
+.is-my-item .item {
+    transform: none !important;
+}
 .item {
     position: relative;
     padding: var(--spacing-primary);
@@ -108,5 +111,72 @@
         width: 18px;
         height: 18px;
         fill: var(--color-primary);
+    }
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.6);
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    pointer-events: all;
+}
+.editor-container {
+    --border-radius: 8px;
+
+    background-color: var(--background-primary);
+    padding: var(--spacing-primary);
+    position: absolute;
+    bottom: calc(100% + 25px);
+    left: 0;
+    width: 100%;
+    text-align: left;
+    border-radius: var(--border-radius-primary);
+
+    &::after {
+        content: '';
+        border-top: 10px solid var(--background-primary);
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+.editor-header {
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: var(--spacing-primary);
+}
+.preset-container {
+    display: flex;
+    gap: 16px;
+
+    svg {
+        fill: #fff;
+        width: 36px;
+        height: 36px;
+        transition: transform .3s ease;
+    }
+}
+.preset-item {
+    border-radius: var(--border-radius);
+    height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    transition: transform .3s ease;
+
+    &:hover {
+        transform: scale(.95);
+
+        svg {
+            transform: scale(1.2);
+        }
     }
 }
