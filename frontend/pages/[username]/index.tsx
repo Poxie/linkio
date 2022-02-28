@@ -20,13 +20,19 @@ export default function User({ user }: UserProps) {
 
     // Checking if user is owner
     useEffect(() => {
+        // If user or me is undefined, return
+        if(!_user || !me) return;
+
+        // Determining if user is me
         const isMe = _user?.id === me?.id;
+
+        // Updating isMe property based on conditions
         if(isMe && !_user?.isMe) {
             dispatch(setUserIsMe(true));
         } else if(!isMe && _user?.isMe) {
             dispatch(setUserIsMe(false));
         }
-    }, [_user]);
+    }, [_user, me]);
     
     // On user update, update redux store
     if(user && _user?.username !== user.username) {
