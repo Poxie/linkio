@@ -6,10 +6,8 @@ import styles from '../../styles/User.module.scss';
 import { UserItems } from "./UserItems";
 
 export const UserPage = () => {
-    const user = useAppSelector(selectUserDisplay);
-
     return(
-        <div className={`${styles.container} ${!user.bannerURL && styles['no-banner']}`}>
+        <div className={styles.container}>
             <UserHeader />
             <UserItems />
         </div>
