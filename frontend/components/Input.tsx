@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import styles from '../styles/Input.module.scss';
 
 type Props = {
+    label?: string;
     placeholder?: string;
     value?: string;
     onChange?: (text: string) => void;
@@ -9,7 +10,7 @@ type Props = {
     clearOnSubmit?: boolean;
     className?: string;
 }
-export const Input: React.FC<Props> = ({ placeholder, value: _value, onChange, onSubmit, clearOnSubmit, className }) => {
+export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onChange, onSubmit, clearOnSubmit, className }) => {
     const [value, setValue] = useState(_value || '');
     const ref = useRef<HTMLInputElement>(null);
 
@@ -37,7 +38,13 @@ export const Input: React.FC<Props> = ({ placeholder, value: _value, onChange, o
     className = [styles.form, className].join(' ');
     return(
         <form onSubmit={handleSubmit} className={className}>
+            {label && (
+                <label htmlFor={label} className={styles.label}>
+                    {label}
+                </label>
+            )}
             <input 
+                id={label}
                 type="text"
                 placeholder={placeholder}
                 onChange={handleChange}
