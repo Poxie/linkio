@@ -63,6 +63,7 @@ export const UserItem: React.FC<User['items'][0]> = (item) => {
             </div>
             <motion.div 
                 className={styles.backdrop} 
+                initial={{ opacity: 0 }}
                 animate={{ opacity: isEditing ? 1 : 0 }}
                 transition={{ duration: .200 }}
                 style={{ pointerEvents: isEditing ? 'all' : 'none' }}
