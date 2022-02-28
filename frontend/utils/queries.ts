@@ -1,6 +1,7 @@
 import { gql } from "graphql-request";
 
 export const USER_PROPERTIES = `
+    id
     username
     name
     bio
