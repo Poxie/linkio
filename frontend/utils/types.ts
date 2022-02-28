@@ -6,6 +6,7 @@ export type Item = {
     iconURL?: string;
 }
 export type User = {
+    id: string;
     username: string;
     name: string;
     bio?: string;
