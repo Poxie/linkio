@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { API_ENDPOINT } from './constants';
-import { GET_USER_BY_USERNAME } from './queries';
+import { GET_USER_BY_USERNAME, LOGIN } from './queries';
 import { User } from './types';
 
 const sanitizeData = (data: any) => {
@@ -28,4 +28,11 @@ const request = async (query: string, variables?: Object) => {
 export const getUserByUsername: (username: string) => Promise<User | undefined> = async username => {
     const user = await request(GET_USER_BY_USERNAME, { username }).catch(console.error);
     return user;
+}
+
+// Login
+export const login = async (username: string, password: string) => {
+    const { token } = await request(LOGIN, { username, password }).catch(console.error);
+    localStorage.accessToken = token;
+    return token;
 }
