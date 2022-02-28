@@ -19,6 +19,7 @@ const USER_PROPERTIES = `
         background {
             primary
             secondary
+            banner
         }
     }
 `

@@ -18,6 +18,7 @@ export type User = {
         background: {
             primary?: string;
             secondary?: string;
+            banner?: string;
         }
     }
 }
