@@ -1,0 +1,14 @@
+.form {
+    margin: 0;
+    width: 100%;
+
+    input {
+        padding: 12px; 
+        border-radius: var(--border-radius);
+        border: none;
+        background-color: var(--background-tertiary);
+        width: 100%;
+        font-size: 18px;
+        outline: none;
+    }
+}
