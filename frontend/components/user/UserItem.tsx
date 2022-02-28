@@ -13,6 +13,14 @@ export const UserItem: React.FC<User['items'][0]> = (item) => {
     const ref = useRef<HTMLDivElement>(null);
     const isMe = useAppSelector(selectUserIsMe);
 
+    const stopEditing = () => {
+        setTimeout(() => {
+            if(!ref.current) return;
+            ref.current.style.zIndex = "unset";
+        }, 200);
+
+        setIsEditing(false);
+    }
     const edit = () => {
         if(!ref.current) return;
 
@@ -53,7 +61,7 @@ export const UserItem: React.FC<User['items'][0]> = (item) => {
                 animate={{ opacity: isEditing ? 1 : 0 }}
                 transition={{ duration: .200 }}
                 style={{ pointerEvents: isEditing ? 'all' : 'none' }}
-                onClick={() => setIsEditing(false)} 
+                onClick={stopEditing} 
             />
         </a>
     )
