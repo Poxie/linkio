@@ -1,6 +1,6 @@
 import { gql } from "graphql-request";
 
-const USER_PROPERTIES = `
+export const USER_PROPERTIES = `
     username
     name
     bio
@@ -22,6 +22,13 @@ const USER_PROPERTIES = `
             banner
         }
     }
+`
+export const USER_ITEM_PROPERTIES = `
+    id
+    content
+    url
+    icon
+    iconURL
 `
 
 export const GET_USER_BY_USERNAME = gql`

@@ -1,7 +1,8 @@
 import { GraphQLClient } from 'graphql-request';
 import { API_ENDPOINT } from './constants';
+import { UPDATE_USER, UPDATE_USER_ITEM } from './mutation';
 import { GET_ME, GET_USER_BY_USERNAME, LOGIN } from './queries';
-import { User } from './types';
+import { Item, User } from './types';
 
 const sanitizeData = (data: any) => {
     const query = Object.keys(data) as any;
@@ -45,4 +46,16 @@ export const login = async (username: string, password: string) => {
 export const getMe = async () => {
     const me = await request(GET_ME);
     return me;
+}
+
+
+// Updating user
+export const updateUser = async (user: Partial<User> & {id: string}) => {
+    const response = await request(UPDATE_USER, user);
+    return user;
+}
+// Updating user item
+export const updateUserItem = async (item: Partial<Item> & {id: string}) => {
+    const response = await request(UPDATE_USER_ITEM, item);
+    return response;
 }
