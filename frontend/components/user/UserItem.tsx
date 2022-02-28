@@ -61,14 +61,20 @@ export const UserItem: React.FC<User['items'][0]> = (item) => {
                     </div>
                 )}
             </div>
-            <motion.div 
-                className={styles.backdrop} 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: isEditing ? 1 : 0 }}
-                transition={{ duration: .200 }}
-                style={{ pointerEvents: isEditing ? 'all' : 'none' }}
-                onClick={stopEditing} 
-            />
+            <AnimatePresence>
+                {isEditing && (
+                    <motion.div 
+                        className={styles.backdrop} 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: isEditing ? 1 : 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: .200 }}
+                        style={{ pointerEvents: isEditing ? 'all' : 'none' }}
+                        onClick={stopEditing} 
+                        layout
+                    />
+                )}
+            </AnimatePresence>
         </a>
     )
 }
