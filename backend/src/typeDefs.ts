@@ -4,6 +4,7 @@ export default gql`
     type Query {
         getUserByUsername(username: String!): User
         login(username: String!, password: String!): AuthResponse!
+        getMe: User
     }
     type Mutation {
         createUser(username: String!, password: String!): User!

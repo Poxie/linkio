@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { getUserResolver } from "../types";
+import { getUserResolver, RequestAuth } from "../types";
 import dotenv from 'dotenv';
-import { selectUserByUsername } from "../utils/databaseActions";
+import { selectUserById, selectUserByUsername } from "../utils/databaseActions";
 dotenv.config();
 
 const users = [
@@ -33,4 +33,13 @@ export const login = async (_:any, { username, password }: {username: string, pa
         { expiresIn: '7d' }
     )
     return { token, userId: user.id, expiration: 7 };
+}
+
+export const getMe = async (_:any, __:any, { userId }: RequestAuth) => {
+    // Checking if user is logged in
+    if(!userId) throw new Error('Not logged in.');
+
+    // Else select user and return
+    const user = await selectUserById(userId);
+    return user;
 }
