@@ -183,6 +183,11 @@ export const createUserItemAction = async (itemArgs: CreateUserItemArgs) => {
     // Creating item ID
     itemArgs.id = generateUniqueId();
 
+    // If icon propertty is present, update iconURL
+    if(itemArgs.icon) {
+        itemArgs.iconURL = `${process.env.IMAGE_ENDPOINT}/icons/${itemArgs.icon}.png`;
+    }
+
     // Creating query and values
     const { query, values } = keysToInsertQuery(itemArgs, 'items');
 
