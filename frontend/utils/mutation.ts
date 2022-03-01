@@ -16,3 +16,11 @@ export const UPDATE_USER_ITEM = gql`
         }
     }
 `
+
+export const CREATE_USER_ITEM = gql`
+    mutation($userId: String!, $content: String!, $url: String!, $icon: String) {
+        createUserItem(userId: $userId, content: $content, url: $url, icon: $icon) {
+            ${USER_ITEM_PROPERTIES}
+        }
+    }
+`

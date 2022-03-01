@@ -1,14 +1,19 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import React, { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { EditIcon } from '../../icons/EditIcon';
 import { useAppSelector } from '../../redux/store';
+import { setUserItem } from '../../redux/user/userActions';
 import { selectUserIsMe } from '../../redux/user/userSelectors';
 import styles from '../../styles/User.module.scss';
+import { updateUserItem } from '../../utils';
 import { User } from '../../utils/types';
-import { EditorContainer } from './EditingContainer';
+import { EditorContainer } from './EditorContainer';
+import { UserItemIcon } from './UserItemIcon';
 
 export const UserItem: React.FC<User['items'][0]> = (item) => {
+    const dispatch = useDispatch();
     const [isEditing, setIsEditing] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const isMe = useAppSelector(selectUserIsMe);
@@ -37,21 +42,16 @@ export const UserItem: React.FC<User['items'][0]> = (item) => {
             <div className={styles.item} ref={ref}>
                 <AnimatePresence>
                     {isEditing && (
-                        <EditorContainer itemId={item.id} />
+                        <EditorContainer 
+                            item={item}
+                            onChange={newItem => dispatch(setUserItem(newItem))}
+                            onUpdate={newItem => updateUserItem(newItem)}
+                        />
                     )}
                 </AnimatePresence>
 
-                {item.iconURL && (
-                    <div className={styles['item-icon']}>
-                        <div className={styles['item-icon-container']}>
-                            <Image 
-                                src={item.iconURL}
-                                layout={'fill'}
-                                objectFit={'contain'}
-                            />
-                        </div>
-                    </div>
-                )}
+                <UserItemIcon iconURL={item.iconURL} />
+
                 <span className={styles['item-text']}>
                     {item.content}
                 </span>

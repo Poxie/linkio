@@ -87,6 +87,9 @@
 }
 .item-icon {
     position: absolute;
+    left: var(--spacing-primary);
+    top: 50%;
+    transform: translateY(-50%);
 }
 .item-icon-container {
     height: 30px;
@@ -224,5 +227,24 @@
     svg {
         width: 24px;
         height: 24px;
+    }
+}
+
+.add-item {
+    padding: var(--spacing-primary);
+    justify-content: center;
+    display: flex;
+    cursor: pointer;
+    transition: background-color .2s, transform .2s;
+    min-height: 61px;
+    border-radius: var(--border-radius-primary);
+
+    &.editing {
+        background-color: var(--background-primary);
+        transform: scale(1) !important;
+    }
+    &:hover {
+        background-color: var(--background-tertiary);
+        transform: scale(.95);
     }
 }

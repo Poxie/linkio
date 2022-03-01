@@ -12,37 +12,50 @@ import { Input } from '../Input';
 import { EditorContainerHeader } from './EditorContainerHeader';
 import { EditorContainerPresets } from './EditorContainerPresets';
 
-export const EditorContainer: React.FC<{itemId: string}> = ({ itemId }) => {
+type Props = {
+    item: Item;
+    onChange: (item: Item) => void;
+    onUpdate: (item: Item) => void;
+    creating?: boolean;
+}
+export const EditorContainer: React.FC<Props> = ({ item, onChange, onUpdate, creating }) => {
     const dispatch = useDispatch();
-    const item = useAppSelector(state => selectUserItemById(state, itemId));
-    const [tempItem, setTempItem] = useState(item);
-    const tempItemRef = useRef(item);
+    const itemRef = useRef(item);
+
+    // Updating reference on item change
+    useEffect(() => {
+        itemRef.current = item;
+    }, [item]);
 
     // Updating user on unmount
     useEffect(() => {
         return () => {
-            if(!tempItemRef.current) return;
+            if(!itemRef.current) return;
             
             // If no changes have been made
-            if(JSON.stringify(tempItemRef.current) === JSON.stringify(item)) return;
+            if(JSON.stringify(itemRef.current) === JSON.stringify(item)) return;
 
             // Updating user
-            updateUserItem(tempItemRef.current);
+            onUpdate(itemRef.current);
         }
     }, []);
 
-    const updateProperty = (property: keyof Item, value: any) => {
-        setTempItem(prev => {
-            const newItem = {
-                ...prev,
+    const updateProperty = (property: keyof Item | (keyof Item)[], value: any | any[]) => {
+        let newItem: Item;
+
+        if(Array.isArray(property)) {
+            newItem = {...itemRef.current};
+            property.forEach((prop, key) => {
+                newItem[prop] = value[key];
+            })
+        } else {
+            newItem = {
+                ...itemRef.current,
                 [property]: value
             } as Item;
+        }
 
-            tempItemRef.current = newItem;
-            dispatch(setUserItem(newItem));
-            
-            return newItem;
-        })
+        onChange(newItem);
     }
 
     return(
@@ -52,7 +65,7 @@ export const EditorContainer: React.FC<{itemId: string}> = ({ itemId }) => {
             initial={{ opacity: 0, translateY: 20 }}
             exit={{ opacity: 0, translateY: 20 }}
         >
-            <EditorContainerHeader />
+            <EditorContainerHeader header={creating ? 'Create' : 'Customize'} />
             <Input 
                 label={'Description'}
                 placeholder={'Item description...'}
@@ -70,8 +83,7 @@ export const EditorContainer: React.FC<{itemId: string}> = ({ itemId }) => {
             <EditorContainerPresets 
                 active={item?.icon}
                 onClick={value => {
-                    updateProperty('icon', value);
-                    updateProperty('iconURL', `${IMAGE_ENDPOINT}/icons/${value}.png`);
+                    updateProperty(['iconURL', 'icon'], [`${IMAGE_ENDPOINT}/icons/${value}.png`, value]);
                 }}
             />
         </motion.div>
