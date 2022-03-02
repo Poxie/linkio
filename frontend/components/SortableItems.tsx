@@ -1,11 +1,40 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { Item } from '../utils/types';
 
+type SortableContextType = {
+    toggleDragging: () => void;
+    enableDragging: () => void;
+    disableDragging: () => void;
+    isEnabled: boolean;
+}
+const SortableContext = React.createContext({} as SortableContextType);
+export const useSortable = () => React.useContext(SortableContext);
+const SortableProvider: React.FC = ({ children }) => {
+    const [disabled, setDisabled] = useState(false);
+
+    const toggleDragging = () => setDisabled(!disabled);
+    const enableDragging = () => setDisabled(false);
+    const disableDragging = () => setDisabled(true);
+
+    const value = {
+        toggleDragging,
+        enableDragging,
+        disableDragging,
+        isEnabled: !disabled
+    }
+    return(
+        <SortableContext.Provider value={value}>
+            {children}
+        </SortableContext.Provider>
+    )
+}
+
 type Props = {
     data: (Item & {order?: number})[];
     renderComponent: any;
     orderProperty?: string;
 }
+
 export const SortableItems: React.FC<Props> = ({ data, renderComponent: Component, orderProperty='order' }) => {
     const [items, setItems] = useState(data as (Item & {order: number})[]);
     const itemsRef = useRef(items);
@@ -111,7 +140,7 @@ export const SortableItems: React.FC<Props> = ({ data, renderComponent: Componen
     }
 
     return(
-        <>
+        <SortableProvider>
             {items.map((item, key) => {
                 return(
                     <SortableItem 
@@ -126,7 +155,7 @@ export const SortableItems: React.FC<Props> = ({ data, renderComponent: Componen
                     />
                 )
             })}
-        </>
+        </SortableProvider>
     )
 }
 
@@ -140,6 +169,7 @@ type ItemProps = {
     ref: React.Ref<HTMLDivElement>
 }
 const SortableItem: React.FC<ItemProps> = React.forwardRef<HTMLDivElement, ItemProps>(({ component: Component, data, order: _order, updateOrder, onDrop, onDragStart: _onDragStart }, forwardRef) => {
+    const { isEnabled } = useSortable();
     const [diff, setDiff] = useState(0);
     const isDragging = useRef(false);
     const initialTop = useRef(0);
@@ -246,12 +276,12 @@ const SortableItem: React.FC<ItemProps> = React.forwardRef<HTMLDivElement, ItemP
         <div 
             style={{ 
                 transform: diff ? `translateY(${diff}px)` : 'unset', 
-                userSelect: 'none',
-                cursor: isDragging.current ? 'grabbing' : 'grab'
+                userSelect: isEnabled ? 'none' : 'unset',
+                cursor: isEnabled ? 'grab' : 'unset'
             }}
             data-order={_order}
             tabIndex={0}
-            draggable
+            draggable={isEnabled}
             ref={ref}
         >
             <Component {...data} />
