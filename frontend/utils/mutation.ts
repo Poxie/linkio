@@ -10,8 +10,8 @@ export const UPDATE_USER = gql`
 `
 
 export const UPDATE_USER_ITEM = gql`
-    mutation($id: String!, $content: String, $url: String, $icon: String) {
-        updateUserItem(id: $id, content: $content, url: $url, icon: $icon) {
+    mutation($id: String!, $content: String, $url: String, $icon: String, $order: Int) {
+        updateUserItem(id: $id, content: $content, url: $url, icon: $icon, order: $order) {
             ${USER_ITEM_PROPERTIES}
         }
     }

@@ -1,5 +1,14 @@
 import { gql } from "graphql-request";
 
+export const USER_ITEM_PROPERTIES = `
+    id
+    content
+    url
+    order
+    icon
+    iconURL
+`
+
 export const USER_PROPERTIES = `
     id
     username
@@ -10,11 +19,7 @@ export const USER_PROPERTIES = `
     banner
     bannerURL
     items {
-        id
-        url
-        icon
-        iconURL
-        content
+        ${USER_ITEM_PROPERTIES}
     }
     colorScheme {
         background {
@@ -23,13 +28,6 @@ export const USER_PROPERTIES = `
             banner
         }
     }
-`
-export const USER_ITEM_PROPERTIES = `
-    id
-    content
-    url
-    icon
-    iconURL
 `
 
 export const GET_USER_BY_USERNAME = gql`
