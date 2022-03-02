@@ -15,16 +15,9 @@ export const UserItems = () => {
     const onOrderChange = (newItems: Item[]) => {
         if(!items) return;
 
-        const itemsToReorder = newItems.filter(item => {
-            const prevItem = items.find(i => i.id === item.id);
-            if(prevItem?.order !== item.order) return item;
-        })
-        console.log(items, newItems);
-        
-        itemsToReorder.forEach(item => {
-            console.log(item);
+        newItems.forEach(item => {
             updateUserItem({ id: item.id, order: item.order });
-        });
+        })
     }
 
     return(
