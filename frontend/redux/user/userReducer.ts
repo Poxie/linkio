@@ -1,5 +1,5 @@
 import userInitialState from "./userInitialState";
-import { SET_USER, SET_USER_IS_ME, SET_USER_ITEM, UserAction, UserState } from "./userTypes";
+import { REMOVE_USER_ITEM, SET_USER, SET_USER_IS_ME, SET_USER_ITEM, UserAction, UserState } from "./userTypes";
 
 export const userReducer: (state: UserState, action: UserAction) => any = (state=userInitialState, action: UserAction) => {
     switch(action.type) {
@@ -31,6 +31,18 @@ export const userReducer: (state: UserState, action: UserAction) => any = (state
                 ...state.user,
                 items: newItems
             }
+            return {
+                ...state,
+                user
+            }
+        }
+        case REMOVE_USER_ITEM: {
+            const items = state.user?.items.filter(item => item.id !== action.payload) || [];
+            const user = {
+                ...state.user,
+                items
+            }
+
             return {
                 ...state,
                 user
