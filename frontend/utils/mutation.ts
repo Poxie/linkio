@@ -24,3 +24,9 @@ export const CREATE_USER_ITEM = gql`
         }
     }
 `
+
+export const DESTROY_USER_ITEM = gql`
+    mutation($id: String!) {
+        destroyUserItem(id: $id)
+    }
+`
