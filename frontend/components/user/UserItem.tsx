@@ -12,7 +12,7 @@ import { User } from '../../utils/types';
 import { EditorContainer } from './EditorContainer';
 import { UserItemIcon } from './UserItemIcon';
 
-export const UserItem: React.FC<User['items'][0]> = (item) => {
+export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     const dispatch = useDispatch();
     const [isEditing, setIsEditing] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
@@ -77,4 +77,4 @@ export const UserItem: React.FC<User['items'][0]> = (item) => {
             </AnimatePresence>
         </a>
     )
-}
+});
