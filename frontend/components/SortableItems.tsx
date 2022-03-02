@@ -169,13 +169,6 @@ const SortableItem: React.FC<ItemProps> = React.forwardRef<HTMLDivElement, ItemP
         }
     }, []);
 
-    // Getting item direction
-    const getDirection = () => {
-        if(!ref.current) return;
-
-        return ref.current.getAttribute('data-direction');
-    }
-
     // Handling drag
     const onDrag = (e: DragEvent) => {
         // Determining position of item
