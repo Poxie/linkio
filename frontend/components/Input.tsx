@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from '../styles/Input.module.scss';
 
 type Props = {
@@ -13,6 +13,11 @@ type Props = {
 export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onChange, onSubmit, clearOnSubmit, className }) => {
     const [value, setValue] = useState(_value || '');
     const ref = useRef<HTMLInputElement>(null);
+
+    // If value property change, update value
+    useEffect(() => {
+        setValue(_value || '');
+    }, [_value]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
