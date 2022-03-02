@@ -5,10 +5,27 @@ import { selectUserIsMe, selectUserItems } from '../../redux/user/userSelectors'
 import { UserItem } from './UserItem';
 import { CreateItemButton } from './CreateItemButton';
 import { SortableItems } from '../SortableItems';
+import { Item } from '../../utils/types';
+import { updateUserItem } from '../../utils';
 
 export const UserItems = () => {
     const items = useAppSelector(selectUserItems);
     const isMe = useAppSelector(selectUserIsMe);
+
+    const onOrderChange = (newItems: Item[]) => {
+        if(!items) return;
+
+        const itemsToReorder = newItems.filter(item => {
+            const prevItem = items.find(i => i.id === item.id);
+            if(prevItem?.order !== item.order) return item;
+        })
+        console.log(items, newItems);
+        
+        itemsToReorder.forEach(item => {
+            console.log(item);
+            updateUserItem({ id: item.id, order: item.order });
+        });
+    }
 
     return(
         <>
@@ -18,6 +35,7 @@ export const UserItems = () => {
                     <SortableItems 
                         data={items || []}
                         renderComponent={UserItem}
+                        onDrop={onOrderChange}
                     />
                 </div>
                 <CreateItemButton />

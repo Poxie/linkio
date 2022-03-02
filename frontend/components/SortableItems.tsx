@@ -30,12 +30,12 @@ const SortableProvider: React.FC = ({ children }) => {
 }
 
 type Props = {
-    data: (Item & {order?: number})[];
+    data: Item[];
     renderComponent: any;
-    orderProperty?: string;
+    onDrop: (items: Item[]) => void;
 }
 
-export const SortableItems: React.FC<Props> = ({ data, renderComponent: Component, orderProperty='order' }) => {
+export const SortableItems: React.FC<Props> = ({ data, renderComponent: Component, onDrop: _onDrop }) => {
     const [items, setItems] = useState(data as (Item & {order: number})[]);
     const itemsRef = useRef(items);
     const [refs, setRefs] = useState(items.map(key => React.createRef<HTMLDivElement>()));
@@ -48,19 +48,8 @@ export const SortableItems: React.FC<Props> = ({ data, renderComponent: Componen
     
     // Function to create new order or order items by orderproperty
     const orderItems = (items: any[]) => {
-        let newItems = [...items];
-
-        // If order property exist, sort items by it
-        if(newItems[0] && newItems[0][orderProperty] !== undefined) {
-            newItems = newItems.sort((a,b) => (a[orderProperty] > b[orderProperty]) ? 1 : ((b[orderProperty] > a[orderProperty]) ? -1 : 0))
-        } else {
-            // Else create own ordering system
-            newItems = newItems.map((item, key) => {
-                item.order = key;
-                return item;
-            });
-        }
-
+        const newItems = [...items.sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0))];
+        
         return newItems;
     }
 
@@ -105,6 +94,7 @@ export const SortableItems: React.FC<Props> = ({ data, renderComponent: Componen
     const onDrop = () => {
         // Updating view with new values
         setItems([...itemsRef.current]);
+        _onDrop && _onDrop(itemsRef.current);
 
         // Resetting items on drop
         refs.forEach((ref, key) => {

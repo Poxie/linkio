@@ -15,7 +15,8 @@ const TEMP_ITEM = {
     content: '',
     url: '',
     icon: '',
-    iconURL: ''
+    iconURL: '',
+    order: Infinity
 };
 export const CreateItemButton = () => {
     const dispatch = useDispatch();
