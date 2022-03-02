@@ -41,10 +41,8 @@ export const CreateItemButton = () => {
         })
     };
 
-    const handleChange = (item: Item) => {
-        setItem(item);
-    }
     const onSave = async (item: Item) => {
+        console.log('saving');
         if(!myId) return;
 
         // Creating new item
@@ -66,7 +64,7 @@ export const CreateItemButton = () => {
             {open && (
                 <EditorContainer 
                     item={item}
-                    onChange={handleChange}
+                    onChange={setItem}
                     onSave={onSave}
                     onCancel={toggleOpen}
                     creating={true}

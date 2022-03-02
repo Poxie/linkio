@@ -44,7 +44,9 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
     // Handling cancel click
     const onCancel = () => {
         // Restoring redux store with previous item
-        dispatch(setUserItem(initialItem.current));
+        if(!creating) {
+            dispatch(setUserItem(initialItem.current));
+        }
 
         if(_onCancel) {
             _onCancel();
@@ -111,14 +113,13 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
                     updateProperty(['iconURL', 'icon'], [`${IMAGE_ENDPOINT}/icons/${value}.png`, value]);
                 }}
             />
-            {!creating && (
-                <EditorContainerFooter 
-                    onCancel={onCancel}
-                    onDelete={onDelete}
-                    onSave={onSave}
-                    deleting={deleting}
-                />
-            )}
+            <EditorContainerFooter 
+                onCancel={onCancel}
+                onDelete={onDelete}
+                onSave={onSave}
+                deleting={deleting}
+                creating={creating}
+            />
         </motion.div>
     )
 }

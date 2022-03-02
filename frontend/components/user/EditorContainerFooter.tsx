@@ -7,8 +7,9 @@ type Props = {
     onDelete: () => void;
     onSave: () => void;
     deleting: boolean;
+    creating?: boolean;
 }
-export const EditorContainerFooter: React.FC<Props> = ({ onCancel, onDelete, onSave, deleting }) => {
+export const EditorContainerFooter: React.FC<Props> = ({ onCancel, onDelete, onSave, creating, deleting }) => {
     const canClick = !deleting;
     return(
         <div className={styles['editor-footer']}>
@@ -18,27 +19,37 @@ export const EditorContainerFooter: React.FC<Props> = ({ onCancel, onDelete, onS
                 style={{ animationDelay: '240ms' }}
                 onClick={canClick ? onCancel : undefined}
             >
-                Cancel Editing
+                {creating ? (
+                    'Abort'
+                ) : (
+                    'Cancel Editing'
+                )}
             </Button>
             <Button 
                 className={styles['editor-footer-button']} 
                 style={{ animationDelay: '280ms' }}
                 onClick={canClick ? onSave : undefined}
             >
-                Save Changes
-            </Button>
-            <Button 
-                type={'danger'} 
-                className={styles['editor-footer-button']} 
-                style={{ animationDelay: '320ms' }}
-                onClick={canClick ? onDelete : undefined}
-            >
-                {deleting ? (
-                    'Deleting...'
+                {creating ? (
+                    'Create Item'
                 ) : (
-                    'Delete Item'
+                    'Save Changes'
                 )}
             </Button>
+            {!creating && (
+                <Button 
+                    type={'danger'} 
+                    className={styles['editor-footer-button']} 
+                    style={{ animationDelay: '320ms' }}
+                    onClick={canClick ? onDelete : undefined}
+                >
+                    {deleting ? (
+                        'Deleting...'
+                    ) : (
+                        'Delete Item'
+                    )}
+                </Button>
+            )}
         </div>
     )
 }
