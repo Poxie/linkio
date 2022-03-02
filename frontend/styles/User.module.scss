@@ -253,6 +253,15 @@
     transform: translateY(20px);
 }
 
+@media only screen and (max-width: 600px) {
+    .preset-container, .editor-footer {
+        flex-direction: column;
+    }
+    .editor-footer {
+        gap: calc(var(--spacing-primary) / 2);
+    }
+}
+
 .add-item {
     padding: var(--spacing-primary);
     justify-content: center;
