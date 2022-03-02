@@ -48,16 +48,18 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     return(
         <a href={!isMe ? item.url : undefined} className={isMe ? styles['is-my-item'] : ''} target="_blank">
             <div className={styles.item} ref={ref}>
-                <AnimatePresence>
-                    {isEditing && (
-                        <EditorContainer 
-                            item={item}
-                            onChange={newItem => dispatch(setUserItem(newItem))}
-                            onSave={onSave}
-                            onCancel={stopEditing}
-                        />
-                    )}
-                </AnimatePresence>
+                {isMe && (
+                    <AnimatePresence>
+                        {isEditing && (
+                            <EditorContainer 
+                                item={item}
+                                onChange={newItem => dispatch(setUserItem(newItem))}
+                                onSave={onSave}
+                                onCancel={stopEditing}
+                            />
+                        )}
+                    </AnimatePresence>
+                )}
 
                 <UserItemIcon iconURL={item.iconURL} />
 
@@ -70,20 +72,22 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
                     </div>
                 )}
             </div>
-            <AnimatePresence>
-                {isEditing && (
-                    <motion.div 
-                        className={styles.backdrop} 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: isEditing ? 1 : 0 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: .200 }}
-                        style={{ pointerEvents: isEditing ? 'all' : 'none' }}
-                        onClick={stopEditing} 
-                        layout
-                    />
-                )}
-            </AnimatePresence>
+            {isMe && (
+                <AnimatePresence>
+                    {isEditing && (
+                        <motion.div 
+                            className={styles.backdrop} 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: isEditing ? 1 : 0 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: .200 }}
+                            style={{ pointerEvents: isEditing ? 'all' : 'none' }}
+                            onClick={stopEditing} 
+                            layout
+                        />
+                    )}
+                </AnimatePresence>
+            )}
         </a>
     )
 });
