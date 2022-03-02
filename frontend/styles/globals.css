@@ -5,6 +5,12 @@
   --background-banner: #dfdfdf;
   --background-avatar: #dfdfdf;
   --color-primary: #616161;
+  --button-danger: #ff4846;
+  --button-danger-hover: #ff2220;
+  --button-primary: #7635d9;
+  --button-primary-hover: #672ac3;
+  --button-secondary: #EAEAEA;
+  --button-secondary-hover: #d7d7d7;
   --spacing-primary: 20px;
   --border-radius-primary: 12px;
 }

@@ -1,0 +1,32 @@
+.container {
+    padding: 12px 18px;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color .2s;
+    text-align: center;
+
+    &.primary {
+        background-color: var(--button-primary);
+        color: #fff;
+        
+        &:hover {
+            background-color: var(--button-primary-hover);
+        }
+    }
+    &.secondary {
+        background-color: var(--button-secondary);
+
+        &:hover {
+            background-color: var(--button-secondary-hover);
+        }
+    }
+    &.danger {
+        background-color: var(--button-danger);
+        color: #fff;
+
+        &:hover {
+            background-color: var(--button-danger-hover);
+        }
+    }
+}
