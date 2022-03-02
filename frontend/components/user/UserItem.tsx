@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import React, { createRef, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useIsMobile } from '../../hooks/isMobile';
 import { EditIcon } from '../../icons/EditIcon';
 import { useAppSelector } from '../../redux/store';
 import { setUserItem } from '../../redux/user/userActions';
@@ -20,6 +21,7 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     const initialItem = useRef(item);
     const ref = useRef<HTMLDivElement>(null);
     const isMe = useAppSelector(selectUserIsMe);
+    const isMobile = useIsMobile();
 
     const stopEditing = () => {
         setTimeout(() => {
@@ -43,14 +45,18 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
         
         // Checking if edit container exceeds height
         setTimeout(() => {
-            if(!ref.current || !ref.current.firstChild) return;
+            const editorElement = ref.current?.firstChild as HTMLDivElement;
+            if(!ref.current || !editorElement) return;
 
-            // @ts-ignore
-            const { top } = ref.current.firstChild.getBoundingClientRect();
+            if(isMobile) {
+                editorElement.style.maxHeight = `${window.innerHeight - 125}px`;
+                editorElement.style.overflow = 'auto';
+            }
+
+            const { top } = editorElement.getBoundingClientRect();
             if(top < 30) {
                 ref.current.style.transition = 'transform .3s';
                 ref.current.style.transform = `translateY(${Math.abs(top) + 35}px)`;
-                console.log(ref.current)
             }
         }, 0);
     }
