@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../redux/store';
-import { setUser, setUserItem } from '../../redux/user/userActions';
+import { removeUserItem, setUser, setUserItem } from '../../redux/user/userActions';
 import { selectUserItemById } from '../../redux/user/userSelectors';
 import styles from '../../styles/User.module.scss';
-import { updateUserItem } from '../../utils';
+import { destroyUserItem, updateUserItem } from '../../utils';
 import { IMAGE_ENDPOINT } from '../../utils/constants';
 import { Item } from '../../utils/types';
 import { Input } from '../Input';
@@ -24,6 +24,7 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
     const dispatch = useDispatch();
     const itemRef = useRef(item);
     const initialItem = useRef(item);
+    const [deleting, setDeleting] = useState(false);
 
     // Updating reference on item change
     useEffect(() => {
@@ -48,6 +49,18 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
         if(_onCancel) {
             _onCancel();
         }
+    }
+    // Handling delete click
+    const onDelete = async () => {
+        setDeleting(true);
+        
+        // Making request to destroy item
+        await destroyUserItem(item.id);
+
+        // Updating UI
+        dispatch(removeUserItem(item.id));
+
+        setDeleting(false);
     }
 
     const updateProperty = (property: keyof Item | (keyof Item)[], value: any | any[]) => {
@@ -101,8 +114,9 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
             {!creating && (
                 <EditorContainerFooter 
                     onCancel={onCancel}
-                    onDelete={() => {}}
+                    onDelete={onDelete}
                     onSave={onSave}
+                    deleting={deleting}
                 />
             )}
         </motion.div>

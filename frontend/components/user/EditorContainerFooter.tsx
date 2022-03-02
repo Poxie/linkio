@@ -6,22 +6,24 @@ type Props = {
     onCancel: () => void;
     onDelete: () => void;
     onSave: () => void;
+    deleting: boolean;
 }
-export const EditorContainerFooter: React.FC<Props> = ({ onCancel, onDelete, onSave }) => {
+export const EditorContainerFooter: React.FC<Props> = ({ onCancel, onDelete, onSave, deleting }) => {
+    const canClick = !deleting;
     return(
         <div className={styles['editor-footer']}>
             <Button 
                 type={'secondary'} 
                 className={styles['editor-footer-button']} 
                 style={{ animationDelay: '240ms' }}
-                onClick={onCancel}
+                onClick={canClick ? onCancel : undefined}
             >
                 Cancel Editing
             </Button>
             <Button 
                 className={styles['editor-footer-button']} 
                 style={{ animationDelay: '280ms' }}
-                onClick={onSave}
+                onClick={canClick ? onSave : undefined}
             >
                 Save Changes
             </Button>
@@ -29,9 +31,13 @@ export const EditorContainerFooter: React.FC<Props> = ({ onCancel, onDelete, onS
                 type={'danger'} 
                 className={styles['editor-footer-button']} 
                 style={{ animationDelay: '320ms' }}
-                onClick={onDelete}
+                onClick={canClick ? onDelete : undefined}
             >
-                Delete Item
+                {deleting ? (
+                    'Deleting...'
+                ) : (
+                    'Delete Item'
+                )}
             </Button>
         </div>
     )
