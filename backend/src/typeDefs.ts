@@ -11,7 +11,7 @@ export default gql`
         updateUser(id: String!, username: String, name: String, backgroundPrimary: String, backgroundSecondary: String, bannerColor: String): User!
         createUserItem(userId: String!, content: String!, url: String!, icon: String): UserItem
         destroyUserItem(id: String!): Boolean
-        updateUserItem(id: String!, content: String, url: String, icon: String): UserItem
+        updateUserItem(id: String!, content: String, url: String, icon: String, order: Int): UserItem
     }
     
     type User {
@@ -31,6 +31,7 @@ export default gql`
         userId: String!
         content: String!
         url: String!
+        order: Int!
         icon: String
         iconURL: String
     }

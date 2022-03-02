@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { Snowflake } from 'nodejs-snowflake';
 import { CreateUserArgs, CreateUserItemArgs, UpdateUserArgs, UpdateUserItemArgs } from "../mutations/user";
 import { connection } from '../index';
-import { DELETE_USER_ITEM_BY_ID, SELECT_USER_BY_ID, SELECT_USER_BY_USERNAME, SELECT_USER_ITEMS_BY_USER_ID, SELECT_USER_ITEM_BY_ID } from "./queries";
+import { DELETE_USER_ITEM_BY_ID, SELECT_USER_BY_ID, SELECT_USER_BY_USERNAME, SELECT_USER_ITEMS_BY_USER_ID, SELECT_USER_ITEM_BY_ID, SELECT_USER_ITEM_COUNT } from "./queries";
 import { User, UserItem } from "../types";
 
 const request = async (query: string, values?: any[]) => {
@@ -22,7 +22,7 @@ const request = async (query: string, values?: any[]) => {
 const keysToInsertQuery = (object: Object, table: string) => {
     // Definiing what properties should be inserted
     let query = `INSERT INTO ${table} (`;
-    const keys = Object.keys(object).join(', ');
+    const keys = Object.keys(object).map(key => `\`${key}\``).join(', ');
     query += `${keys}) `;
 
     // Creating array string of question markes, placeholders for values
@@ -46,7 +46,7 @@ const keysToInsertQuery = (object: Object, table: string) => {
 const keysToUpdateQuery = (object: Object, table: string, where: string) => {
     // Defining what properties should be updated
     let query = `UPDATE ${table} SET `;
-    const keys = Object.keys(object).map(key => `${key} = ?`).join(', ');
+    const keys = Object.keys(object).map(key => `\`${key}\` = ?`).join(', ');
     query += keys;
 
     // Adding where this update should take place
@@ -175,6 +175,19 @@ export const selectUserItemById = async (itemId: string) => {
 }
 
 /**
+ * Get the count of a user's items
+ * @param userId required
+ * @returns user item count
+*/
+export const selectUserItemCount = async (userId: string) => {
+    const data = await request(SELECT_USER_ITEM_COUNT, [ userId ]) as [{ count: number }];
+    if(!data || !data[0]) return 0;
+
+    const count = data[0].count;
+    return count;
+}
+
+/**
  * Create a user item
  @param partialItem required
  @returns an Item object
@@ -183,6 +196,10 @@ export const createUserItemAction = async (itemArgs: CreateUserItemArgs) => {
     // Creating item ID
     itemArgs.id = generateUniqueId();
 
+    // Determining order of item
+    const order = await selectUserItemCount(itemArgs.userId);
+    itemArgs.order = order;
+
     // If icon propertty is present, update iconURL
     if(itemArgs.icon) {
         itemArgs.iconURL = `${process.env.IMAGE_ENDPOINT}/icons/${itemArgs.icon}.png`;
@@ -190,7 +207,8 @@ export const createUserItemAction = async (itemArgs: CreateUserItemArgs) => {
 
     // Creating query and values
     const { query, values } = keysToInsertQuery(itemArgs, 'items');
-
+    console.log(query, values);
+    
     // Inserting item
     await request(query, values);
 

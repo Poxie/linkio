@@ -18,6 +18,7 @@ export type UserItem = {
     userId: string;
     content: string;
     url: string;
+    order: number;
     icon?: string;
     iconURL?: string;
 }
