@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Item } from '../../utils/types';
 import styles from '../../styles/User.module.scss';
 import { UserItemIcon } from './UserItemIcon';
@@ -23,17 +23,40 @@ export const CreateItemButton = () => {
     const [open, setOpen] = useState(false);
     const [item, setItem] = useState<Item>(TEMP_ITEM);
     const ref = useRef<HTMLDivElement>(null);
+    const indexRef = useRef<HTMLDivElement>(null)
+
+    // If editor container exceeds height, escape into viewport
+    useEffect(() => {
+        if(!ref.current) return;
+        if(!open) {
+            ref.current.style.transform = 'translateY(0)';
+            return;
+        };
+
+        // Checking if edit container exceeds height
+        setTimeout(() => {
+            if(!ref.current || !ref.current.firstChild) return;
+
+            // @ts-ignore
+            const { top } = ref.current.firstChild.getBoundingClientRect();
+            if(top < 30) {
+                ref.current.style.transition = 'transform .3s';
+                ref.current.style.transform = `translateY(${Math.abs(top) + 35}px)`;
+                console.log(ref.current)
+            }
+        }, 0);
+    }, [open]);
 
     const toggleOpen = () => {
         setOpen(prev => {
             if(prev) {
                 setTimeout(() => {
-                    if(!ref.current) return;
-                    ref.current.style.zIndex = "unset";
+                    if(!indexRef.current) return;
+                    indexRef.current.style.zIndex = "unset";
                 }, 200);
             } else {
-                if(ref.current) {                   
-                    ref.current.style.zIndex = "2000";
+                if(indexRef.current) {                   
+                    indexRef.current.style.zIndex = "2000";
                 }
             }
 
@@ -62,27 +85,29 @@ export const CreateItemButton = () => {
         open ? styles['editing'] : ''
     ].join(' ');
     return(
-        <div style={{ position: 'relative' }} ref={ref}>
-            {open && (
-                <EditorContainer 
-                    item={item}
-                    onChange={setItem}
-                    onSave={onSave}
-                    onCancel={toggleOpen}
-                    creating={true}
-                />
-            )}
-
-            <div className={className} onClick={toggleOpen}>
-                {open ? (
-                    <>
-                    <UserItemIcon iconURL={item.iconURL} />
-                    
-                    {item.content}
-                    </>
-                ) : (
-                    'Add Item'
+        <div style={{ position: 'relative' }} ref={indexRef}>
+            <div ref={ref}>
+                {open && (
+                    <EditorContainer 
+                        item={item}
+                        onChange={setItem}
+                        onSave={onSave}
+                        onCancel={toggleOpen}
+                        creating={true}
+                    />
                 )}
+
+                <div className={className} onClick={toggleOpen}>
+                    {open ? (
+                        <>
+                        <UserItemIcon iconURL={item.iconURL} />
+                        
+                        {item.content}
+                        </>
+                    ) : (
+                        'Add Item'
+                    )}
+                </div>
             </div>
 
             <AnimatePresence>

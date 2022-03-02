@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import React, { createRef, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { EditIcon } from '../../icons/EditIcon';
 import { useAppSelector } from '../../redux/store';
@@ -18,6 +18,7 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     const { disableDragging, enableDragging } = useSortable();
     const [isEditing, setIsEditing] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
+    const editorRef = createRef<HTMLDivElement>();
     const isMe = useAppSelector(selectUserIsMe);
 
     const stopEditing = () => {
@@ -28,6 +29,9 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
 
         setIsEditing(false);
         enableDragging();
+
+        if(!ref.current) return;
+        ref.current.style.transform = 'translateY(0)';
     }
     const edit = () => {
         if(!ref.current) return;
@@ -36,6 +40,19 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
 
         setIsEditing(true);
         disableDragging();
+        
+        // Checking if edit container exceeds height
+        setTimeout(() => {
+            if(!ref.current || !ref.current.firstChild) return;
+
+            // @ts-ignore
+            const { top } = ref.current.firstChild.getBoundingClientRect();
+            if(top < 30) {
+                ref.current.style.transition = 'transform .3s';
+                ref.current.style.transform = `translateY(${Math.abs(top) + 35}px)`;
+                console.log(ref.current)
+            }
+        }, 0);
     }
     const toggleIsEditing = () => {
         isEditing ? stopEditing() : edit();
@@ -45,9 +62,10 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
         stopEditing();
     }
 
+    const className = [styles['item'], isMe && styles['my-item']].join(' ');
     return(
-        <a href={!isMe ? item.url : undefined} className={isMe ? styles['is-my-item'] : ''} target="_blank">
-            <div className={styles.item} ref={ref}>
+        <a href={!isMe ? item.url : undefined} target="_blank">
+            <div className={className} ref={ref}>
                 {isMe && (
                     <AnimatePresence>
                         {isEditing && (
@@ -56,6 +74,7 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
                                 onChange={newItem => dispatch(setUserItem(newItem))}
                                 onSave={onSave}
                                 onCancel={stopEditing}
+                                ref={editorRef}
                             />
                         )}
                     </AnimatePresence>

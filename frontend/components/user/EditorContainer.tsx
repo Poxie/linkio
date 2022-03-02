@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeUserItem, setUser, setUserItem } from '../../redux/user/userActions';
 import styles from '../../styles/User.module.scss';
@@ -17,8 +17,9 @@ type Props = {
     onChange?: (item: Item) => void;
     onSave?: (item: Item) => void;
     creating?: boolean;
+    ref?: React.Ref<HTMLDivElement>;
 }
-export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _onCancel, onSave: _onSave, creating }) => {
+export const EditorContainer: React.FC<Props> = forwardRef<HTMLDivElement, Props>(({ item, onChange, onCancel: _onCancel, onSave: _onSave, creating }, ref) => {
     const dispatch = useDispatch();
     const itemRef = useRef(item);
     const initialItem = useRef(item);
@@ -107,6 +108,7 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
             animate={{ opacity: 1, translateY: 0 }} 
             initial={{ opacity: 0, translateY: 20 }}
             exit={{ opacity: 0, translateY: 20 }}
+            ref={ref}
         >
             <EditorContainerHeader header={creating ? 'Create' : 'Customize'} />
             <Input 
@@ -138,4 +140,4 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
             />
         </motion.div>
     )
-}
+});
