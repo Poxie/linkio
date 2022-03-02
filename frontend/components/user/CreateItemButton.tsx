@@ -42,7 +42,6 @@ export const CreateItemButton = () => {
     };
 
     const onSave = async (item: Item) => {
-        console.log('saving');
         if(!myId) return;
 
         // Creating new item
@@ -53,6 +52,9 @@ export const CreateItemButton = () => {
 
         // Resetting item state
         setItem(TEMP_ITEM);
+
+        // Toggling editor container
+        toggleOpen();
     }
 
     const className = [
