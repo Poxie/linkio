@@ -163,6 +163,19 @@
 }
 .editor-input {
     margin-bottom: var(--spacing-primary) !important;
+    
+    input {
+        border: 1px solid transparent !important;
+    }
+    &.error {
+        input {
+            border-color: var(--button-danger) !important;
+        }
+
+        &::after {
+            content: attr('error-message');
+        }
+    }
 }
 .preset-container {
     display: flex;

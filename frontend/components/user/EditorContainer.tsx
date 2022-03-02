@@ -1,9 +1,7 @@
 import { motion } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../redux/store';
 import { removeUserItem, setUser, setUserItem } from '../../redux/user/userActions';
-import { selectUserItemById } from '../../redux/user/userSelectors';
 import styles from '../../styles/User.module.scss';
 import { destroyUserItem, updateUserItem } from '../../utils';
 import { IMAGE_ENDPOINT } from '../../utils/constants';
@@ -25,6 +23,8 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
     const itemRef = useRef(item);
     const initialItem = useRef(item);
     const [deleting, setDeleting] = useState(false);
+    const [hasContentError, setHasContentError] = useState(false);
+    const [hasURLError, setHasURLError] = useState(false);
 
     // Updating reference on item change
     useEffect(() => {
@@ -33,6 +33,12 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
 
     // Handling save changes
     const onSave = () => {
+        // Checking if fields are valid
+        const { content, url } = itemRef.current;
+        if(!content) setHasContentError(true);
+        if(!url) setHasURLError(true);
+        if(!content || !url) return;
+
         // Updating initial item with new changes
         initialItem.current = itemRef.current;
 
@@ -80,11 +86,21 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
             } as Item;
         }
 
+        // Checking if fields are valid
+        if(hasURLError && newItem.url) {
+            setHasURLError(false);
+        }
+        if(hasContentError && newItem.content) {
+            setHasContentError(false);
+        }
+
         if(onChange) {
             onChange(newItem);
         }
     }
 
+    const descriptionClassName = [styles['editor-input'], hasContentError && styles['error']].join(' ');
+    const URLClassName = [styles['editor-input'], hasURLError && styles['error']].join(' ');
     return(
         <motion.div 
             className={styles['editor-container']} 
@@ -94,16 +110,16 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
         >
             <EditorContainerHeader header={creating ? 'Create' : 'Customize'} />
             <Input 
-                label={'Description'}
+                label={!hasContentError ? 'Description' : 'Description - THIS FIELD IS REQUIRED'}
                 placeholder={'Item description...'}
-                className={styles['editor-input']}
+                className={descriptionClassName}
                 value={item?.content}
                 onChange={value => updateProperty('content', value)}
             />
             <Input 
-                label={'URL'}
+                label={!hasURLError ? 'URL' : 'URL - THIS FIELD IS REQUIRED'}
                 placeholder={`https://example.com/myusername`}
-                className={styles['editor-input']}
+                className={URLClassName}
                 value={item?.url}
                 onChange={value => updateProperty('url', value)}
             />
