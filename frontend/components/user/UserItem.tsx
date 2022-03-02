@@ -9,11 +9,13 @@ import { selectUserIsMe } from '../../redux/user/userSelectors';
 import styles from '../../styles/User.module.scss';
 import { updateUserItem } from '../../utils';
 import { User } from '../../utils/types';
+import { useSortable } from '../SortableItems';
 import { EditorContainer } from './EditorContainer';
 import { UserItemIcon } from './UserItemIcon';
 
 export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     const dispatch = useDispatch();
+    const { disableDragging, enableDragging } = useSortable();
     const [isEditing, setIsEditing] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const isMe = useAppSelector(selectUserIsMe);
@@ -25,6 +27,7 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
         }, 200);
 
         setIsEditing(false);
+        enableDragging();
     }
     const edit = () => {
         if(!ref.current) return;
@@ -32,6 +35,7 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
         ref.current.style.zIndex = "1000";
 
         setIsEditing(true);
+        disableDragging();
     }
     const toggleIsEditing = () => {
         isEditing ? stopEditing() : edit();
