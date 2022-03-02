@@ -9,6 +9,7 @@ import { updateUserItem } from '../../utils';
 import { IMAGE_ENDPOINT } from '../../utils/constants';
 import { Item } from '../../utils/types';
 import { Input } from '../Input';
+import { EditorContainerFooter } from './EditorContainerFooter';
 import { EditorContainerHeader } from './EditorContainerHeader';
 import { EditorContainerPresets } from './EditorContainerPresets';
 
@@ -85,6 +86,10 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onUpdate, cre
                 onClick={value => {
                     updateProperty(['iconURL', 'icon'], [`${IMAGE_ENDPOINT}/icons/${value}.png`, value]);
                 }}
+            />
+            <EditorContainerFooter 
+                onCancel={() => {}}
+                onDelete={() => {}}
             />
         </motion.div>
     )

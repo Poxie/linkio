@@ -114,6 +114,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    overflow: hidden;
 
     svg {
         width: 18px;
@@ -176,7 +177,7 @@
 }
 .preset-item-container {
     flex: 1;
-    animation: preset-item .3s forwards;
+    animation: item-in .3s forwards;
     opacity: 0;
     transform: translateY(20px);
 }
@@ -201,7 +202,7 @@
         }
     }
 }
-@keyframes preset-item {
+@keyframes item-in {
     from {
         opacity: 0;
         transform: translateY(20px);
@@ -228,6 +229,17 @@
         width: 24px;
         height: 24px;
     }
+}
+.editor-footer {
+    display: flex;
+    gap: var(--spacing-primary);
+    margin-top: var(--spacing-primary);
+}
+.editor-footer-button {
+    flex: 1;
+    animation: item-in .3s forwards;
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .add-item {
