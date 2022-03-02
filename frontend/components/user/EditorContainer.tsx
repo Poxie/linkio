@@ -15,9 +15,9 @@ import { EditorContainerPresets } from './EditorContainerPresets';
 
 type Props = {
     item: Item;
-    onCancel: () => void;
-    onChange: (item: Item) => void;
-    onSave: (item: Item) => void;
+    onCancel?: () => void;
+    onChange?: (item: Item) => void;
+    onSave?: (item: Item) => void;
     creating?: boolean;
 }
 export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _onCancel, onSave: _onSave, creating }) => {
@@ -36,13 +36,18 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
         initialItem.current = itemRef.current;
 
         // Updating user
-        _onSave(itemRef.current);
+        if(_onSave) {
+            _onSave(itemRef.current);
+        }
     }
     // Handling cancel click
     const onCancel = () => {
         // Restoring redux store with previous item
         dispatch(setUserItem(initialItem.current));
-        _onCancel();
+
+        if(_onCancel) {
+            _onCancel();
+        }
     }
 
     const updateProperty = (property: keyof Item | (keyof Item)[], value: any | any[]) => {
@@ -60,7 +65,9 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
             } as Item;
         }
 
-        onChange(newItem);
+        if(onChange) {
+            onChange(newItem);
+        }
     }
 
     return(
@@ -91,11 +98,13 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
                     updateProperty(['iconURL', 'icon'], [`${IMAGE_ENDPOINT}/icons/${value}.png`, value]);
                 }}
             />
-            <EditorContainerFooter 
-                onCancel={onCancel}
-                onDelete={() => {}}
-                onSave={onSave}
-            />
+            {!creating && (
+                <EditorContainerFooter 
+                    onCancel={onCancel}
+                    onDelete={() => {}}
+                    onSave={onSave}
+                />
+            )}
         </motion.div>
     )
 }
