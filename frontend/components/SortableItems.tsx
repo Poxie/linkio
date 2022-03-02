@@ -183,8 +183,11 @@ const SortableItem: React.FC<ItemProps> = React.forwardRef<HTMLDivElement, ItemP
 
     // Handling drag start
     const onDragStart = (e: DragEvent) => {
+        if(!ref.current) return;
+        
         // Updating dragging element attributes
         isDragging.current = true;
+        ref.current.style.cursor = 'grabbing';
         ref.current?.setAttribute('dragging', 'true');
         _onDragStart(order.current);
 
@@ -236,8 +239,13 @@ const SortableItem: React.FC<ItemProps> = React.forwardRef<HTMLDivElement, ItemP
 
     return(
         <div 
-            style={{ transform: diff ? `translateY(${diff}px)` : 'unset', userSelect: 'none' }}
+            style={{ 
+                transform: diff ? `translateY(${diff}px)` : 'unset', 
+                userSelect: 'none',
+                cursor: isDragging.current ? 'grabbing' : 'grab'
+            }}
             data-order={_order}
+            tabIndex={0}
             draggable
             ref={ref}
         >

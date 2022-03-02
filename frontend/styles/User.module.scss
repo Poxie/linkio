@@ -69,7 +69,6 @@
 }
 .is-my-item .item {
     transform: none !important;
-    cursor: auto;
 }
 .item {
     position: relative;
@@ -79,7 +78,6 @@
     text-align: center;
     align-items: center;
     display: flex;
-    cursor: pointer;
     transition: transform .2s, box-shadow .2s;
 
     &:hover {
