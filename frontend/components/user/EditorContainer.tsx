@@ -15,31 +15,35 @@ import { EditorContainerPresets } from './EditorContainerPresets';
 
 type Props = {
     item: Item;
+    onCancel: () => void;
     onChange: (item: Item) => void;
-    onUpdate: (item: Item) => void;
+    onSave: (item: Item) => void;
     creating?: boolean;
 }
-export const EditorContainer: React.FC<Props> = ({ item, onChange, onUpdate, creating }) => {
+export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _onCancel, onSave: _onSave, creating }) => {
     const dispatch = useDispatch();
     const itemRef = useRef(item);
+    const initialItem = useRef(item);
 
     // Updating reference on item change
     useEffect(() => {
         itemRef.current = item;
     }, [item]);
 
-    // Updating user on unmount
-    useEffect(() => {
-        return () => {
-            if(!itemRef.current) return;
-            
-            // If no changes have been made
-            if(JSON.stringify(itemRef.current) === JSON.stringify(item)) return;
+    // Handling save changes
+    const onSave = () => {
+        // Updating initial item with new changes
+        initialItem.current = itemRef.current;
 
-            // Updating user
-            onUpdate(itemRef.current);
-        }
-    }, []);
+        // Updating user
+        _onSave(itemRef.current);
+    }
+    // Handling cancel click
+    const onCancel = () => {
+        // Restoring redux store with previous item
+        dispatch(setUserItem(initialItem.current));
+        _onCancel();
+    }
 
     const updateProperty = (property: keyof Item | (keyof Item)[], value: any | any[]) => {
         let newItem: Item;
@@ -88,9 +92,9 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onUpdate, cre
                 }}
             />
             <EditorContainerFooter 
-                onCancel={() => {}}
+                onCancel={onCancel}
                 onDelete={() => {}}
-                onSave={() => {}}
+                onSave={onSave}
             />
         </motion.div>
     )

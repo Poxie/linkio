@@ -8,7 +8,7 @@ import { setUserItem } from '../../redux/user/userActions';
 import { selectUserIsMe } from '../../redux/user/userSelectors';
 import styles from '../../styles/User.module.scss';
 import { updateUserItem } from '../../utils';
-import { User } from '../../utils/types';
+import { Item, User } from '../../utils/types';
 import { useSortable } from '../SortableItems';
 import { EditorContainer } from './EditorContainer';
 import { UserItemIcon } from './UserItemIcon';
@@ -40,6 +40,10 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     const toggleIsEditing = () => {
         isEditing ? stopEditing() : edit();
     }
+    const onSave = async (item: Item) => {
+        await updateUserItem(item);
+        stopEditing();
+    }
 
     return(
         <a href={!isMe ? item.url : undefined} className={isMe ? styles['is-my-item'] : ''} target="_blank">
@@ -49,7 +53,8 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
                         <EditorContainer 
                             item={item}
                             onChange={newItem => dispatch(setUserItem(newItem))}
-                            onUpdate={newItem => updateUserItem(newItem)}
+                            onSave={onSave}
+                            onCancel={stopEditing}
                         />
                     )}
                 </AnimatePresence>
