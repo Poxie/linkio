@@ -11,6 +11,11 @@ export const SortableItems: React.FC<Props> = ({ data, renderComponent: Componen
     const itemsRef = useRef(items);
     const [refs, setRefs] = useState(items.map(key => React.createRef<HTMLDivElement>()));
     const initialDirection = useRef<boolean>(false);
+
+    // If data change, display changes
+    useEffect(() => {
+        setItems(orderItems(data));
+    }, [data]);
     
     // Function to create new order or order items by orderproperty
     const orderItems = (items: any[]) => {
