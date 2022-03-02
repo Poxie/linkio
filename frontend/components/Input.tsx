@@ -4,25 +4,16 @@ import styles from '../styles/Input.module.scss';
 type Props = {
     label?: string;
     placeholder?: string;
-    value?: string;
+    value: string;
     onChange?: (text: string) => void;
     onSubmit?: (text: string) => void;
-    clearOnSubmit?: boolean;
     className?: string;
 }
-export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onChange, onSubmit, clearOnSubmit, className }) => {
-    const [value, setValue] = useState(_value || '');
+export const Input: React.FC<Props> = ({ label, placeholder, value, onChange, onSubmit, className }) => {
     const ref = useRef<HTMLInputElement>(null);
-
-    // If value property change, update value
-    useEffect(() => {
-        setValue(_value || '');
-    }, [_value]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
-        setValue(val);
-
         if(onChange) {
             onChange(val);
         }
@@ -33,10 +24,6 @@ export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onCh
         e.preventDefault();
         if(onSubmit) {
             onSubmit(value);
-        }
-        
-        if(clearOnSubmit) {
-            setValue('');
         }
     }
 
