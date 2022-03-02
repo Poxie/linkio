@@ -90,6 +90,7 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onUpdate, cre
             <EditorContainerFooter 
                 onCancel={() => {}}
                 onDelete={() => {}}
+                onSave={() => {}}
             />
         </motion.div>
     )
