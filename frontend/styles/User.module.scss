@@ -63,6 +63,9 @@
 
 .item-container {
     margin-top: var(--spacing-primary);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-primary) / 1.5);
 }
 .is-my-item .item {
     transform: none !important;
@@ -72,7 +75,6 @@
     position: relative;
     padding: var(--spacing-primary);
     background-color: var(--background-primary);
-    margin: calc(var(--spacing-primary) / 1.5) 0;
     border-radius: var(--border-radius-primary);
     text-align: center;
     align-items: center;
