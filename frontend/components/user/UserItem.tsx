@@ -17,8 +17,8 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     const dispatch = useDispatch();
     const { disableDragging, enableDragging } = useSortable();
     const [isEditing, setIsEditing] = useState(false);
+    const initialItem = useRef(item);
     const ref = useRef<HTMLDivElement>(null);
-    const editorRef = createRef<HTMLDivElement>();
     const isMe = useAppSelector(selectUserIsMe);
 
     const stopEditing = () => {
@@ -54,11 +54,12 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
             }
         }, 0);
     }
-    const toggleIsEditing = () => {
-        isEditing ? stopEditing() : edit();
-    }
     const onSave = async (item: Item) => {
         await updateUserItem(item);
+        stopEditing();
+    }
+    const onCancel = () => {
+        dispatch(setUserItem(initialItem.current));
         stopEditing();
     }
 
@@ -73,8 +74,7 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
                                 item={item}
                                 onChange={newItem => dispatch(setUserItem(newItem))}
                                 onSave={onSave}
-                                onCancel={stopEditing}
-                                ref={editorRef}
+                                onCancel={onCancel}
                             />
                         )}
                     </AnimatePresence>
@@ -86,7 +86,7 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
                     {item.content}
                 </span>
                 {isMe && (
-                    <div className={styles['edit-icon']} onClick={toggleIsEditing}>
+                    <div className={styles['edit-icon']} onClick={isEditing ? onCancel : edit}>
                         <EditIcon />
                     </div>
                 )}
@@ -101,7 +101,7 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
                             exit={{ opacity: 0 }}
                             transition={{ duration: .200 }}
                             style={{ pointerEvents: isEditing ? 'all' : 'none' }}
-                            onClick={stopEditing} 
+                            onClick={onCancel} 
                             layout
                         />
                     )}
