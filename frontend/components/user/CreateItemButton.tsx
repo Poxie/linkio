@@ -9,6 +9,7 @@ import { setUserItem } from '../../redux/user/userActions';
 import { useAppSelector } from '../../redux/store';
 import { selectMeId } from '../../redux/me/userSelectors';
 import { EditorContainer } from './EditorContainer';
+import { useIsMobile } from '../../hooks/isMobile';
 
 const TEMP_ITEM = {
     id: 'temp-item',
@@ -20,6 +21,7 @@ const TEMP_ITEM = {
 };
 export const CreateItemButton = () => {
     const dispatch = useDispatch();
+    const isMobile = useIsMobile();
     const myId = useAppSelector(selectMeId);
     const [open, setOpen] = useState(false);
     const [item, setItem] = useState<Item>(TEMP_ITEM);
@@ -36,10 +38,10 @@ export const CreateItemButton = () => {
 
         // Checking if edit container exceeds height
         setTimeout(() => {
-            if(!ref.current || !ref.current.firstChild) return;
+            const editorElement = ref.current?.firstChild as HTMLDivElement;
+            if(!ref.current || !editorElement) return;
 
-            // @ts-ignore
-            const { top } = ref.current.firstChild.getBoundingClientRect();
+            const { top } = editorElement.getBoundingClientRect();
             if(top < 30) {
                 ref.current.style.transition = 'transform .3s';
                 ref.current.style.transform = `translateY(${Math.abs(top) + 35}px)`;

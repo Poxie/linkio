@@ -142,7 +142,7 @@
     width: 100%;
     text-align: left;
     border-radius: var(--border-radius-primary);
-    max-height: 87vh;
+    max-height: 85vh;
 
     &::after {
         content: '';
@@ -255,6 +255,9 @@
 }
 
 @media only screen and (max-width: 600px) {
+    .editor-container {
+        overflow: auto;
+    }
     .preset-container, .editor-footer {
         flex-direction: column;
     }

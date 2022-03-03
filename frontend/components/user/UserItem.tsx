@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
-import React, { createRef, useRef, useState } from 'react';
+import React, { createRef, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useIsMobile } from '../../hooks/isMobile';
 import { EditIcon } from '../../icons/EditIcon';
@@ -47,11 +47,6 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
         setTimeout(() => {
             const editorElement = ref.current?.firstChild as HTMLDivElement;
             if(!ref.current || !editorElement) return;
-
-            if(isMobile) {
-                editorElement.style.maxHeight = `${window.innerHeight - 125}px`;
-                editorElement.style.overflow = 'auto';
-            }
 
             const { top } = editorElement.getBoundingClientRect();
             if(top < 30) {
