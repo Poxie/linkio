@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from '../../styles/User.module.scss';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Item } from '../../utils/types';
@@ -22,6 +22,19 @@ type EditorProps = {
 }
 export const HasEditorContainer: React.FC<EditorProps> = ({ children, item, onChange, onSave, onCancel, onStartEditing, creating }) => {
     const [editing, setEditing] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if(editing) {
+            if(!ref.current) return;
+            ref.current.style.zIndex = "2000";
+        } else {
+            setTimeout(() => {
+                if(!ref.current) return;
+                ref.current.style.zIndex = "";
+            }, 200);
+        }
+    }, [editing]);
 
     const startEditing = () => {
         setEditing(true);
@@ -41,7 +54,7 @@ export const HasEditorContainer: React.FC<EditorProps> = ({ children, item, onCh
     const value = { editing, startEditing, cancel };
     return(
         <EditorContext.Provider value={value}>
-            <div style={{ position: 'relative', zIndex: editing ? 1000 : '' }}>
+            <div style={{ position: 'relative' }} ref={ref}>
                 <AnimatePresence>
                     {editing && (
                         <EditorContainer 
