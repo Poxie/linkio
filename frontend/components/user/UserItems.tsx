@@ -6,25 +6,24 @@ import { UserItem } from './UserItem';
 import { CreateItemButton } from './CreateItemButton';
 import { SortableItems } from '../SortableItems';
 import { Item } from '../../utils/types';
-import { updateUserItem } from '../../utils';
+import { updateUserItem, updateUserItems } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { setUserItem, setUserItems } from '../../redux/user/userActions';
+import { selectMeId } from '../../redux/me/userSelectors';
 
 export const UserItems = () => {
     const dispatch = useDispatch();
     const items = useAppSelector(selectUserItems);
     const isMe = useAppSelector(selectUserIsMe);
+    const myId = useAppSelector(selectMeId);
 
-    const onDragEnd = async (newItems: Item[]) => {
-        if(!items) return;
+    const onDragEnd = async (items: Item[]) => {
+        if(!items || !myId) return;
 
-        const itemsToUpdate = [];
-        for(const item of newItems) {
-            const newItem = await updateUserItem({ id: item.id, order: item.order });
-            itemsToUpdate.push(newItem);
-        }
-        
-        dispatch(setUserItems(itemsToUpdate));
+        console.log(items);
+        const newItems = await updateUserItems(myId, items);
+        console.log(newItems);
+        // dispatch(setUserItems(itemsToUpdate));
     }
 
     return(
