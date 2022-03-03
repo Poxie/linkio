@@ -8,14 +8,14 @@ import { SortableItems } from '../SortableItems';
 import { Item } from '../../utils/types';
 import { updateUserItem } from '../../utils';
 import { useDispatch } from 'react-redux';
-import { setUserItem } from '../../redux/user/userActions';
+import { setUserItem, setUserItems } from '../../redux/user/userActions';
 
 export const UserItems = () => {
     const dispatch = useDispatch();
     const items = useAppSelector(selectUserItems);
     const isMe = useAppSelector(selectUserIsMe);
 
-    const onOrderChange = async (newItems: Item[]) => {
+    const onDragEnd = async (newItems: Item[]) => {
         if(!items) return;
 
         const itemsToUpdate = [];
@@ -24,7 +24,7 @@ export const UserItems = () => {
             itemsToUpdate.push(newItem);
         }
         
-        itemsToUpdate.forEach(item => dispatch(setUserItem(item)));
+        dispatch(setUserItems(itemsToUpdate));
     }
 
     return(
@@ -35,7 +35,7 @@ export const UserItems = () => {
                     <SortableItems 
                         data={items || []}
                         renderComponent={UserItem}
-                        onDrop={onOrderChange}
+                        onDragEnd={onDragEnd}
                     />
                 </div>
                 <CreateItemButton />
