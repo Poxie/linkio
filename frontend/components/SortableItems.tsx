@@ -6,7 +6,11 @@ type Props = {
     renderComponent: any;
     onDragEnd: (items: Item[]) => void;
 }
-type ItemProps = Item & {component: any, ref: React.Ref<HTMLDivElement>};
+type ItemProps = {
+    item: Item,
+    component: any;
+    ref: React.Ref<HTMLDivElement>
+};
 type ItemContextType = {
     elementRefs: React.Ref<HTMLDivElement>[];
     items: Item[];
@@ -141,7 +145,7 @@ const Items: React.FC<{component: any}> = ({ component }) => {
         {items.map((item, key) => {
             return(
                 <SortableItem 
-                    {...item} 
+                    item={item}
                     component={component}
                     ref={elementRefs[key]}
                     key={item.id} 
@@ -151,7 +155,7 @@ const Items: React.FC<{component: any}> = ({ component }) => {
         </>
     )
 }
-const SortableItem = React.forwardRef<HTMLDivElement, ItemProps>((item, forwardRef) => {
+const SortableItem = React.forwardRef<HTMLDivElement, ItemProps>(({ item, component: Component }, forwardRef) => {
     const { swapItems, onDragEnd: _onDragEnd, onDragStart: _onDragStart } = useItems();
     const { isEnabled } = useSortable();
     const ref = useRef<HTMLDivElement>(null);
@@ -241,7 +245,7 @@ const SortableItem = React.forwardRef<HTMLDivElement, ItemProps>((item, forwardR
             draggable={isEnabled}
             ref={ref}
         >
-            {<item.component {...item} />}
+            {<Component {...item} />}
         </div>
     )
 });
