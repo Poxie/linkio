@@ -43,7 +43,6 @@ export const CreateItemButton = () => {
             if(top < 30) {
                 ref.current.style.transition = 'transform .3s';
                 ref.current.style.transform = `translateY(${Math.abs(top) + 35}px)`;
-                console.log(ref.current)
             }
         }, 0);
     }, [open]);

@@ -7,17 +7,24 @@ import { CreateItemButton } from './CreateItemButton';
 import { SortableItems } from '../SortableItems';
 import { Item } from '../../utils/types';
 import { updateUserItem } from '../../utils';
+import { useDispatch } from 'react-redux';
+import { setUserItem } from '../../redux/user/userActions';
 
 export const UserItems = () => {
+    const dispatch = useDispatch();
     const items = useAppSelector(selectUserItems);
     const isMe = useAppSelector(selectUserIsMe);
 
-    const onOrderChange = (newItems: Item[]) => {
+    const onOrderChange = async (newItems: Item[]) => {
         if(!items) return;
 
-        newItems.forEach(item => {
-            updateUserItem({ id: item.id, order: item.order });
-        })
+        const itemsToUpdate = [];
+        for(const item of newItems) {
+            const newItem = await updateUserItem({ id: item.id, order: item.order });
+            itemsToUpdate.push(newItem);
+        }
+        
+        itemsToUpdate.forEach(item => dispatch(setUserItem(item)));
     }
 
     return(
