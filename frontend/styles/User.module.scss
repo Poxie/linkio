@@ -142,6 +142,7 @@
     width: 100%;
     text-align: left;
     border-radius: var(--border-radius-primary);
+    max-height: 87vh;
 
     &::after {
         content: '';
