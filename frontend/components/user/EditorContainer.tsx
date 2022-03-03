@@ -11,6 +11,8 @@ import { EditorContainerFooter } from './EditorContainerFooter';
 import { EditorContainerHeader } from './EditorContainerHeader';
 import { EditorContainerPresets } from './EditorContainerPresets';
 
+const PRESET_URLS = ['youtube', 'twitch', 'twitter', 'instagram'];
+
 type Props = {
     item: Item;
     onCancel?: () => void;
@@ -77,6 +79,11 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
         if(Array.isArray(property)) {
             newItem = {...itemRef.current};
             property.forEach((prop, key) => {
+                // Setting preset URL if preset is selected
+                if(prop === 'icon' && PRESET_URLS.includes(value[key])) {
+                    newItem.url = `https://${value[key]}.com/`;
+                }
+
                 newItem[prop] = value[key];
             })
         } else {
