@@ -45,20 +45,14 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
         initialItem.current = itemRef.current;
 
         // Updating user
-        if(_onSave) {
-            _onSave(itemRef.current);
-        }
+        _onSave && _onSave(itemRef.current);
     }
     // Handling cancel click
     const onCancel = () => {
         // Restoring redux store with previous item
-        if(!creating) {
-            dispatch(setUserItem(initialItem.current));
-        }
+        if(!creating) dispatch(setUserItem(initialItem.current));
 
-        if(_onCancel) {
-            _onCancel();
-        }
+        _onCancel && _onCancel();
     }
     // Handling delete click
     const onDelete = async () => {
@@ -74,38 +68,14 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
     }
 
     const updateProperty = (property: keyof Item | (keyof Item)[], value: any | any[]) => {
-        let newItem: Item;
-
+        let newItem = {...itemRef.current};
         if(Array.isArray(property)) {
-            newItem = {...itemRef.current};
-            property.forEach((prop, key) => {
-                // Setting preset URL if preset is selected
-                if(prop === 'icon' && PRESET_URLS.includes(value[key])) {
-                    newItem.url = `https://${value[key]}.com/`;
-                } else if(prop === 'icon' && value[key] === null) {
-                    newItem.url = '';
-                }
-
-                newItem[prop] = value[key];
-            })
+            property.forEach((prop, key) => (newItem[prop] as keyof Item) = value[key]);
         } else {
-            newItem = {
-                ...itemRef.current,
-                [property]: value
-            } as Item;
+            (newItem[property] as keyof Item) = value;
         }
 
-        // Checking if fields are valid
-        if(hasURLError && newItem.url) {
-            setHasURLError(false);
-        }
-        if(hasContentError && newItem.content) {
-            setHasContentError(false);
-        }
-
-        if(onChange) {
-            onChange(newItem);
-        }
+        onChange && onChange(newItem);
     }
 
     const descriptionClassName = [styles['editor-input'], hasContentError && styles['error']].join(' ');
@@ -134,9 +104,7 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
             />
             <EditorContainerPresets 
                 active={item?.icon}
-                onClick={value => {
-                    updateProperty(['iconURL', 'icon'], [`${IMAGE_ENDPOINT}/icons/${value}.png`, value]);
-                }}
+                onClick={value => updateProperty(['iconURL', 'icon'], [`${IMAGE_ENDPOINT}/icons/${value}.png`, value])}
             />
             <EditorContainerFooter 
                 onCancel={onCancel}
