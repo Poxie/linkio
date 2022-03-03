@@ -8,10 +8,10 @@
     --br: var(--border-radius-primary);
 
     position: relative;
-    height: 270px;
     border-radius: var(--br) var(--br) 0 0;
     overflow: hidden;
     background-color: var(--background-banner);
+    aspect-ratio: 3.5 / 1;
 }
 .avatar {
     height: 159px;
