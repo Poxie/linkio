@@ -1,5 +1,5 @@
 import { Item, User } from "../../utils/types";
-import { REMOVE_USER_ITEM, SET_USER, SET_USER_IS_ME, SET_USER_ITEM } from "./userTypes";
+import { REMOVE_USER_ITEM, SET_USER, SET_USER_IS_ME, SET_USER_ITEM, SET_USER_ITEMS } from "./userTypes";
 
 export const setUser = (user: User) => ({
     type: SET_USER,
@@ -8,6 +8,10 @@ export const setUser = (user: User) => ({
 export const setUserItem = (item: Item) => ({
     type: SET_USER_ITEM,
     payload: item
+})
+export const setUserItems = (items: Item []) => ({
+    type: SET_USER_ITEMS,
+    payload: items
 })
 export const removeUserItem = (id: string) => ({
     type: REMOVE_USER_ITEM,
