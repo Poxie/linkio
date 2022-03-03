@@ -43,6 +43,7 @@ export const SortableItems: React.FC<Props> = ({ data, renderComponent: Componen
 
     // If data change, display changes
     useEffect(() => {
+        itemsRef.current = orderItems(data);
         setItems(orderItems(data));
     }, [data]);
     
