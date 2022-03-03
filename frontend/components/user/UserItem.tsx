@@ -57,6 +57,7 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     }
     const onSave = async (item: Item) => {
         await updateUserItem(item);
+        initialItem.current = item;
         stopEditing();
     }
     const onCancel = () => {
