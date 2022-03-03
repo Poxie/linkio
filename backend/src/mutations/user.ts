@@ -75,7 +75,11 @@ export type UpdateItemsArgs = {
 export const setUserItems = async (_: any, { items, userId }: UpdateItemsArgs, { userId: _userId }: RequestAuth) => {
     if(userId !== _userId) throw new Error('Unauthorized.');
 
+    let orders: number[] = [];
     items.forEach(item => {
+        // Checking if there are multiple items with same order
+        if(orders.includes(item.order)) throw new Error('Property order may not be same for multiple items.');
+
         // Makes sure you can't set user items for others
         item.userId = userId;
 
@@ -83,6 +87,9 @@ export const setUserItems = async (_: any, { items, userId }: UpdateItemsArgs, {
         if(item.icon && presetIcons.includes(item.icon)) {
             item.iconURL = `${process.env.IMAGE_ENDPOINT}/icons/${item.icon}.png`
         }
+
+        // Pushing item order to determine if there are duplicates
+        orders.push(item.order);
     });
 
     const response = await updateUserItemsAction(userId, items);
