@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
 import { Item } from '../../utils/types';
 import styles from '../../styles/User.module.scss';
@@ -8,10 +7,7 @@ import { createUserItem } from '../../utils';
 import { setUserItem } from '../../redux/user/userActions';
 import { useAppSelector } from '../../redux/store';
 import { selectMeId } from '../../redux/me/userSelectors';
-import { EditorContainer } from './EditorContainer';
-import { useIsMobile } from '../../hooks/isMobile';
 import { HasEditorContainer, useEditor } from './HasEditorContainer';
-import { selectUserItemById } from '../../redux/user/userSelectors';
 
 const TEMP_ITEM = {
     id: 'temp-item',

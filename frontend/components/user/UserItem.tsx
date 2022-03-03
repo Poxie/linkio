@@ -1,8 +1,5 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import Image from 'next/image';
 import React, { createRef, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useIsMobile } from '../../hooks/isMobile';
 import { EditIcon } from '../../icons/EditIcon';
 import { useAppSelector } from '../../redux/store';
 import { setUserItem } from '../../redux/user/userActions';
@@ -11,7 +8,6 @@ import styles from '../../styles/User.module.scss';
 import { updateUserItem } from '../../utils';
 import { Item, User } from '../../utils/types';
 import { useSortable } from '../SortableItems';
-import { EditorContainer } from './EditorContainer';
 import { HasEditorContainer, useEditor } from './HasEditorContainer';
 import { UserItemIcon } from './UserItemIcon';
 
