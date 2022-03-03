@@ -10,6 +10,8 @@ import { useAppSelector } from '../../redux/store';
 import { selectMeId } from '../../redux/me/userSelectors';
 import { EditorContainer } from './EditorContainer';
 import { useIsMobile } from '../../hooks/isMobile';
+import { HasEditorContainer, useEditor } from './HasEditorContainer';
+import { selectUserItemById } from '../../redux/user/userSelectors';
 
 const TEMP_ITEM = {
     id: 'temp-item',
@@ -21,111 +23,56 @@ const TEMP_ITEM = {
 };
 export const CreateItemButton = () => {
     const dispatch = useDispatch();
-    const isMobile = useIsMobile();
     const myId = useAppSelector(selectMeId);
-    const [open, setOpen] = useState(false);
     const [item, setItem] = useState<Item>(TEMP_ITEM);
-    const ref = useRef<HTMLDivElement>(null);
-    const indexRef = useRef<HTMLDivElement>(null)
 
-    // If editor container exceeds height, escape into viewport
-    useEffect(() => {
-        if(!ref.current) return;
-        if(!open) {
-            ref.current.style.transform = 'translateY(0)';
-            return;
-        };
-
-        // Checking if edit container exceeds height
-        setTimeout(() => {
-            const editorElement = ref.current?.firstChild as HTMLDivElement;
-            if(!ref.current || !editorElement) return;
-
-            const { top } = editorElement.getBoundingClientRect();
-            if(top < 30) {
-                ref.current.style.transition = 'transform .3s';
-                ref.current.style.transform = `translateY(${Math.abs(top) + 35}px)`;
-            }
-        }, 0);
-    }, [open]);
-
-    const toggleOpen = () => {
-        setOpen(prev => {
-            if(prev) {
-                setTimeout(() => {
-                    if(!indexRef.current) return;
-                    indexRef.current.style.zIndex = "unset";
-                }, 200);
-            } else {
-                if(indexRef.current) {                   
-                    indexRef.current.style.zIndex = "2000";
-                }
-            }
-
-            return !prev;
-        })
-    };
-
+    const onCancel = () => {
+        
+    }
+    const onChange = (item: Item) => {
+        setItem(item);
+    }
     const onSave = async (item: Item) => {
         if(!myId) return;
 
-        // Creating new item
-        const newItem: Item = await createUserItem({...item, userId: myId});
-        
-        // Displaying new item
+        // Creating and displaying new item
+        const newItem = await createUserItem({...item, userId: myId });
         dispatch(setUserItem(newItem));
 
-        // Resetting item state
+        // Restoring temp item state
         setItem(TEMP_ITEM);
-
-        // Toggling editor container
-        toggleOpen();
     }
+
+    return(
+        <HasEditorContainer 
+            item={item}
+            onCancel={onCancel}
+            onChange={onChange}
+            onSave={onSave}
+            creating={true}
+        >
+            <Item {...item} />
+        </HasEditorContainer>
+    )
+}
+const Item: React.FC<Item> = (item) => {
+    const { editing, cancel, startEditing } = useEditor();
 
     const className = [
         styles['add-item'],
-        open ? styles['editing'] : ''
+        editing ? styles['editing'] : ''
     ].join(' ');
     return(
-        <div style={{ position: 'relative' }} ref={indexRef}>
-            <div ref={ref}>
-                {open && (
-                    <EditorContainer 
-                        item={item}
-                        onChange={setItem}
-                        onSave={onSave}
-                        onCancel={toggleOpen}
-                        creating={true}
-                    />
-                )}
-
-                <div className={className} onClick={toggleOpen}>
-                    {open ? (
-                        <>
-                        <UserItemIcon iconURL={item.iconURL} />
-                        
-                        {item.content}
-                        </>
-                    ) : (
-                        'Add Item'
-                    )}
-                </div>
-            </div>
-
-            <AnimatePresence>
-                {open && (
-                    <motion.div 
-                        className={styles.backdrop} 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: open ? 1 : 0 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: .200 }}
-                        style={{ pointerEvents: open ? 'all' : 'none', zIndex: -1 }}
-                        onClick={toggleOpen} 
-                        layout
-                    />
-                )}
-            </AnimatePresence>
+        <div className={className} onClick={editing ? cancel : startEditing}>
+            {editing ? (
+                <>
+                <UserItemIcon iconURL={item.iconURL} />
+                
+                {item.content}
+                </>
+            ) : (
+                'Add Item'
+            )}
         </div>
     )
 }

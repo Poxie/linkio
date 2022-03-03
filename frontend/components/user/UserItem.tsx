@@ -12,103 +12,62 @@ import { updateUserItem } from '../../utils';
 import { Item, User } from '../../utils/types';
 import { useSortable } from '../SortableItems';
 import { EditorContainer } from './EditorContainer';
+import { HasEditorContainer, useEditor } from './HasEditorContainer';
 import { UserItemIcon } from './UserItemIcon';
 
 export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     const dispatch = useDispatch();
     const { disableDragging, enableDragging } = useSortable();
-    const [isEditing, setIsEditing] = useState(false);
-    const initialItem = useRef(item);
-    const ref = useRef<HTMLDivElement>(null);
-    const isMe = useAppSelector(selectUserIsMe);
-    const isMobile = useIsMobile();
+    const itemBeforeChange = useRef(item);
 
-    const stopEditing = () => {
-        setTimeout(() => {
-            if(!ref.current) return;
-            ref.current.style.zIndex = "unset";
-        }, 200);
-
-        setIsEditing(false);
-        enableDragging();
-
-        if(!ref.current) return;
-        ref.current.style.transform = 'translateY(0)';
-    }
-    const edit = () => {
-        if(!ref.current) return;
-
-        ref.current.style.zIndex = "1000";
-
-        setIsEditing(true);
-        disableDragging();
-        
-        // Checking if edit container exceeds height
-        setTimeout(() => {
-            const editorElement = ref.current?.firstChild as HTMLDivElement;
-            if(!ref.current || !editorElement) return;
-
-            const { top } = editorElement.getBoundingClientRect();
-            if(top < 30) {
-                ref.current.style.transition = 'transform .3s';
-                ref.current.style.transform = `translateY(${Math.abs(top) + 35}px)`;
-            }
-        }, 0);
+    const onChange = (item: Item) => {
+        dispatch(setUserItem(item));
     }
     const onSave = async (item: Item) => {
         await updateUserItem(item);
-        initialItem.current = item;
-        stopEditing();
+        itemBeforeChange.current = item;
     }
-    const onCancel = () => {
-        dispatch(setUserItem(initialItem.current));
-        stopEditing();
+    const onCancel = async () => {
+        dispatch(setUserItem(itemBeforeChange.current));
+        enableDragging();
     }
+    const onStartEditing = () => {
+        disableDragging();
+    }
+
+    return(
+        <HasEditorContainer 
+            item={item}
+            onChange={onChange}
+            onSave={onSave}
+            onCancel={onCancel}
+            onStartEditing={onStartEditing}
+        >
+            <Item {...item} />
+        </HasEditorContainer>
+    )
+});
+const Item: React.FC<Item> = (item) => {
+    const isMe = useAppSelector(selectUserIsMe);
+    const { startEditing, cancel, editing } = useEditor();
+    const ref = useRef<HTMLDivElement>(null);
 
     const className = [styles['item'], isMe && styles['my-item']].join(' ');
     return(
         <a href={!isMe ? item.url : undefined} target="_blank">
             <div className={className} ref={ref}>
-                {isMe && (
-                    <AnimatePresence>
-                        {isEditing && (
-                            <EditorContainer 
-                                item={item}
-                                onChange={newItem => dispatch(setUserItem(newItem))}
-                                onSave={onSave}
-                                onCancel={onCancel}
-                            />
-                        )}
-                    </AnimatePresence>
-                )}
-
                 <UserItemIcon iconURL={item.iconURL} />
 
                 <span className={styles['item-text']}>
                     {item.content}
                 </span>
+
                 {isMe && (
-                    <div className={styles['edit-icon']} onClick={isEditing ? onCancel : edit}>
+                    <div className={styles['edit-icon']} onClick={editing ? cancel : startEditing}>
                         <EditIcon />
                     </div>
                 )}
             </div>
-            {isMe && (
-                <AnimatePresence>
-                    {isEditing && (
-                        <motion.div 
-                            className={styles.backdrop} 
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: isEditing ? 1 : 0 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: .200 }}
-                            style={{ pointerEvents: isEditing ? 'all' : 'none' }}
-                            onClick={onCancel} 
-                            layout
-                        />
-                    )}
-                </AnimatePresence>
-            )}
         </a>
     )
-});
+}
