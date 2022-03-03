@@ -17,14 +17,14 @@ export const userReducer: (state: UserState, action: UserAction) => any = (state
             const newItems = state.user?.items?.map(item => {
                 if(item.id === id) {
                     found = true;
-                    return action.payload;
+                    return {...action.payload};
                 }
                 return item;
             })
 
             // If item does not exist, push it to item array
             if(!found) {
-                newItems?.push(action.payload);
+                newItems?.push({...action.payload});
             }
             
             const user = {
@@ -37,7 +37,7 @@ export const userReducer: (state: UserState, action: UserAction) => any = (state
             }
         }
         case SET_USER_ITEMS: {
-            const user = {...state.user, items: action.payload};
+            const user = {...state.user, items: [...action.payload]};
             return {
                 ...state,
                 user
