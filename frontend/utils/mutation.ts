@@ -17,6 +17,14 @@ export const UPDATE_USER_ITEM = gql`
     }
 `
 
+export const UPDATE_USER_ITEMS = gql`
+    mutation($userId: String!, $items: [UserItemInput]!) {
+        setUserItems(userId: $userId, items: $items) {
+            ${USER_ITEM_PROPERTIES}
+        }
+    }
+`
+
 export const CREATE_USER_ITEM = gql`
     mutation($userId: String!, $content: String!, $url: String!, $icon: String) {
         createUserItem(userId: $userId, content: $content, url: $url, icon: $icon) {

@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { API_ENDPOINT } from './constants';
-import { CREATE_USER_ITEM, DESTROY_USER_ITEM, UPDATE_USER, UPDATE_USER_ITEM } from './mutation';
+import { CREATE_USER_ITEM, DESTROY_USER_ITEM, UPDATE_USER, UPDATE_USER_ITEM, UPDATE_USER_ITEMS } from './mutation';
 import { GET_ME, GET_USER_BY_USERNAME, LOGIN } from './queries';
 import { Item, User } from './types';
 
@@ -57,6 +57,11 @@ export const updateUser = async (user: Partial<User> & {id: string}) => {
 // Updating user item
 export const updateUserItem = async (item: Partial<Item> & {id: string}) => {
     const response = await request(UPDATE_USER_ITEM, item);
+    return response;
+}
+// Updating user items
+export const updateUserItems = async (userId: string, items: Item[]) => {
+    const response = await request(UPDATE_USER_ITEMS, { userId, items });
     return response;
 }
 // Creating user item
