@@ -82,6 +82,8 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
                 // Setting preset URL if preset is selected
                 if(prop === 'icon' && PRESET_URLS.includes(value[key])) {
                     newItem.url = `https://${value[key]}.com/`;
+                } else if(prop === 'icon' && value[key] === null) {
+                    newItem.url = '';
                 }
 
                 newItem[prop] = value[key];
