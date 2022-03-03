@@ -19,8 +19,9 @@ type Props = {
     onChange?: (item: Item) => void;
     onSave?: (item: Item) => void;
     creating?: boolean;
+    ref?: React.Ref<HTMLDivElement>;
 }
-export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _onCancel, onSave: _onSave, creating }) => {
+export const EditorContainer: React.FC<Props> = React.forwardRef<HTMLDivElement, Props>(({ item, onChange, onCancel: _onCancel, onSave: _onSave, creating }, forwardRef) => {
     const dispatch = useDispatch();
     const initialItem = useRef(item);
     const [deleting, setDeleting] = useState(false);
@@ -80,6 +81,7 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
             animate={{ opacity: 1, translateY: 0 }} 
             initial={{ opacity: 0, translateY: 20 }}
             exit={{ opacity: 0, translateY: 20 }}
+            ref={forwardRef}
         >
             <EditorContainerHeader header={creating ? 'Create' : 'Customize'} />
             <Input 
@@ -109,4 +111,4 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
             />
         </motion.div>
     )
-};
+});
