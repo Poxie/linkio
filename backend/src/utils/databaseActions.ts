@@ -246,3 +246,23 @@ export const updateUserItemAction = async (item: UpdateUserItemArgs) => {
     const newItem = await selectUserItemById(item.id);
     return newItem;
 }
+
+/** 
+ * Sets a user's items
+ * @param userId required, the id of the user to update
+ * @param items require, the items to set for the user
+ * @returns an array of item objects
+*/
+export const updateUserItemsAction = async (userId: string, items: UserItem[]) => {
+    const newItems = [];
+    for(const item of items) {
+        const { query, values } = keysToUpdateQuery(item, 'items', 'WHERE id = ?');
+        values.push(item.id as any);
+
+        await request(query, values);
+        const newItem = await selectUserItemById(item.id);
+        newItems.push(newItem);
+    }
+
+    return newItems;
+}

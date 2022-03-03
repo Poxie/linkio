@@ -1,5 +1,5 @@
 import { RequestAuth, User, UserItem } from "../types";
-import { createUserAction, createUserItemAction, destroyUserItemAction, selectUserItemById, updateUserAction, updateUserItemAction } from "../utils/databaseActions";
+import { createUserAction, createUserItemAction, destroyUserItemAction, selectUserItemById, updateUserAction, updateUserItemAction, updateUserItemsAction } from "../utils/databaseActions";
 const presetIcons = ['youtube', 'snapchat', 'instagram', 'twitch'];
 
 export type CreateUserArgs = Partial<User> & {
@@ -65,5 +65,26 @@ export const updateUserItem = async (_: any, item: UpdateUserItemArgs, { userId 
 
     // Updating item
     const response = await updateUserItemAction(item);
+    return response;
+}
+
+export type UpdateItemsArgs = {
+    items: UserItem[];
+    userId: string;
+}
+export const setUserItems = async (_: any, { items, userId }: UpdateItemsArgs, { userId: _userId }: RequestAuth) => {
+    if(userId !== _userId) throw new Error('Unauthorized.');
+
+    items.forEach(item => {
+        // Makes sure you can't set user items for others
+        item.userId = userId;
+
+        // If icon property is present, check for preset of icons
+        if(item.icon && presetIcons.includes(item.icon)) {
+            item.iconURL = `${process.env.IMAGE_ENDPOINT}/icons/${item.icon}.png`
+        }
+    });
+
+    const response = await updateUserItemsAction(userId, items);
     return response;
 }

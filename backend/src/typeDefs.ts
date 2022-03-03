@@ -12,6 +12,7 @@ export default gql`
         createUserItem(userId: String!, content: String!, url: String!, icon: String): UserItem
         destroyUserItem(id: String!): Boolean
         updateUserItem(id: String!, content: String, url: String, icon: String, order: Int): UserItem
+        setUserItems(userId: String, items: [UserItemInput]): [UserItem]
     }
     
     type User {
@@ -29,6 +30,14 @@ export default gql`
     type UserItem {
         id: String!
         userId: String!
+        content: String!
+        url: String!
+        order: Int!
+        icon: String
+        iconURL: String
+    }
+    input UserItemInput {
+        id: String!
         content: String!
         url: String!
         order: Int!
