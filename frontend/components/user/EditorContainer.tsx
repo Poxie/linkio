@@ -22,30 +22,24 @@ type Props = {
 }
 export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _onCancel, onSave: _onSave, creating }) => {
     const dispatch = useDispatch();
-    const itemRef = useRef(item);
     const initialItem = useRef(item);
     const [deleting, setDeleting] = useState(false);
     const [hasContentError, setHasContentError] = useState(false);
     const [hasURLError, setHasURLError] = useState(false);
 
-    // Updating reference on item change
-    useEffect(() => {
-        itemRef.current = item;
-    }, [item]);
-
     // Handling save changes
     const onSave = () => {
         // Checking if fields are valid
-        const { content, url } = itemRef.current;
+        const { content, url } = item;
         if(!content) setHasContentError(true);
         if(!url) setHasURLError(true);
         if(!content || !url) return;
 
         // Updating initial item with new changes
-        initialItem.current = itemRef.current;
+        initialItem.current = item;
 
         // Updating user
-        _onSave && _onSave(itemRef.current);
+        _onSave && _onSave(item);
     }
     // Handling cancel click
     const onCancel = () => {
@@ -68,7 +62,7 @@ export const EditorContainer: React.FC<Props> = ({ item, onChange, onCancel: _on
     }
 
     const updateProperty = (property: keyof Item | (keyof Item)[], value: any | any[]) => {
-        let newItem = {...itemRef.current};
+        let newItem = {...item};
         if(Array.isArray(property)) {
             property.forEach((prop, key) => (newItem[prop] as keyof Item) = value[key]);
         } else {
