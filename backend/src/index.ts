@@ -6,7 +6,7 @@ import mysql2 from 'mysql2';
 import dotenv from 'dotenv';
 import { isAuth } from './isAuth';
 import { ExtendedRequest } from './types';
-dotenv.config();
+dotenv.config({ path: '../.env' });
 
 // Initiating express server
 const app = express();
