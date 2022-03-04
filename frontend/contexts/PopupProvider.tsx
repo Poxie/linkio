@@ -12,7 +12,7 @@ type Popup = {
     position: {
         left: number,
         top: number
-    }
+    };
 }
 type PopupContextType = {
     setPopup: (component: Component, ref: Ref ) => void;
@@ -31,7 +31,7 @@ export const PopupProvider: React.FC = ({ children }) => {
         const { left: _left, top: _top, height, width } = ref.getBoundingClientRect();
         
         const top = _top + height;
-        const left = _left - width;
+        const left = _left + width;
 
         return { left, top };
     }
