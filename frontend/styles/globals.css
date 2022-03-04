@@ -12,6 +12,8 @@
   --button-secondary: #EAEAEA;
   --button-secondary-hover: #d7d7d7;
   --popup-background-primary: #fff;
+  --popup-background-secondary: #F1F1F1;
+  --popup-background-tertiary: #EAEAEA;
   --spacing-primary: 20px;
   --border-radius-primary: 12px;
 }
