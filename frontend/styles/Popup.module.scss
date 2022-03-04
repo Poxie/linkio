@@ -5,3 +5,20 @@
     border-radius: var(--border-radius-primary);
     box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px 0px;
 }
+.go-back-btn {
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+
+    svg {
+        width: 14px;
+        height: 14px;
+        transform: rotate(180deg);
+        fill: var(--color-primary);
+        margin-right: 10px;
+        margin-bottom: -1px;
+    }
+}

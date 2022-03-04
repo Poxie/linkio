@@ -2,10 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { usePopup } from '../contexts/PopupProvider';
 import styles from '../styles/Popup.module.scss';
+import { ArrowIcon } from '../icons/ArrowIcon';
 
-export const Popup: React.FC<{left: number, top: number}> = ({ children, left: _left, top }) => {
+export const Popup: React.FC<{
+    left: number;
+    top: number;
+    canGoBack: boolean;
+}> = ({ children, left: _left, top, canGoBack }) => {
     const ref = useRef<HTMLDivElement>(null);
-    const { closePopups } = usePopup();
+    const { closePopups, goBack } = usePopup();
     const [left, setLeft] = useState(_left);
 
     useEffect(() => {
@@ -35,7 +40,13 @@ export const Popup: React.FC<{left: number, top: number}> = ({ children, left: _
             animate={{ opacity: 1, translateY: 0 }}
             transition={{ duration: .200 }}
             ref={ref}
-        >
+        >   
+            {canGoBack && (
+                <div className={styles['go-back-btn']} onClick={goBack}>
+                    <ArrowIcon />
+                    Go back
+                </div>
+            )}
             {children}
         </motion.div>
     )
