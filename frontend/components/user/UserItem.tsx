@@ -8,6 +8,7 @@ import styles from '../../styles/User.module.scss';
 import { updateUserItem } from '../../utils';
 import { Item, User } from '../../utils/types';
 import { useSortable } from '../SortableItems';
+import { EditButton } from './EditIcon';
 import { HasEditorContainer, useEditor } from './HasEditorContainer';
 import { UserItemIcon } from './UserItemIcon';
 
@@ -59,9 +60,9 @@ const Item: React.FC<Item> = (item) => {
                 </span>
 
                 {isMe && (
-                    <div className={styles['edit-icon']} onClick={editing ? cancel : startEditing}>
-                        <EditIcon />
-                    </div>
+                    <EditButton 
+                        onClick={editing ? cancel : startEditing}
+                    />
                 )}
             </div>
         </a>
