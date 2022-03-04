@@ -7,6 +7,7 @@ type Component = JSX.Element | React.FC<any>;
 type Ref = React.RefObject<HTMLDivElement>;
 type Element = HTMLDivElement | null;
 type Popup = {
+    id: number;
     element: Element;
     component: Component;
     position: {
@@ -58,7 +59,9 @@ export const PopupProvider: React.FC = ({ children }) => {
      * @param ref required, the ref of the element the popup should be relative to
      */
     const setPopup = (component: Component, ref: Ref) => {
+        closePopups();
         const popup: Popup = {
+            id: Math.random(),
             element: ref.current,
             component,
             position: getPopupPosition(ref.current)
@@ -81,11 +84,11 @@ export const PopupProvider: React.FC = ({ children }) => {
             {children}
 
             <AnimatePresence>
-                {popups.map((popup, key) => {
+                {popups.map(popup => {
                     const { left, top } = popup.position;
 
                     return(
-                        <Popup top={top} left={left} key={key}>
+                        <Popup top={top} left={left} key={popup.id}>
                             {typeof popup.component !== 'function' ? popup.component : <popup.component />}
                         </Popup>
                     )
