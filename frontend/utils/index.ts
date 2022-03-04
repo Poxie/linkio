@@ -50,9 +50,12 @@ export const getMe = async () => {
 
 
 // Updating user
-export const updateUser = async (user: Partial<User> & {id: string}) => {
-    const response = await request(UPDATE_USER, user);
-    return user;
+type UpdateUserArgs = Partial<User> & {
+    bannerColor?: string;
+}
+export const updateUser = async (id: string, user: UpdateUserArgs) => {
+    const response = await request(UPDATE_USER, { id, user });
+    return response;
 }
 // Updating user item
 export const updateUserItem = async (item: Partial<Item> & {id: string}) => {

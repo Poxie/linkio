@@ -2,8 +2,8 @@ import { gql } from "graphql-request";
 import { USER_ITEM_PROPERTIES, USER_PROPERTIES } from "./queries";
 
 export const UPDATE_USER = gql`
-    mutation($id: String!, $username: String, $name: String) {
-        updateUser(id: $id, username: $username, name: $name) {
+    mutation($id: String!, $user: UserInput) {
+        updateUser(id: $id, user: $user) {
             ${USER_PROPERTIES}
         }
     }
