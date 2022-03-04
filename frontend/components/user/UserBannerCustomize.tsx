@@ -17,7 +17,7 @@ export const UserBannerCustomize = () => {
     const colors = useAppSelector(selectUserColors);
     const button = createRef<HTMLDivElement>();
     const currentButton = useRef<null | HTMLDivElement>(null);
-    const { setPopup, closePopups } = usePopup();
+    const { setPopup, pushPopup, closePopups } = usePopup();
 
     useEffect(() => {
         currentButton.current = button.current;
@@ -26,6 +26,7 @@ export const UserBannerCustomize = () => {
     const setColor = (color: string) => {
         if(!colors) return;
 
+        // Setting new banner color
         const colorScheme: User['colorScheme'] = {
             background: {
                 ...colors?.background,
@@ -33,17 +34,22 @@ export const UserBannerCustomize = () => {
             }
         }
 
+        // Updating local store
         dispatch(updateUserStore({ colorScheme }));
         return colorScheme;
     }
     const updateColor = async (color: string) => {
         if(!myId) return;
 
+        // Updating user banner color
         await updateUser(myId, { bannerColor: color });
     }
+
+    // Setting color picker popup
     const showColorPicker = () => {
-        setPopup(<ColorPopup onChange={setColor} onChangeComplete={updateColor} />, currentButton);
+        pushPopup(<ColorPopup defaultColor={colors?.background.banner} onChange={setColor} onChangeComplete={updateColor} />, currentButton);
     };
+    // Setting banner customization options popup
     const edit = () => {
         setPopup(<BannerPopup showColorPicker={showColorPicker} />, currentButton);
     };
