@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDimensions } from '../hooks/useDimensions';
 import { Popup } from '../popups/Popup';
 
-type Component = React.FC<any>;
+type Component = JSX.Element | React.FC<any>;
 type Ref = React.RefObject<HTMLDivElement>;
 type Element = HTMLDivElement | null;
 type Popup = {
@@ -85,8 +85,8 @@ export const PopupProvider: React.FC = ({ children }) => {
                     const { left, top } = popup.position;
 
                     return(
-                        <Popup top={top} left={left}>
-                            {<popup.component key={key} />}
+                        <Popup top={top} left={left} key={key}>
+                            {typeof popup.component !== 'function' ? popup.component : <popup.component />}
                         </Popup>
                     )
                 })}
