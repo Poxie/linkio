@@ -1,8 +1,12 @@
 import { Item, User } from "../../utils/types";
-import { REMOVE_USER_ITEM, SET_USER, SET_USER_IS_ME, SET_USER_ITEM, SET_USER_ITEMS } from "./userTypes";
+import { REMOVE_USER_ITEM, SET_USER, SET_USER_IS_ME, SET_USER_ITEM, SET_USER_ITEMS, UPDATE_USER } from "./userTypes";
 
 export const setUser = (user: User) => ({
     type: SET_USER,
+    payload: user
+})
+export const updateUser = (user: Partial<User>) => ({
+    type: UPDATE_USER,
     payload: user
 })
 export const setUserItem = (item: Item) => ({

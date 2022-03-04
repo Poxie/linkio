@@ -18,6 +18,10 @@ export const selectUserItems = createSelector(
     [selectUser],
     (user) => user?.items
 );
+export const selectUserColors = createSelector(
+    [selectUser],
+    (user) => user?.colorScheme
+);
 
 export const selectUserIsMe = (state: RootState) => state.user.user?.isMe;
 export const selectUserItemById = createSelector(
