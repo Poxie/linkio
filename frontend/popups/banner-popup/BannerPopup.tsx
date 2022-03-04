@@ -7,6 +7,7 @@ export const BannerPopup: React.FC<{showColorPicker: () => void}> = ({ showColor
         <div className={styles.container}>
             <div className={styles.item} onClick={showColorPicker}>
                 <EditIcon />
+                Banner Color
             </div>
             <div className={styles.item}>
                 <EditIcon />
