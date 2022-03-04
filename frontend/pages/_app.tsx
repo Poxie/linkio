@@ -6,12 +6,15 @@ import { useEffect } from 'react'
 import { getMe } from '../utils'
 import { setMe } from '../redux/me/userActions'
 import { ReactElement } from 'react'
+import { PopupProvider } from '../contexts/PopupProvider'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return(
     <Provider store={store}>
       <AuthLayer>
-        <Component {...pageProps} />
+        <PopupProvider>
+          <Component {...pageProps} />
+        </PopupProvider>
       </AuthLayer>
     </Provider>
   )
