@@ -12,6 +12,17 @@
     overflow: hidden;
     background-color: var(--background-banner);
     aspect-ratio: 3.5 / 1;
+
+    .edit-icon {
+        position: absolute;
+        top: 30px;
+        right: 10px;
+        background-color: rgba(0,0,0,.1);
+        
+        &:hover {
+            background-color: rgba(0,0,0,.19);
+        }
+    }
 }
 .avatar {
     height: 159px;
@@ -113,6 +124,7 @@
     justify-content: center;
     cursor: pointer;
     overflow: hidden;
+    transition: background-color .2s;
 
     svg {
         width: 18px;
