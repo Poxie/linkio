@@ -8,7 +8,7 @@ export default gql`
     }
     type Mutation {
         createUser(username: String!, password: String!): User!
-        updateUser(id: String!, username: String, name: String, backgroundPrimary: String, backgroundSecondary: String, bannerColor: String): User!
+        updateUser(id: String!, user: UserInput): User!
         createUserItem(userId: String!, content: String!, url: String!, icon: String): UserItem
         destroyUserItem(id: String!): Boolean
         updateUserItem(id: String!, content: String, url: String, icon: String, order: Int): UserItem
@@ -26,6 +26,16 @@ export default gql`
         avatarURL: String
         items: [UserItem]
         colorScheme: ColorScheme
+    }
+    input UserInput {
+        username: String
+        name: String
+        bio: String
+        banner: String
+        bannerURL: String
+        avatar: String
+        avatarURL: String
+        bannerColor: String
     }
     type UserItem {
         id: String!

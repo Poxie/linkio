@@ -11,15 +11,16 @@ export const createUser = async (_: any, userArgs: CreateUserArgs) => {
     return user;
 }
 
-export type UpdateUserArgs = Partial<User> & {
+export type UpdateUserArgs = {
     id: string;
-};
-export const updateUser = async (_: any, userArgs: UpdateUserArgs, { userId }: RequestAuth) => {
+    user: Partial<User>;
+}
+export const updateUser = async (_: any, { user: userArgs, id }: UpdateUserArgs, { userId }: RequestAuth) => {
     // Checking for authorization
-    if(userId !== userArgs.id) throw new Error('Unauthorized.');
+    if(userId !== id) throw new Error('Unauthorized.');
 
     // Updating user
-    const user = await updateUserAction(userArgs);
+    const user = await updateUserAction(id, userArgs);
     return user;
 }
 

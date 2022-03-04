@@ -100,9 +100,7 @@ export const createUserAction = async (user: CreateUserArgs) => {
  * @param userArgs a partial user object, with property id being required
  * @returns a user object
  */
-export const updateUserAction = async (userArgs: UpdateUserArgs) => {
-    const id = userArgs.id;
-    
+export const updateUserAction = async (id: string, userArgs: UpdateUserArgs['user']) => {
     // Checking if user updates username, and if it already exists
     if(userArgs.username && (await selectUserByUsername(userArgs.username))) throw new Error('Username already taken.'); 
 
