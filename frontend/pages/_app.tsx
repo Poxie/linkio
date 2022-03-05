@@ -7,14 +7,17 @@ import { getMe } from '../utils'
 import { setMe } from '../redux/me/userActions'
 import { ReactElement } from 'react'
 import { PopupProvider } from '../contexts/PopupProvider'
+import { ModalProvider } from '../contexts/ModalProvider'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return(
     <Provider store={store}>
       <AuthLayer>
-        <PopupProvider>
-          <Component {...pageProps} />
-        </PopupProvider>
+        <ModalProvider>
+          <PopupProvider>
+            <Component {...pageProps} />
+          </PopupProvider>
+        </ModalProvider>
       </AuthLayer>
     </Provider>
   )
