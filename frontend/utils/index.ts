@@ -52,8 +52,8 @@ export const getMe = async () => {
 // Updating user
 type UpdateUserArgs = Omit<Partial<User>, 'banner' | 'avatar'> & {
     bannerColor?: string;
-    banner?: File;
-    avatar?: File;
+    banner?: File | null;
+    avatar?: File | null;
 }
 export const updateUser = async (id: string, user: UpdateUserArgs) => {
     const response = await request(UPDATE_USER, { id, user });
