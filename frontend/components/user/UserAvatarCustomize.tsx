@@ -28,8 +28,11 @@ export const UserAvatarCustomize = () => {
         closePopups();
     }
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if(!e.target.files || !e.target.files[0]) return;
+        if(!e.target.files || !e.target.files[0] || !input.current) return;
+
         const file = e.target.files[0];
+        input.current.value = '';
+
         setModal(
             <FileModal 
                 file={file}

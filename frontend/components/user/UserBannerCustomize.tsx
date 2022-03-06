@@ -61,10 +61,10 @@ export const UserBannerCustomize = () => {
     }
     // On image picker change
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if(!e.target.files) return;
+        if(!e.target.files || !e.target.files[0] || !input.current) return;
 
         const file = e.target.files[0];
-        if(!file) return;
+        input.current.value = '';
         
         setModal(
             <FileModal 
