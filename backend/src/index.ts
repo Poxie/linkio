@@ -6,6 +6,7 @@ import mysql2 from 'mysql2';
 import dotenv from 'dotenv';
 import { isAuth } from './isAuth';
 import { ExtendedRequest } from './types';
+import { graphqlUploadExpress } from 'graphql-upload';
 dotenv.config({ path: '../.env' });
 
 // Initiating express server
@@ -31,6 +32,13 @@ export const connection = mysql2.createConnection({
 // Starting server
 (async () => {
     await server.start();
+
+    // Allowing uploads
+    app.use(graphqlUploadExpress({
+        maxFiles: 10,
+        maxFileSize: 10000000000
+    }))
+
     server.applyMiddleware({ app });
 
     app.listen(process.env.PORT, () => {

@@ -1,4 +1,6 @@
 import bcrypt from 'bcrypt';
+import fs from 'fs';
+import path from 'path';
 import { Snowflake } from 'nodejs-snowflake';
 import { CreateUserArgs, CreateUserItemArgs, UpdateUserArgs, UpdateUserItemArgs } from "../mutations/user";
 import { connection } from '../index';
@@ -59,6 +61,28 @@ const keysToUpdateQuery = (object: Object, table: string, where: string) => {
 }
 
 /**
+ * Saves an image on the server
+ * @param file required, the file object to upload
+ * @param filePath required, the path of the image
+ * @returns the id of the image
+*/
+const saveImage = async (file: any, filePath: '../../imgs/avatars' | '../../imgs/banners') => {
+    const id = generateUniqueId();
+
+    // Gettin read stream from file
+    const { createReadStream } = await file;
+
+    // Inserting media into media folder
+    await new Promise(res =>
+        createReadStream()
+            .pipe(fs.createWriteStream(path.join(__dirname, filePath, `${id}.png`)))
+            .on('close', res)
+    );
+
+    return id;
+}
+
+/**
  * Generats a unique ID
  * @returns a unique ID
 */
@@ -102,7 +126,19 @@ export const createUserAction = async (user: CreateUserArgs) => {
  */
 export const updateUserAction = async (id: string, userArgs: UpdateUserArgs['user']) => {
     // Checking if user updates username, and if it already exists
-    if(userArgs.username && (await selectUserByUsername(userArgs.username))) throw new Error('Username already taken.'); 
+    if(userArgs.username && (await selectUserByUsername(userArgs.username))) throw new Error('Username already taken.');
+
+    // Checking if user updates banner or avatar
+    if(userArgs.banner || userArgs.avatar) {
+        if(userArgs.banner) {
+            userArgs.banner = await saveImage(userArgs.banner, '../../imgs/banners');
+            userArgs.bannerURL = `${process.env.IMAGE_ENDPOINT}/banners/${userArgs.banner}.png`;
+        }
+        if(userArgs.avatar) {
+            userArgs.avatar = await saveImage(userArgs.avatar, '../../imgs/avatars');
+            userArgs.avatarURL = `${process.env.IMAGE_ENDPOINT}/avatars/${userArgs.avatar}.png`;
+        }
+    }
 
     // Getting query and values
     const { query, values } = keysToUpdateQuery(userArgs, 'users', `WHERE id = ?`);

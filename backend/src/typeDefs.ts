@@ -1,6 +1,8 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
+    scalar Upload
+
     type Query {
         getUserByUsername(username: String!): User
         login(username: String!, password: String!): AuthResponse!
@@ -31,9 +33,9 @@ export default gql`
         username: String
         name: String
         bio: String
-        banner: String
+        banner: Upload
         bannerURL: String
-        avatar: String
+        avatar: Upload
         avatarURL: String
         bannerColor: String
     }
