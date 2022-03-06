@@ -50,8 +50,9 @@ export const getMe = async () => {
 
 
 // Updating user
-type UpdateUserArgs = Partial<User> & {
+type UpdateUserArgs = Omit<Partial<User>, 'banner'> & {
     bannerColor?: string;
+    banner?: File;
 }
 export const updateUser = async (id: string, user: UpdateUserArgs) => {
     const response = await request(UPDATE_USER, { id, user });
