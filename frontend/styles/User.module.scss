@@ -12,7 +12,8 @@
     overflow: hidden;
     background-color: var(--background-banner);
     aspect-ratio: 3.5 / 1;
-
+}
+.banner, .avatar {
     .edit-icon {
         position: absolute;
         top: 30px;

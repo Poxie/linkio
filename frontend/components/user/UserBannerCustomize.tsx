@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux';
 import { useModal } from '../../contexts/ModalProvider';
 import { usePopup } from '../../contexts/PopupProvider';
 import { FileModal } from '../../modals/file-modal/FileModal';
-import { BannerPopup } from '../../popups/banner-popup/BannerPopup';
+import { HeaderPopup } from '../../popups/header-popup/HeaderPopup';
 import { ColorPopup } from '../../popups/color-popup/ColorPopup';
 import { selectMeId } from '../../redux/me/userSelectors';
 import { useAppSelector } from '../../redux/store';
 import { setUser, updateUser as updateUserStore } from '../../redux/user/userActions';
-import { selectUser, selectUserColors } from '../../redux/user/userSelectors';
+import { selectUserColors } from '../../redux/user/userSelectors';
 import { updateUser } from '../../utils';
 import { User } from '../../utils/types';
 import { EditButton } from './EditIcon';
@@ -77,7 +77,7 @@ export const UserBannerCustomize = () => {
     };
     // Setting banner customization options popup
     const edit = () => {
-        setPopup(<BannerPopup showImagePicker={showImagePicker} showColorPicker={showColorPicker} />, currentButton);
+        setPopup(<HeaderPopup showImagePicker={showImagePicker} showColorPicker={showColorPicker} type={'Banner'} />, currentButton);
     };
 
     return(
