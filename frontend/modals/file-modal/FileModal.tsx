@@ -5,13 +5,12 @@ import styles from './FileModal.module.scss';
 import { ModalHeader } from '../ModalHeader';
 import { Button } from '../../components/Button';
 
-const ASPECT_RATIO = 3 / 1;
-const ROOT_WIDTH = 700;
 export const FileModal: React.FC<{
     file: File;
     onCancel?: () => void;
     onDone?: (file: File) => void;
-}> = ({ file, onCancel, onDone }) => {
+    aspectRatio?: number;
+}> = ({ file, onCancel, onDone, aspectRatio=3/1 }) => {
     const [tempImage, setTempImage] = useState<string | null>(null);
     const [cropper, setCropper] = useState<any>();
 
@@ -38,7 +37,7 @@ export const FileModal: React.FC<{
                 <Cropper
                     style={{ height: 400, width: "100%" }}
                     zoomTo={0.5}
-                    aspectRatio={ASPECT_RATIO}
+                    aspectRatio={aspectRatio}
                     preview=".img-preview"
                     src={tempImage}
                     viewMode={1}
