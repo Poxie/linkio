@@ -1,6 +1,7 @@
 .container {
     position: relative;
     width: 1000px;
+    max-width: 100%;
 }
 .footer {
     margin-top: var(--modal-padding);
