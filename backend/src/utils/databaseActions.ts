@@ -129,14 +129,22 @@ export const updateUserAction = async (id: string, userArgs: UpdateUserArgs['use
     if(userArgs.username && (await selectUserByUsername(userArgs.username))) throw new Error('Username already taken.');
 
     // Checking if user updates banner or avatar
-    if(userArgs.banner || userArgs.avatar) {
+    if('banner' in userArgs) {
         if(userArgs.banner) {
             userArgs.banner = await saveImage(userArgs.banner, '../../imgs/banners');
             userArgs.bannerURL = `${process.env.IMAGE_ENDPOINT}/banners/${userArgs.banner}.png`;
+        } else {
+            userArgs.banner = undefined;
+            userArgs.bannerURL = undefined;
         }
+    }
+    if('avatar' in userArgs) {
         if(userArgs.avatar) {
             userArgs.avatar = await saveImage(userArgs.avatar, '../../imgs/avatars');
             userArgs.avatarURL = `${process.env.IMAGE_ENDPOINT}/avatars/${userArgs.avatar}.png`;
+        } else {
+            userArgs.avatar = undefined;
+            userArgs.avatarURL = undefined;
         }
     }
 
