@@ -8,13 +8,14 @@ import { ColorPopup } from '../../popups/color-popup/ColorPopup';
 import { selectMeId } from '../../redux/me/userSelectors';
 import { useAppSelector } from '../../redux/store';
 import { setUser, updateUser as updateUserStore } from '../../redux/user/userActions';
-import { selectUserColors } from '../../redux/user/userSelectors';
+import { selectUserColors, selectUserDisplay } from '../../redux/user/userSelectors';
 import { updateUser } from '../../utils';
 import { User } from '../../utils/types';
 import { EditButton } from './EditIcon';
 
 export const UserBannerCustomize = () => {
     const dispatch = useDispatch();
+    const { bannerURL } = useAppSelector(selectUserDisplay);
     const myId = useAppSelector(selectMeId);
     const colors = useAppSelector(selectUserColors);
     const button = createRef<HTMLDivElement>();
@@ -51,11 +52,12 @@ export const UserBannerCustomize = () => {
     }
 
     // On image upload
-    const onImageDone = async (file: File) => {
+    const updateBanner = async (file: File | null) => {
         if(!myId) return;
         const user = await updateUser(myId, { banner: file });
         dispatch(setUser(user));
         closeModals();
+        closePopups();
     }
     // On image picker change
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +66,13 @@ export const UserBannerCustomize = () => {
         const file = e.target.files[0];
         if(!file) return;
         
-        setModal(<FileModal file={file} onDone={onImageDone} onCancel={closeModals} />);
+        setModal(
+            <FileModal 
+                file={file} 
+                onDone={updateBanner} 
+                onCancel={closeModals}
+            />
+        );
     }
     // Setting image picker
     const showImagePicker = () => {
@@ -77,7 +85,15 @@ export const UserBannerCustomize = () => {
     };
     // Setting banner customization options popup
     const edit = () => {
-        setPopup(<HeaderPopup showImagePicker={showImagePicker} showColorPicker={showColorPicker} type={'Banner'} />, currentButton);
+        setPopup(
+            <HeaderPopup 
+                showImagePicker={showImagePicker} 
+                showColorPicker={showColorPicker} 
+                onRemove={() => updateBanner(null)}
+                hasImage={bannerURL !== null}
+                type={'Banner'} 
+            />, currentButton
+        );
     };
 
     return(
