@@ -1,0 +1,15 @@
+.container {
+    position: relative;
+    width: 1000px;
+}
+.footer {
+    margin-top: var(--modal-padding);
+    padding: var(--modal-padding);
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+.button {
+    margin-left: calc(var(--modal-padding) * 2);
+    margin-right: calc(-1 * var(--modal-padding));
+}
