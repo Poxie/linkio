@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styles from '../../styles/Home.module.scss';
 import { HomeInputPlaceholder } from './HomeInputPlaceholder';
+import { usePreview } from './HomePreview';
 
 export const HomeInput = () => {
-    const [username, setUsername] = useState('');
+    const { username, setUsername } = usePreview();
     const [isFocusing, setIsFocusing] = useState(false);
 
     return(

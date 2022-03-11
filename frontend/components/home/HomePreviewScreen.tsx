@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '../../styles/Home.module.scss';
 import { IMAGE_ENDPOINT } from '../../utils/constants';
 import { UserAvatar } from '../user/UserAvatar';
+import { usePreview } from './HomePreview';
 
 export const HomePreviewScreen = () => {
     return(
@@ -11,12 +12,23 @@ export const HomePreviewScreen = () => {
             <div className={styles['preview-header']}>
                 <div className={styles['preview-banner']} />
                 <HomePreviewAvatar />
+                <HomePreviewUsername />
             </div>
 
             <div className={styles['preview-item']} />
             <div className={styles['preview-item']} />
             <div className={styles['preview-item']} />
         </div>
+    )
+}
+
+const HomePreviewUsername = () => {
+    const { username } = usePreview();
+
+    return(
+        <h1 className={styles['preview-username']}>
+            {username || 'yourusernamehere'}
+        </h1>
     )
 }
 
