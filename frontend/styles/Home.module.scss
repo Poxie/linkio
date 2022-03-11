@@ -22,12 +22,12 @@
 }
 .input-suffix {
     display: block;
-    margin-top: -3p2;
+    margin-top: -3px;
 }
 .input {
     border: none;
     height: 100%;
-    flex: 1;
+    width: 100%;
     outline: none;
     font-size: 20px;
     color: var(--text-primary);
@@ -35,13 +35,14 @@
 .placeholder-container {
     position: relative;
     height: 100%;
+    flex: 1;
 }
 .input-placeholder {
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    margin-top: -1px;
+    margin-top: -2px;
     pointer-events: none;
     color: var(--color-secondary);
 }
@@ -54,5 +55,60 @@
     }
     to {
         opacity: 1;
+    }
+}
+
+.preview-connector {
+    --connector-rounded-width: 75px;
+    --connector-rounded-height: 30px;
+    --connector-extensions-height: 30px;
+    --connector-width: 15px;
+    --connector-height: 150px;
+
+    height: var(--connector-height);
+    width: var(--connector-width);
+    background-color: var(--background-primary);
+    position: relative;
+}
+.connector-top, .connector-bottom {
+    position: absolute;
+    transform: translateX(calc(var(--connector-rounded-width) * -1 / 2 + var(--connector-width) / 2));
+    width: var(--connector-rounded-+width);
+    height: var(--connector-rounded-height);
+    margin: 0 auto;
+    background-color: var(--background-primary);
+
+    &:before, &::after {
+        content: '';
+        background-color: var(--background-secondary);
+        width: var(--connector-extensions-height);
+        height: var(--connector-extensions-height);
+        position: absolute;
+    }
+    &:before {
+        right: calc(100% - var(--connector-rounded-height));
+    }
+    &::after {
+        left: calc(100% - var(--connector-rounded-height));
+    }
+}
+.connector-top {
+    top: 0;
+
+    &:before {
+        border-top-right-radius: 120px;
+    }
+    &::after {
+        border-top-left-radius: 120px;
+    }
+}
+.connector-bottom {
+    bottom: 0;
+
+    &::before {
+        border-bottom-right-radius: 120px;
+    }
+    &::after {
+        border-bottom-left-radius: 120px;
     }
 }
