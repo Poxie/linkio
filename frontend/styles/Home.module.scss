@@ -122,6 +122,7 @@
     background-color: var(--background-primary);
     border-radius: var(--border-radius-primary);
     width: 900px;
+    max-width: 95%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -137,6 +138,28 @@
         border-left-color: transparent;
         border-right-color: transparent;
         border-top-color: transparent;
+    }
+}
+// Is ipad
+@media only screen and (max-width: 700px) {
+    .preview-screen::after {
+        bottom: calc(var(--spacing-primary) / 2 - 5px);
+        z-index: 5;
+        border: none;
+        width: 20px;
+        height: 20px;
+        background-color: rgba(0,0,0,.2);
+        border-radius: 50%;
+    }
+}
+// Is mobile
+@media only screen and (max-width: 500px) {
+    .preview-screen::after {
+        bottom: calc(var(--spacing) - var(--spacing-primary));
+        height: 4px;
+        width: 120px;
+        border-radius: 120px;
+        background-color: var(--background-primary);
     }
 }
 .preview-screen-top-buttons {
