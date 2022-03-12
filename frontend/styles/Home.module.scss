@@ -125,6 +125,17 @@
     align-items: center;
     padding: calc(var(--spacing-primary) * 2) var(--spacing-primary);
     position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -50px;
+        z-index: 0-1;
+        border: 80px solid var(--background-primary);
+        border-left-color: transparent;
+        border-right-color: transparent;
+        border-top-color: transparent;
+    }
 }
 .preview-background {
     display: block;
