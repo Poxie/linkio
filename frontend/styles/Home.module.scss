@@ -139,6 +139,30 @@
         border-top-color: transparent;
     }
 }
+.preview-screen-top-buttons {
+    position: absolute;
+    top: calc(var(--spacing-primary) / 2);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    height: 13px;
+
+    &::after {
+        content: '';
+        display: block;
+        background-color: rgba(0,0,0,.2);
+        border-radius: 120px;
+        width: 40px;
+    }
+    &:before {
+        content: '';
+        background-color: rgba(0,0,0,.2);
+        width: 13px;
+        border-radius: 50%;
+        display: block;
+    }
+}
 .preview-background {
     display: block;
     position: absolute;

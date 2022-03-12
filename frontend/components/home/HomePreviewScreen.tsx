@@ -7,6 +7,8 @@ import { usePreview } from './HomePreview';
 export const HomePreviewScreen = () => {
     return(
         <div className={styles['preview-screen']}>
+            <div className={styles['preview-screen-top-buttons']} />
+
             <div className={styles['preview-background']} style={{  }} />
             
             <div className={styles['preview-header']}>
