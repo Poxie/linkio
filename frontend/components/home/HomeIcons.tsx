@@ -36,7 +36,7 @@ export const HomeIcons = () => {
                     <div 
                         className={styles['home-icon']}
                         style={{ transform: `translateY(${icon.top}px)` }}
-                        onMouseEnter={() => setPopup(<IconPopup media={icon.media} icon={icon.component} />, refs[key])}
+                        onMouseEnter={() => setPopup(<IconPopup media={icon.media} icon={icon.component} />, refs[key], { centered: true })}
                         ref={refs[key]}
                         key={icon.media}
                     >
