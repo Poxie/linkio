@@ -59,6 +59,22 @@
     }
 }
 
+.home-icons {
+    position: absolute;
+    display: flex;
+    width: 900px;
+    justify-content: space-between;
+    top: 172px;
+}
+.home-icon {
+    padding: 10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: var(--background-primary);
+    box-shadow: rgb(0 0 0 / 25%) 0px 1px 4px 0px;
+}
+
 .preview-connector {
     --connector-rounded-width: 75px;
     --connector-rounded-height: 30px;
