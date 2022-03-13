@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { usePopup } from '../contexts/PopupProvider';
+import { Options, usePopup } from '../contexts/PopupProvider';
 import styles from '../styles/Popup.module.scss';
 import { ArrowIcon } from '../icons/ArrowIcon';
 
@@ -8,13 +8,16 @@ export const Popup: React.FC<{
     left: number;
     top: number;
     canGoBack: boolean;
-}> = ({ children, left: _left, top, canGoBack }) => {
+    options: Options | undefined;
+}> = ({ children, left: _left, top, canGoBack, options }) => {
     const ref = useRef<HTMLDivElement>(null);
     const { closePopups, goBack } = usePopup();
     const [left, setLeft] = useState(_left);
 
     useEffect(() => {
-        const newLeft = _left - (ref.current?.getBoundingClientRect().width || 0);
+        const elementWidth = (ref.current?.getBoundingClientRect().width || 0);
+        let toSubstract = options?.centered ? elementWidth / 2 : elementWidth;
+        const newLeft = _left - toSubstract;
         setLeft(newLeft);
     }, [_left])
 

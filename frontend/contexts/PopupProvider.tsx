@@ -1,10 +1,13 @@
 import { AnimatePresence } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDimensions } from '../hooks/useDimensions';
 import { Popup } from '../popups/Popup';
 
 type Component = JSX.Element | React.FC<any>;
 type Ref = React.RefObject<HTMLDivElement>;
+export type Options = {
+    centered?: boolean;
+}
 type Element = HTMLDivElement | null;
 type Popup = {
     id: number;
@@ -16,7 +19,7 @@ type Popup = {
     };
 }
 type PopupContextType = {
-    setPopup: (component: Component, ref: Ref ) => void;
+    setPopup: (component: Component, ref: Ref, options?: Options ) => void;
     pushPopup: (component: Component, ref: Ref ) => void;
     closePopups: () => void;
     goBack: () => void;
@@ -29,6 +32,8 @@ export const usePopup = () => React.useContext(PopupContext);
 export const PopupProvider: React.FC = ({ children }) => {
     const [popups, setPopups] = useState<Popup[]>([]);
     const [activePopup, setActivePopup] = useState(0);
+    const [options, setOptions] = useState({} as Options | undefined);
+    const isCentered = useRef<boolean | undefined>(false);
 
     // Get popup position relative to element
     const getPopupPosition = (ref: Element) => {
@@ -36,7 +41,9 @@ export const PopupProvider: React.FC = ({ children }) => {
         const { left: _left, top: _top, height, width } = ref.getBoundingClientRect();
         
         const top = _top + height;
-        const left = _left + width;
+        
+        const additionalLeft = isCentered.current ? width / 2 : width;
+        let left = _left + additionalLeft;
 
         return { left, top };
     }
@@ -77,8 +84,10 @@ export const PopupProvider: React.FC = ({ children }) => {
      * @param component required, the popup component to display
      * @param ref required, the ref of the element the popup should be relative to
      */
-    const setPopup = (component: Component, ref: Ref) => {
+    const setPopup = (component: Component, ref: Ref, options?: Options) => {
+        isCentered.current = options?.centered;
         closePopups();
+        setOptions(options)
         const popup = createPopup(component, ref);
         setPopups(prev => [...prev, popup]);
     }
@@ -87,7 +96,9 @@ export const PopupProvider: React.FC = ({ children }) => {
      * @param component required, the popup component to display
      * @param ref required, the ref of the element the popup should be relative to
     */
-    const pushPopup = (component: Component, ref: Ref) => {
+    const pushPopup = (component: Component, ref: Ref, options?: Options) => {
+        isCentered.current = options?.centered;
+        setOptions(options)
         const popup = createPopup(component, ref);
         setPopups(prev => [...prev, popup]);
         setActivePopup(prev => prev + 1);
@@ -132,6 +143,7 @@ export const PopupProvider: React.FC = ({ children }) => {
                         top={popup.position.top} 
                         left={popup.position.left}
                         canGoBack={canGoBack}
+                        options={options}
                         key={popup.id}
                     >
                         {typeof popup.component !== 'function' ? popup.component : <popup.component />}
