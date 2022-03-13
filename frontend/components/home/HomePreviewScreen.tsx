@@ -17,9 +17,13 @@ export const HomePreviewScreen = () => {
                 <HomePreviewUsername />
             </div>
 
-            <div className={styles['preview-item']} />
-            <div className={styles['preview-item']} />
-            <div className={styles['preview-item']} />
+            {[0,1,2].map(i => (
+                <div 
+                    className={styles['preview-item']}
+                    style={{ animationDelay: `${60 * i + 400}ms` }}
+                    key={i} 
+                />
+            ))}
         </div>
     )
 }

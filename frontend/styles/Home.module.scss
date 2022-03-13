@@ -247,4 +247,16 @@
     display: block;
     z-index: 2;
     margin-top: var(--spacing-primary);
+    animation: preview-item forwards .6s;
+    opacity: 0;
+}
+@keyframes preview-item {
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
