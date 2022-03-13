@@ -63,17 +63,20 @@
     position: absolute;
     display: flex;
     width: 900px;
+    max-width: 95%;
     justify-content: space-between;
+    transition: top .4s;
     top: 172px;
 }
 .home-icon {
     padding: 10px;
-    height: 50px;
-    width: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    min-width: 50px;
     border-radius: 50%;
     background-color: var(--background-primary);
     box-shadow: rgb(0 0 0 / 25%) 0px 1px 4px 0px;
-    transition: margin-top .2s;
+    transition: margin-top .2s, transform .5s;
     cursor: pointer;
 
     &:hover {
@@ -172,6 +175,14 @@
         height: 20px;
         background-color: rgba(0,0,0,.2);
         border-radius: 50%;
+    }
+    .home-icons {
+        top: calc(var(--spacing-primary) / 2);
+        overflow-x: auto;
+        gap: calc(var(--spacing-primary) / 2);
+    }
+    .home-icon {
+        transform: translateY(0) !important;
     }
 }
 // Is mobile
