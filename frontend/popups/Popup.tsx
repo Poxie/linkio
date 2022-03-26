@@ -15,9 +15,19 @@ export const Popup: React.FC<{
     const [left, setLeft] = useState(_left);
 
     useEffect(() => {
+        // Position correction with popup width
         const elementWidth = (ref.current?.getBoundingClientRect().width || 0);
         let toSubstract = options?.centered ? elementWidth / 2 : elementWidth;
-        const newLeft = _left - toSubstract;
+        let newLeft = _left - toSubstract;
+        
+        // Checking if popup exceeds screen
+        if(newLeft + elementWidth > window.innerWidth) {
+            newLeft = window.innerWidth - elementWidth
+        }
+        if(newLeft < 0) {
+            newLeft = 0;
+        }
+        
         setLeft(newLeft);
     }, [_left])
 
