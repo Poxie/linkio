@@ -1,0 +1,23 @@
+.link {
+    padding: var(--spacing-primary);
+    background-color: var(--background-primary);
+    border-radius: var(--border-radius-primary);
+    margin-bottom: var(--spacing-primary);
+    border: 1px solid var(--border-primary-color);
+}
+.link-content {
+    margin-bottom: 10px;
+}
+.link-input {
+    input {
+        padding: 3px 0 !important;
+        background-color: transparent !important;
+        font-size: 17px !important;
+    }
+}
+.link-url {
+    .link-input input {
+        color: var(--text-muted);
+        font-size: 15px !important;
+    }
+}

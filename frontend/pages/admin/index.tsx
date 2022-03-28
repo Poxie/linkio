@@ -3,7 +3,7 @@ import React from 'react';
 import { ReactElement } from 'react';
 import { AdminLinks } from '../../components/admin/links/AdminLinks';
 import { AdminLayout } from '../../layouts/admin/AdminLayout';
-import { selectMe, selectMeLoading } from '../../redux/me/userSelectors';
+import { selectMe, selectMeLoading } from '../../redux/me/meSelectors';
 import { useAppSelector } from '../../redux/store';
 
 export default function index() {
