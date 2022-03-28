@@ -44,6 +44,7 @@ export const AdminNavbar = () => {
                     <AdminNavbarItem
                         text={text}
                         path={path}
+                        active={asPath === path}
                         ref={refs[key]}
                         key={path}
                     />

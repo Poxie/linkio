@@ -6,12 +6,10 @@ import styles from './AdminLayout.module.scss';
 type Props = {
     text: string;
     path: string;
+    active: boolean;
     ref: React.Ref<HTMLDivElement>
 }
-export const AdminNavbarItem = React.forwardRef<HTMLDivElement, Props>(({ text, path }, ref) => {
-    const { asPath } = useRouter();
-
-    const active = asPath === path;
+export const AdminNavbarItem = React.forwardRef<HTMLDivElement, Props>(({ text, path, active }, ref) => {
     const className = [
         styles['navbar-item'],
         active && styles['active']
