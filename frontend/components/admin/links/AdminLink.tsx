@@ -10,6 +10,7 @@ export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: Admi
             <div className={styles['link-content']}>
                 <Input 
                     value={content}
+                    placeholder={'Link header...'}
                     className={styles['link-input']}
                     onChange={value => onChange(id, 'content', value)}
                     onBlur={() => onBlur(id)}
@@ -19,6 +20,7 @@ export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: Admi
             <div className={styles['link-url']}>
                 <Input 
                     value={url}
+                    placeholder={'Link URL...'}
                     className={styles['link-input']}
                     onChange={value => onChange(id, 'url', value)}
                     onBlur={() => onBlur(id)}
