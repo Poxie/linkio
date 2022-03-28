@@ -8,14 +8,24 @@ import { setMe } from '../redux/me/userActions'
 import { ReactElement } from 'react'
 import { PopupProvider } from '../contexts/PopupProvider'
 import { ModalProvider } from '../contexts/ModalProvider'
+import { ReactNode } from 'react'
+import { NextPage } from 'next'
 
-function MyApp({ Component, pageProps }: AppProps) {
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? (page => page);
+
   return(
     <Provider store={store}>
       <AuthLayer>
         <ModalProvider>
           <PopupProvider>
-            <Component {...pageProps} />
+            {getLayout(<Component {...pageProps} />)}
           </PopupProvider>
         </ModalProvider>
       </AuthLayer>
