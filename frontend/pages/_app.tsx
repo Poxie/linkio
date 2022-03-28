@@ -33,6 +33,8 @@ const AuthLayer: React.FC = ({ children }) => {
         dispatch(setMe(me));
 
       }).catch(console.error);
+    } else {
+      dispatch(setMe(null));
     }
   }, []);
 
