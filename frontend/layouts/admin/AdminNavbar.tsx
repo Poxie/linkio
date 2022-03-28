@@ -5,8 +5,8 @@ import { useRef } from 'react';
 import styles from './AdminLayout.module.scss';
 import { AdminNavbarItem } from './AdminNavbarItem';
 
-const PATH_SUFFIX = '/admin';
-const getFullPath = (path: string) => `${PATH_SUFFIX}${path}`;
+const PATH_PREFIX = '/admin';
+const getFullPath = (path: string) => `${PATH_PREFIX}${path}`;
 export const AdminNavbar = () => {
     const { asPath } = useRouter();
     const stripe = useRef<HTMLDivElement>(null);
