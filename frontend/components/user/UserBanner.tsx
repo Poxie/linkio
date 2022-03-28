@@ -15,6 +15,7 @@ export const UserBanner: React.FC<{bannerURL?: string}> = ({ bannerURL }) => {
                     src={bannerURL}
                     layout={'fill'}
                     objectFit={'cover'}
+                    priority
                 />
             )}
             {isMe && (
