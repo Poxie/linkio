@@ -5,13 +5,13 @@ import { usePopup } from '../../contexts/PopupProvider';
 import { FileModal } from '../../modals/file-modal/FileModal';
 import { HeaderPopup } from '../../popups/header-popup/HeaderPopup';
 import { ColorPopup } from '../../popups/color-popup/ColorPopup';
-import { selectMeId } from '../../redux/me/userSelectors';
 import { useAppSelector } from '../../redux/store';
 import { setUser, updateUser as updateUserStore } from '../../redux/user/userActions';
 import { selectUserColors, selectUserDisplay } from '../../redux/user/userSelectors';
 import { updateUser } from '../../utils';
 import { User } from '../../utils/types';
 import { EditButton } from './EditIcon';
+import { selectMeId } from '../../redux/me/meSelectors';
 
 export const UserBannerCustomize = () => {
     const dispatch = useDispatch();

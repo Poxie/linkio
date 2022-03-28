@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux';
 import { createUserItem } from '../../utils';
 import { setUserItem } from '../../redux/user/userActions';
 import { useAppSelector } from '../../redux/store';
-import { selectMeId } from '../../redux/me/userSelectors';
 import { HasEditorContainer, useEditor } from './HasEditorContainer';
+import { selectMeId } from '../../redux/me/meSelectors';
 
 const TEMP_ITEM = {
     id: 'temp-item',

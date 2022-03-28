@@ -4,7 +4,7 @@ import { useModal } from '../../contexts/ModalProvider';
 import { usePopup } from '../../contexts/PopupProvider';
 import { FileModal } from '../../modals/file-modal/FileModal';
 import { HeaderPopup } from '../../popups/header-popup/HeaderPopup';
-import { selectMeId } from '../../redux/me/userSelectors';
+import { selectMeId } from '../../redux/me/meSelectors';
 import { useAppSelector } from '../../redux/store';
 import { setUser } from '../../redux/user/userActions';
 import { selectUserDisplay } from '../../redux/user/userSelectors';

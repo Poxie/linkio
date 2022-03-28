@@ -8,8 +8,7 @@ import { SortableItems } from '../SortableItems';
 import { Item } from '../../utils/types';
 import { updateUserItem, updateUserItems } from '../../utils';
 import { useDispatch } from 'react-redux';
-import { setUserItem, setUserItems } from '../../redux/user/userActions';
-import { selectMeId } from '../../redux/me/userSelectors';
+import { selectMeId } from '../../redux/me/meSelectors';
 
 export const UserItems = () => {
     const dispatch = useDispatch();
