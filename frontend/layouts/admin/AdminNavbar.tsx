@@ -37,20 +37,22 @@ export const AdminNavbar = () => {
 
     return(
         <div className={styles.navbar}>
-            {items.map((item, key) => {
-                const { path, text } = item;
+            <div className={styles['navbar-content']}>
+                {items.map((item, key) => {
+                    const { path, text } = item;
 
-                return(
-                    <AdminNavbarItem
-                        text={text}
-                        path={path}
-                        active={asPath === path}
-                        ref={refs[key]}
-                        key={path}
-                    />
-                )
-            })}
-            <div className={styles['stripe']} ref={stripe} />
+                    return(
+                        <AdminNavbarItem
+                            text={text}
+                            path={path}
+                            active={asPath === path}
+                            ref={refs[key]}
+                            key={path}
+                        />
+                    )
+                })}
+                <div className={styles['stripe']} ref={stripe} />
+            </div>
         </div>
     )
 }

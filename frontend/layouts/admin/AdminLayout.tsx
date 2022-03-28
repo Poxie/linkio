@@ -6,7 +6,9 @@ export const AdminLayout: React.FC = ({ children }) => {
     return(
         <div className={styles['container']}>
             <AdminNavbar />
-            {children}
+            <div className={styles['main']}>
+                {children}
+            </div>
         </div>
     )
 }

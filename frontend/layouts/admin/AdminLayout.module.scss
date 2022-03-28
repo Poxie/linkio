@@ -1,6 +1,12 @@
+.container {
+    --width: 1100px;
+    --max-width: 1100px;
+}
 .navbar {
     background-color: var(--background-primary);
     border-bottom: 1px solid var(--border-primary-color);
+}
+.navbar-content {
     display: flex;
     align-items: center;
 }
@@ -14,6 +20,9 @@
     &.active, &:hover {
         color: var(--color-primary);
     }
+    &:first-child {
+        margin-left: 0;
+    }
 }
 .stripe {
     height: 2px;
@@ -21,4 +30,9 @@
     border-radius: 120px;
     position: absolute;
     transition: left .3s, width .3s, top .3s;
+}
+.main, .navbar-content {
+    width: var(--width);
+    max-width: var(--max-width);
+    margin: 0 auto;
 }
