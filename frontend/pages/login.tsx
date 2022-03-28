@@ -1,8 +1,12 @@
+import { useRouter } from "next/router";
 import { FormEvent } from "react";
 import { useRef } from "react"
 import { login } from "../utils";
 
 export default function Login() {
+    const query = useRouter().query;
+    const { redirect_uri } = query as { redirect_uri?: string };
+
     const username = useRef('');
     const password = useRef('');
 
@@ -12,7 +16,8 @@ export default function Login() {
         const _password = password.current;
 
         await login(_username, _password);
-        location.reload();
+        
+        window.location.href = redirect_uri || '/';
     }
 
     return(
