@@ -1,0 +1,25 @@
+.navbar {
+    background-color: var(--background-primary);
+    border-bottom: 1px solid var(--border-primary-color);
+    display: flex;
+    align-items: center;
+}
+.navbar-item {
+    padding: var(--spacing-primary) 0;
+    margin:  0 var(--spacing-primary);
+    cursor: pointer;
+    color: var(--color-secondary);
+    transition: color .2s;
+
+    &.active, &:hover {
+        color: var(--color-primary);
+    }
+}
+.stripe {
+    height: 2px;
+    width: 100px;
+    background-color: var(--color-secondary);
+    border-radius: 120px;
+    position: absolute;
+    transition: left .3s, width .3s, top .3s;
+}
