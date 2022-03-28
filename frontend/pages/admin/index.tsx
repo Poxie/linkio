@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import React from 'react';
+import { ReactElement } from 'react';
 import { AdminPage } from '../../components/admin/AdminPage';
+import { AdminLayout } from '../../layouts/admin/AdminLayout';
 import { selectMe, selectMeLoading } from '../../redux/me/userSelectors';
 import { useAppSelector } from '../../redux/store';
 
@@ -19,3 +21,9 @@ export default function index() {
 
     return <AdminPage />;
 }
+
+index.getLayout = (page: ReactElement) => (
+    <AdminLayout>
+        {page}
+    </AdminLayout>
+)
