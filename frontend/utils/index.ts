@@ -70,7 +70,7 @@ export const updateUserItems = async (userId: string, items: Item[]) => {
     return response;
 }
 // Creating user item
-export const createUserItem = async (item: Item & {userId: string}) => {
+export const createUserItem = async (item: Partial<Item> & {userId: string}) => {
     const newItem = await request(CREATE_USER_ITEM, item);
     return newItem;
 }
