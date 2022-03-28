@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import { ReactElement } from 'react';
-import { AdminPage } from '../../components/admin/AdminPage';
+import { AdminLinks } from '../../components/admin/links/AdminLinks';
 import { AdminLayout } from '../../layouts/admin/AdminLayout';
 import { selectMe, selectMeLoading } from '../../redux/me/userSelectors';
 import { useAppSelector } from '../../redux/store';
@@ -10,6 +10,7 @@ export default function index() {
     const router = useRouter();
     const me = useAppSelector(selectMe);
     const meIsLoading = useAppSelector(selectMeLoading);
+    console.log(me);
 
     // If user is not logged in, redirect to login
     if(!me && !meIsLoading) {
@@ -19,7 +20,7 @@ export default function index() {
         return null;
     }
 
-    return <AdminPage />;
+    return <AdminLinks />;
 }
 
 index.getLayout = (page: ReactElement) => (

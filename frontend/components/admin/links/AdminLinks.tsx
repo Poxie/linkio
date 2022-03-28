@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const AdminPage = () => {
+export const AdminLinks = () => {
     return(
         <div>
-            admin
+            Links
         </div>
     )
 }
