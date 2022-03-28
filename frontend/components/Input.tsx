@@ -7,9 +7,10 @@ type Props = {
     value: string;
     onChange?: (text: string) => void;
     onSubmit?: (text: string) => void;
+    onBlur?: (text: string) => void;
     className?: string;
 }
-export const Input: React.FC<Props> = ({ label, placeholder, value, onChange, onSubmit, className }) => {
+export const Input: React.FC<Props> = ({ label, placeholder, value, onChange, onSubmit, onBlur, className }) => {
     const ref = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +27,9 @@ export const Input: React.FC<Props> = ({ label, placeholder, value, onChange, on
             onSubmit(value);
         }
     }
+    const handleBlur = () => {
+        onBlur && onBlur(ref.current?.value || '');
+    }
 
     className = [styles.form, className].join(' ');
     return(
@@ -40,6 +44,7 @@ export const Input: React.FC<Props> = ({ label, placeholder, value, onChange, on
                 type="text"
                 placeholder={placeholder}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 value={value}
                 ref={ref}
             />
