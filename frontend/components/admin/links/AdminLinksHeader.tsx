@@ -21,9 +21,6 @@ export const AdminLinksHeader = () => {
         // Pushing new item to redux
         dispatch(setMeItems([...myItems, ...[item]]));
     }
-    const addWithIntegration = () => {
-
-    }
 
     return(
         <div className={styles['links-header']}>
@@ -33,9 +30,6 @@ export const AdminLinksHeader = () => {
             <div className={styles['links-header-main']}>
                 <Button onClick={addNewLink}>
                     Add New Link
-                </Button>
-                <Button onClick={addWithIntegration}>
-                    Add With Integration
                 </Button>
             </div>
         </div>
