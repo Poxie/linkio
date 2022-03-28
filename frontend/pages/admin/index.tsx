@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import { ReactElement } from 'react';
-import { AdminLinks } from '../../components/admin/links/AdminLinks';
+import { AdminLinksPage } from '../../components/admin/links/AdminLinksPage';
 import { AdminLayout } from '../../layouts/admin/AdminLayout';
 import { selectMe, selectMeLoading } from '../../redux/me/meSelectors';
 import { useAppSelector } from '../../redux/store';
@@ -20,7 +20,7 @@ export default function index() {
         return null;
     }
 
-    return <AdminLinks />;
+    return <AdminLinksPage />;
 }
 
 index.getLayout = (page: ReactElement) => (
