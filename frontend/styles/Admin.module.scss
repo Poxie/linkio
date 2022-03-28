@@ -1,3 +1,22 @@
+.links-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.links-header-text {
+    font-size: 17px;
+    font-weight: 500;
+}
+.links-header-main {
+    display: flex;
+    gap: var(--spacing-primary);
+    padding: var(--spacing-primary) 0;
+
+    &>div {
+        width: 200px;
+        font-size: 15px;
+    }
+}
 .link {
     padding: var(--spacing-primary);
     background-color: var(--background-primary);
