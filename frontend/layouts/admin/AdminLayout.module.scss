@@ -9,6 +9,7 @@
 .navbar-content {
     display: flex;
     align-items: center;
+    position: relative;
 }
 .navbar-item {
     padding: var(--spacing-primary) 0;

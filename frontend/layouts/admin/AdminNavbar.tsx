@@ -10,6 +10,7 @@ const getFullPath = (path: string) => `${PATH_PREFIX}${path}`;
 export const AdminNavbar = () => {
     const { asPath } = useRouter();
     const stripe = useRef<HTMLDivElement>(null);
+    const container = useRef<HTMLDivElement>(null);
 
     const items = [
         { text: 'Links', path: getFullPath('') },
@@ -24,20 +25,21 @@ export const AdminNavbar = () => {
         const activeIndex = items.map(item => item.path).indexOf(asPath);
         const activeItem = refs[activeIndex];
 
-        if(!stripe.current || !activeItem.current) return;
+        if(!stripe.current || !container.current || !activeItem.current) return;
 
         // Getting the active item's position
         const { left, top, width, height } = activeItem.current.getBoundingClientRect();
+        const { left: containerLeft } = container.current.getBoundingClientRect();
 
         // Updating stripe position to match active item's position
         stripe.current.style.width = `${width}px`;
-        stripe.current.style.left = `${left}px`;
+        stripe.current.style.left = `${left - containerLeft}px`;
         stripe.current.style.top = `${top + height}px`;
     }, [asPath]);
 
     return(
         <div className={styles.navbar}>
-            <div className={styles['navbar-content']}>
+            <div className={styles['navbar-content']} ref={container}>
                 {items.map((item, key) => {
                     const { path, text } = item;
 
