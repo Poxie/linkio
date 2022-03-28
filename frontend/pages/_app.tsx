@@ -4,12 +4,12 @@ import { Provider, useDispatch } from 'react-redux'
 import { store } from '../redux/store'
 import { useEffect } from 'react'
 import { getMe } from '../utils'
-import { setMe } from '../redux/me/userActions'
 import { ReactElement } from 'react'
 import { PopupProvider } from '../contexts/PopupProvider'
 import { ModalProvider } from '../contexts/ModalProvider'
 import { ReactNode } from 'react'
 import { NextPage } from 'next'
+import { setMe } from '../redux/me/meActions'
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode

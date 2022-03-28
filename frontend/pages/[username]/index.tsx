@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { UserPage } from "../../components/user/UserPage";
-import { selectMe } from "../../redux/me/userSelectors";
+import { selectMe } from "../../redux/me/meSelectors";
 import { useAppSelector } from "../../redux/store";
 import { setUser, setUserIsMe } from "../../redux/user/userActions";
 import { selectUser } from "../../redux/user/userSelectors";
