@@ -45,7 +45,7 @@ export const TooltipProvider: React.FC = ({ children }) => {
         <TooltipContext.Provider value={value}>
             {children}
 
-            <div className={styles['tooltip-container']}>
+            <div className={styles['container']}>
                 <AnimatePresence>
                     {tooltip && (
                         <Tooltip left={position.x} top={position.y} >
