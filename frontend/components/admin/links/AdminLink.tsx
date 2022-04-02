@@ -15,13 +15,14 @@ export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: Admi
     const { setModal, closeModals } = useModal();
     const dispatch = useDispatch();
 
+    const cancelDeletion = closeModals;
     const deleteItem = async () => {
         closeModals();
         await destroyUserItem(id);
         dispatch(removeMeItem(id));
     }
     const openDeleteModal = () => {
-        setModal(<DeleteModal onSubmit={deleteItem} />);
+        setModal(<DeleteModal onSubmit={deleteItem} onCancel={cancelDeletion} />);
     }
 
     return(
