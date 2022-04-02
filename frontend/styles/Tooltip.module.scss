@@ -1,0 +1,16 @@
+.tooltip-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+.tooltip {
+    position: absolute;
+    padding: var(--tooltip-padding);
+    background-color: var(--tooltip-background-primary);
+    border-radius: var(--tooltip-border-radius);
+    font-weight: 500;
+    font-size: 14px;
+}

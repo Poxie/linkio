@@ -10,6 +10,7 @@ import { ModalProvider } from '../contexts/ModalProvider'
 import { ReactNode } from 'react'
 import { NextPage } from 'next'
 import { setMe } from '../redux/me/meActions'
+import { TooltipProvider } from '../contexts/TooltipProvider'
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -23,11 +24,13 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return(
     <Provider store={store}>
       <AuthLayer>
-        <ModalProvider>
-          <PopupProvider>
-            {getLayout(<Component {...pageProps} />)}
-          </PopupProvider>
-        </ModalProvider>
+        <TooltipProvider>
+          <ModalProvider>
+            <PopupProvider>
+              {getLayout(<Component {...pageProps} />)}
+            </PopupProvider>
+          </ModalProvider>
+        </TooltipProvider>
       </AuthLayer>
     </Provider>
   )

@@ -18,6 +18,9 @@
   --popup-background-tertiary: #EAEAEA;
   --modal-background-primary: #fff;
   --modal-padding: 10px;
+  --tooltip-background-primary: #dedede;
+  --tooltip-padding: 10px;
+  --tooltip-border-radius: 8px;
   --spacing-primary: 20px;
   --border-radius: 8px;
   --border-radius-primary: 12px;
