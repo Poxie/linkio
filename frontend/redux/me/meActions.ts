@@ -1,5 +1,5 @@
 import { Item, User } from "../../utils/types";
-import { REMOVE_ME_ITEM, SET_ME, SET_ME_ITEMS } from "./meTypes";
+import { REMOVE_ME_ITEM, SET_ME, SET_ME_COLOR, SET_ME_ITEMS } from "./meTypes";
 
 export const setMe = (me: User | null) => ({
     type: SET_ME,
@@ -12,4 +12,8 @@ export const setMeItems = (items: Item[]) => ({
 export const removeMeItem = (id: string) => ({
     type: REMOVE_ME_ITEM,
     payload: id
+})
+export const setMeColor = (type: keyof User['colorScheme'], property: keyof User['colorScheme'][keyof User['colorScheme']], value: string) => ({
+    type: SET_ME_COLOR,
+    payload: { type, property, value }
 })
