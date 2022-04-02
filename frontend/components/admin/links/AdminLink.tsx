@@ -10,6 +10,7 @@ import { destroyUserItem } from '../../../utils';
 import { Item } from '../../../utils/types';
 import { Input } from '../../Input';
 import { AdminLinkBlur, AdminLinkChange } from './AdminLinks';
+import { HasTooltip } from '../../tooltip/HasTooltip';
 
 export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: AdminLinkBlur}> = ({ content, url, onChange, onBlur, id }) => {
     const { setModal, closeModals } = useModal();
@@ -52,9 +53,11 @@ export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: Admi
                 </div>
             </div>
             <div className={styles['link-options']}>
-                <div className={styles['delete-button']} onClick={openDeleteModal}>
-                    <TrashIcon />
-                </div>
+                <HasTooltip tooltip={'Delete Item'}>
+                    <div className={styles['delete-button']} onClick={openDeleteModal}>
+                        <TrashIcon />
+                    </div>
+                </HasTooltip>
             </div>
         </motion.div>
     )
