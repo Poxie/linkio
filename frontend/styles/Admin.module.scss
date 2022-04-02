@@ -88,6 +88,17 @@
     border: 5px solid var(--background-primary);
     cursor: pointer;
 }
+.color-options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.color-preset {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+}
 
 .preview {
     position: relative;
