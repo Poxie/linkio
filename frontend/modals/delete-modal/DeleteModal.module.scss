@@ -1,0 +1,15 @@
+.container {
+    width: 400px;
+    max-width: 100%;
+    padding: var(--modal-padding);
+}
+.header {
+    margin-bottom: calc(var(--spacing-primary) * 1.5);
+    font-size: 18px;
+    font-weight: 600;
+}
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
