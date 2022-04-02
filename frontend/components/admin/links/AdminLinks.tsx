@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
@@ -51,7 +52,7 @@ export const AdminLinks = () => {
     }, [links, _links]);
 
     return(
-        <>
+        <AnimatePresence>
             {links.map(link => {
                 return(
                     <AdminLink 
@@ -62,6 +63,6 @@ export const AdminLinks = () => {
                     />
                 )
             })}
-        </>
+        </AnimatePresence>
     )
 }

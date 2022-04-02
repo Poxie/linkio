@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { motion } from 'framer-motion';
 import { useModal } from '../../../contexts/ModalProvider';
 import { TrashIcon } from '../../../icons/TrashIcon';
 import { DeleteModal } from '../../../modals/delete-modal/DeleteModal';
@@ -24,7 +25,10 @@ export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: Admi
     }
 
     return(
-        <div className={styles['link']}>
+        <motion.div 
+            className={styles['link']}
+            exit={{ height: 0, paddingTop: 0, paddingBottom: 0, margin: 0, borderWidth: 0, overflow: 'hidden' }}
+        >
             <div className={styles['link-main']}>
                 <div className={styles['link-content']}>
                     <Input 
@@ -51,6 +55,6 @@ export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: Admi
                     <TrashIcon />
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }
