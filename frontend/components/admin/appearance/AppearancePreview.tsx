@@ -32,7 +32,7 @@ export const AppearancePreview = () => {
 
                 {items?.map(item => {
                     return(
-                        <div className={styles['preview-item']}>
+                        <div className={styles['preview-item']} key={item.id}>
                             {item.iconURL && <img src={item.iconURL} />}
                             
                             <div className={styles['preview-item-content']}>
