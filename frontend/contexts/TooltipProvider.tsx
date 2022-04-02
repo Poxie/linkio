@@ -27,7 +27,7 @@ export const TooltipProvider: React.FC = ({ children }) => {
         const { left, width, top, height } = ref.current.getBoundingClientRect();
 
         const x = left + width / 2;
-        const y = top - height - 12;
+        const y = top - height - 5;
 
         return { x, y };
     }, []);
