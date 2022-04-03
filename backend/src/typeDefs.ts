@@ -38,6 +38,9 @@ export default gql`
         avatar: Upload
         avatarURL: String
         bannerColor: String
+        headerColor: String
+        itemColor: String
+        primaryColor: String
     }
     type UserItem {
         id: String!

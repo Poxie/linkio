@@ -10,7 +10,7 @@ export type User = {
     banner?: string;
     bannerURL?: string;
     bannerColor?: string;
-    backgroundColor?: string;
+    primaryColor?: string;
     headerColor?: string;
     itemColor?: string;
 }
