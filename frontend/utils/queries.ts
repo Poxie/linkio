@@ -24,8 +24,9 @@ export const USER_PROPERTIES = `
     colorScheme {
         background {
             primary
-            secondary
             banner
+            header
+            item
         }
     }
 `

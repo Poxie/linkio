@@ -61,9 +61,10 @@ export default gql`
         background: ColorSchemeBackground
     }
     type ColorSchemeBackground {
-        primary: String
-        secondary: String
         banner: String
+        item: String
+        header: String
+        primary: String
     }
     type AuthResponse {
         token: String!

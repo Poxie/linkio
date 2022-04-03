@@ -10,8 +10,9 @@ export type User = {
     banner?: string;
     bannerURL?: string;
     bannerColor?: string;
-    backgroundPrimary?: string;
-    backgroundSecondary?: string;
+    backgroundColor?: string;
+    headerColor?: string;
+    itemColor?: string;
 }
 export type UserItem = {
     id: string;
