@@ -72,6 +72,7 @@
 .appearance {
     display: flex;
     justify-content: space-between;
+    padding-top: var(--spacing-primary);
 }
 .input-header {
     font-size: 16px;
@@ -79,7 +80,7 @@
     margin-bottom: 10px;
 }
 .customize-container {
-    &>div {
+    &>div:not(:first-child) {
         margin: var(--spacing-primary) 0;
     }
 }
