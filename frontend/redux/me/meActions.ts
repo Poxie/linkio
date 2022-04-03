@@ -13,7 +13,7 @@ export const removeMeItem = (id: string) => ({
     type: REMOVE_ME_ITEM,
     payload: id
 })
-export const setMeColor = (type: keyof User['colorScheme'], property: keyof User['colorScheme'][keyof User['colorScheme']], value: string) => ({
+export const setMeColor = (type: keyof User['colorScheme'], property: keyof User['colorScheme'][keyof User['colorScheme']], value: string | null) => ({
     type: SET_ME_COLOR,
     payload: { type, property, value }
 })

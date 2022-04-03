@@ -13,7 +13,7 @@ export const AppearanceCustomizing = () => {
     const id = useAppSelector(selectMeId);
     const colors = useAppSelector(selectMeColors);
 
-    const updateColor = useCallback(async (type: keyof User['colorScheme']['background'], color: string) => {
+    const updateColor = useCallback(async (type: keyof User['colorScheme']['background'], color: string | null) => {
         if(!id) return;
 
         dispatch(setMeColor('background', type, color));

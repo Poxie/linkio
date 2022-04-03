@@ -7,7 +7,7 @@ import { CustomizeColorPreset } from './CustomizeColorPreset';
 export const CutsomizeColorInput: React.FC<{
     header: string;
     value: string;
-    onChange: (color: string) => void;
+    onChange: (color: string | null) => void;
 }> = ({ header, value, onChange }) => {
     const { setPopup } = usePopup();
     const ref = useRef<HTMLDivElement>(null);
@@ -37,6 +37,10 @@ export const CutsomizeColorInput: React.FC<{
                 />
 
                 <CustomizeColorPreset onClick={onChange} />
+
+                <span onClick={() => onChange(null)} className={styles['reset-button']}>
+                    Reset
+                </span>
             </div>
         </div>
     )
