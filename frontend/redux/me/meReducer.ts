@@ -49,7 +49,7 @@ export const meReducer: (state: MeState, action: MeAction) => any = (state=meIni
                 ...state,
                 user: {
                     ...state.user,
-                    bannerURL: action.payload
+                    avatarURL: action.payload
                 }
             }
         }
