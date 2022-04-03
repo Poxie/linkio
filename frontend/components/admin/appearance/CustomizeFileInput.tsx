@@ -1,7 +1,9 @@
 import React, { useRef } from 'react';
 import { useModal } from '../../../contexts/ModalProvider';
+import { CloseIcon } from '../../../icons/CloseIcon';
 import { FileModal } from '../../../modals/file-modal/FileModal';
 import styles from '../../../styles/Admin.module.scss';
+import { HasTooltip } from '../../tooltip/HasTooltip';
 
 export const CustomizeFileInput: React.FC<{
     header: string;
@@ -52,6 +54,11 @@ export const CustomizeFileInput: React.FC<{
                 data-image-placeholder={placeholder}
             >
                 <img src={image} alt="" />
+                {image && (
+                    <HasTooltip tooltip={'Remove'} className={styles['remove-image']}>
+                        <CloseIcon onClick={() => onSubmit(null)} />
+                    </HasTooltip>
+                )}
             </div>
 
             <input type="file" onChange={onChange} style={{ display: 'none' }} ref={input} />

@@ -4,9 +4,10 @@ import { useTooltip } from '../../contexts/TooltipProvider';
 export const HasTooltip: React.FC<{
     children: any;
     tooltip: string | ReactElement;
+    className?: string;
     closeOnClick?: boolean;
     delay?: number;
-}> = ({ children, tooltip, closeOnClick, delay=0 }) => {
+}> = ({ children, tooltip, className, closeOnClick, delay=0 }) => {
     const { setTooltip, closeTooltip } = useTooltip();
     const hoveringNow = useRef(false);
     const ref = useRef<HTMLDivElement>(null);
@@ -30,7 +31,7 @@ export const HasTooltip: React.FC<{
     }, [close]);
 
     return(
-        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={ref}>
+        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className={className} ref={ref}>
             {children}
         </div>
     )

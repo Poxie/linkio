@@ -95,14 +95,15 @@
     border: 6px solid var(--background-primary);
     border-radius: var(--border-radius-primary);
     overflow: hidden;
-
-    img {
-        width: 100%;
-        transition: opacity .3s;
+    transition: opacity .3s;
         
-        &:hover {
+    &:hover {
+        img {
             opacity: .3;
         }
+    }
+    img {
+        width: 100%;
     }
     &::after {
         content: attr(data-image-placeholder);
@@ -116,9 +117,23 @@
         text-align: center;
     }
     &:hover, &.no-image {
-        &::after {
+        &::after, svg {
             opacity: 1;
         }
+    }
+}
+.remove-image {
+    width: 15px;
+    height: 34px;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+
+    svg {
+        width: 15px;
+        fill: var(--color-primary);
+        opacity: 0;
+        transition: opacity .2s;
     }
 }
 .customize-images {
