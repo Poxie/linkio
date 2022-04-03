@@ -18,8 +18,18 @@ export const AppearanceCustomizing = () => {
                 onChange={value => dispatch(setMeColor('background', 'banner', value))}
             />
             <CutsomizeColorInput 
-                value={colors?.background?.primary || 'var(--background-primary)'}
+                value={colors?.background?.header || 'var(--background-primary)'}
                 header={'Header Color'}
+                onChange={value => dispatch(setMeColor('background', 'header', value))}
+            />
+            <CutsomizeColorInput 
+                value={colors?.background?.item || 'var(--background-primary)'}
+                header={'Item Color'}
+                onChange={value => dispatch(setMeColor('background', 'item', value))}
+            />
+            <CutsomizeColorInput 
+                value={colors?.background?.primary || 'var(--background-secondary)'}
+                header={'Background Color'}
                 onChange={value => dispatch(setMeColor('background', 'primary', value))}
             />
         </div>
