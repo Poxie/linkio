@@ -4,7 +4,7 @@ import { usePopup } from '../../../contexts/PopupProvider';
 import { ColorPopup } from '../../../popups/color-popup/ColorPopup';
 import { CustomizeColorPreset } from './CustomizeColorPreset';
 
-export const CutsomizeColorInput: React.FC<{
+export const CustomizeColorInput: React.FC<{
     header: string;
     value: string;
     onChange: (color: string | null) => void;

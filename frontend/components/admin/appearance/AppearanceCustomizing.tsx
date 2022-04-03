@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setMeColor } from '../../../redux/me/meActions';
 import { selectMeColors, selectMeId } from '../../../redux/me/meSelectors';
 import { useAppSelector } from '../../../redux/store';
-import { CutsomizeColorInput } from './CustomizeColorInput';
+import { CustomizeColorInput } from './CustomizeColorInput';
 import { User } from '../../../utils/types';
 import { updateUser } from '../../../utils';
 
@@ -25,25 +25,25 @@ export const AppearanceCustomizing = () => {
 
     return(
         <div className={styles['customize-container']}>
-            <CutsomizeColorInput 
+            <CustomizeColorInput 
                 value={colors?.background?.banner || 'var(--background-secondary)'}
                 header={'Banner Color'}
                 onChange={value => updateLocalColor('banner', value)}
                 onChangeComplete={value => updateDatabaseColor('banner', value)}
             />
-            <CutsomizeColorInput 
+            <CustomizeColorInput 
                 value={colors?.background?.header || 'var(--background-primary)'}
                 header={'Header Color'}
                 onChange={value => updateLocalColor('header', value)}
                 onChangeComplete={value => updateDatabaseColor('header', value)}
             />
-            <CutsomizeColorInput 
+            <CustomizeColorInput 
                 value={colors?.background?.item || 'var(--background-primary)'}
                 header={'Item Color'}
                 onChange={value => updateLocalColor('item', value)}
                 onChangeComplete={value => updateDatabaseColor('item', value)}
             />
-            <CutsomizeColorInput 
+            <CustomizeColorInput 
                 value={colors?.background?.primary || 'var(--background-secondary)'}
                 header={'Background Color'}
                 onChange={value => updateLocalColor('primary', value)}
