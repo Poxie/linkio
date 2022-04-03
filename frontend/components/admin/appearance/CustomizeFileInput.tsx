@@ -35,6 +35,10 @@ export const CustomizeFileInput: React.FC<{
         )
     }
 
+    const previewStyles = [
+        styles['image-preview'],
+        !image && styles['no-image']
+    ].join(' ');
     return(
         <div>
             <div className={styles['input-header']}>
@@ -42,8 +46,9 @@ export const CustomizeFileInput: React.FC<{
             </div>
 
             <div 
-                className={styles['image-preview']} 
+                className={previewStyles} 
                 onClick={() => input.current?.click()}
+                style={{ aspectRatio: `${aspectRatio}` }}
                 data-image-placeholder={placeholder}
             >
                 <img src={image} alt="" />

@@ -91,9 +91,13 @@
     font-weight: 600;
     color: var(--color-primary);
     font-size: 14px;
+    background-color: var(--background-secondary);
+    border: 6px solid var(--background-primary);
+    border-radius: var(--border-radius-primary);
+    overflow: hidden;
 
     img {
-        height: 100%;
+        width: 100%;
         transition: opacity .3s;
         
         &:hover {
@@ -111,7 +115,7 @@
         pointer-events: none;
         text-align: center;
     }
-    &:hover {
+    &:hover, &.no-image {
         &::after {
             opacity: 1;
         }
@@ -122,11 +126,6 @@
     gap: var(--spacing-primary);
     border-bottom: 3px solid var(--background-tertiary);
     padding-bottom: var(--spacing-primary);
-
-    img {
-        border-radius: var(--border-radius-primary);
-        border: 6px solid var(--background-primary);
-    }
 }
 .color-preview {
     border-radius: var(--border-radius);
