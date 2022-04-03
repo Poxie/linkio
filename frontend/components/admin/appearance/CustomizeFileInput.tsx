@@ -8,7 +8,8 @@ export const CustomizeFileInput: React.FC<{
     onSubmit: (file: File) => void;
     image?: string;
     aspectRatio?: number;
-}> = ({ header, onSubmit, image, aspectRatio=1 }) => {
+    placeholder?: string;
+}> = ({ header, onSubmit, image, placeholder, aspectRatio=1 }) => {
     const { setModal, closeModals } = useModal();
     const input = useRef<HTMLInputElement>(null);
 
@@ -40,7 +41,11 @@ export const CustomizeFileInput: React.FC<{
                 {header}
             </div>
 
-            <div className={styles['image-preview']} onClick={() => input.current?.click()}>
+            <div 
+                className={styles['image-preview']} 
+                onClick={() => input.current?.click()}
+                data-image-placeholder={placeholder}
+            >
                 <img src={image} alt="" />
             </div>
 

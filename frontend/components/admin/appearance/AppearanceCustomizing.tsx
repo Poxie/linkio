@@ -38,12 +38,14 @@ export const AppearanceCustomizing = () => {
                     header={'Avatar'}
                     image={display.avatarURL}
                     onSubmit={file => updateImage('avatar', file)}
+                    placeholder={'Change Avatar'}
                 />
                 <CustomizeFileInput 
                     header={'Banner'}
                     image={display.bannerURL}
                     onSubmit={file => updateImage('banner', file)}
                     aspectRatio={3.5/1}
+                    placeholder={'Change Banner'}
                 />
             </div>
 
