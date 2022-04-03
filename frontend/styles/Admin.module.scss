@@ -84,6 +84,25 @@
         margin: var(--spacing-primary) 0;
     }
 }
+.image-preview {
+    height: 120px;
+    cursor: pointer;
+
+    img {
+        height: 100%;
+    }
+}
+.customize-images {
+    display: flex;
+    gap: var(--spacing-primary);
+    border-bottom: 3px solid var(--background-tertiary);
+    padding-bottom: var(--spacing-primary);
+
+    img {
+        border-radius: var(--border-radius-primary);
+        border: 6px solid var(--background-primary);
+    }
+}
 .color-preview {
     border-radius: var(--border-radius);
     border: 5px solid var(--background-primary);
