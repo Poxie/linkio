@@ -8,7 +8,8 @@ export const CutsomizeColorInput: React.FC<{
     header: string;
     value: string;
     onChange: (color: string | null) => void;
-}> = ({ header, value, onChange }) => {
+    onChangeComplete: (color: string | null) => void;
+}> = ({ header, value, onChange, onChangeComplete }) => {
     const { setPopup } = usePopup();
     const ref = useRef<HTMLDivElement>(null);
 
@@ -16,7 +17,7 @@ export const CutsomizeColorInput: React.FC<{
         <ColorPopup 
             defaultColor={value}
             onChange={onChange}
-            onChangeComplete={onChange}
+            onChangeComplete={onChangeComplete}
         />,
         ref,
         { centered: true }
@@ -36,9 +37,9 @@ export const CutsomizeColorInput: React.FC<{
                     className={styles['color-preview']}
                 />
 
-                <CustomizeColorPreset onClick={onChange} />
+                <CustomizeColorPreset onClick={onChangeComplete} />
 
-                <span onClick={() => onChange(null)} className={styles['reset-button']}>
+                <span onClick={() => onChangeComplete(null)} className={styles['reset-button']}>
                     Reset
                 </span>
             </div>

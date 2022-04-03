@@ -13,7 +13,10 @@ export const AppearanceCustomizing = () => {
     const id = useAppSelector(selectMeId);
     const colors = useAppSelector(selectMeColors);
 
-    const updateColor = useCallback(async (type: keyof User['colorScheme']['background'], color: string | null) => {
+    const updateLocalColor = useCallback(async (type: keyof User['colorScheme']['background'], color: string | null) => {
+        dispatch(setMeColor('background', type, color));
+    }, [dispatch]);
+    const updateDatabaseColor = useCallback(async (type: keyof User['colorScheme']['background'], color: string | null) => {
         if(!id) return;
 
         dispatch(setMeColor('background', type, color));
@@ -25,22 +28,26 @@ export const AppearanceCustomizing = () => {
             <CutsomizeColorInput 
                 value={colors?.background?.banner || 'var(--background-secondary)'}
                 header={'Banner Color'}
-                onChange={value => updateColor('banner', value)}
+                onChange={value => updateLocalColor('banner', value)}
+                onChangeComplete={value => updateDatabaseColor('banner', value)}
             />
             <CutsomizeColorInput 
                 value={colors?.background?.header || 'var(--background-primary)'}
                 header={'Header Color'}
-                onChange={value => updateColor('header', value)}
+                onChange={value => updateLocalColor('header', value)}
+                onChangeComplete={value => updateDatabaseColor('header', value)}
             />
             <CutsomizeColorInput 
                 value={colors?.background?.item || 'var(--background-primary)'}
                 header={'Item Color'}
-                onChange={value => updateColor('item', value)}
+                onChange={value => updateLocalColor('item', value)}
+                onChangeComplete={value => updateDatabaseColor('item', value)}
             />
             <CutsomizeColorInput 
                 value={colors?.background?.primary || 'var(--background-secondary)'}
                 header={'Background Color'}
-                onChange={value => updateColor('primary', value)}
+                onChange={value => updateLocalColor('primary', value)}
+                onChangeComplete={value => updateDatabaseColor('primary', value)}
             />
         </div>
     )
