@@ -126,16 +126,18 @@
 .preview {
     position: relative;
     width: 300px;
+    aspect-ratio: 300/615;
+    border-radius: 42px;
+    overflow: hidden;
 
     svg {
         width: 100%;
         position: absolute;
+        z-index: 1;
     }
 }
 .preview-container {
     padding: 25px;
-    aspect-ratio: 300/615;
-    border-radius: 42px;
 }
 .preview-item {
     position: relative;
