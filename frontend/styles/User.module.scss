@@ -74,7 +74,7 @@
     position: relative;
     border-radius: var(--br) var(--br) 0 0;
     overflow: hidden;
-    background-color: var(--background-banner);
+    background-color: var(--user-background-banner);
     aspect-ratio: 3.5 / 1;
 }
 .banner, .avatar {
@@ -92,7 +92,7 @@
 .avatar {
     height: 159px;
     width: 159px;
-    background-color: var(--background-primary);
+    background-color: var(--user-header-background);
     z-index: 14;
     border-radius: 50%;
     position: relative;
@@ -120,7 +120,7 @@
     align-items: center;
     text-align: center;
     margin-top: calc(-110px - var(--spacing-primary));
-    background-color: var(--background-primary);
+    background-color: var(--user-header-background);
     padding: var(--spacing-primary) 0;
     border-radius: var(--border-radius-primary);
 }
@@ -146,7 +146,7 @@
 .item {
     position: relative;
     padding: var(--spacing-primary);
-    background-color: var(--background-primary);
+    background-color: var(--user-item-background);
     border-radius: var(--border-radius-primary);
     text-align: center;
     align-items: center;

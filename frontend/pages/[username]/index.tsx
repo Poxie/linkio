@@ -39,7 +39,7 @@ export default function User({ user }: UserProps) {
         dispatch(setUser(user));
     }
 
-    const { primary, secondary, banner } = user.colorScheme.background;
+    const { primary, banner, header, item } = user.colorScheme.background;
     return(
         <>
             <Head>
@@ -51,9 +51,10 @@ export default function User({ user }: UserProps) {
 
             <style jsx global>{`
                 :root {
-                    ${primary && '--background-primary: ' + primary};
-                    ${secondary && '--background-secondary: ' + secondary};
-                    ${banner && '--background-banner: ' + banner}
+                    ${primary && ('--user-background-primary: ' + primary)};
+                    ${banner && ('--banner-background: ' + banner)};
+                    ${header && ('--user-header-background: ' + header)};
+                    ${item && ('--user-item-background: ' + item)};
                 }
             `}</style>
             
