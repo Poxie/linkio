@@ -57,7 +57,7 @@ export const CustomizeFileInput: React.FC<{
             >
                 <img src={image} alt="" onClick={openFileSelector} />
                 {image && (
-                    <HasTooltip tooltip={'Remove'} className={styles['remove-image']}>
+                    <HasTooltip tooltip={'Remove'} className={styles['remove-image']} closeOnClick={true}>
                         <CloseIcon onClick={removeImage} />
                     </HasTooltip>
                 )}
