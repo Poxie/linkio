@@ -37,6 +37,7 @@ export default gql`
         bannerURL: String
         avatar: Upload
         avatarURL: String
+        avatarColor: String
         bannerColor: String
         headerColor: String
         itemColor: String
@@ -64,6 +65,7 @@ export default gql`
         background: ColorSchemeBackground
     }
     type ColorSchemeBackground {
+        avatar: String
         banner: String
         item: String
         header: String

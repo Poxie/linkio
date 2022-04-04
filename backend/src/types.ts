@@ -9,6 +9,7 @@ export type User = {
     avatarURL?: string;
     banner?: string;
     bannerURL?: string;
+    avatarColor?: string;
     bannerColor?: string;
     primaryColor?: string;
     headerColor?: string;

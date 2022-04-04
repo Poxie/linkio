@@ -13,7 +13,7 @@ export default {
     },
     colorScheme: async (parent: User) => {
         // Getting properties
-        const { primaryColor, headerColor, bannerColor, itemColor } = parent;
+        const { primaryColor, headerColor, bannerColor, itemColor, avatarColor } = parent;
 
         // Creating scheme object
         const scheme = {
@@ -21,7 +21,8 @@ export default {
                 primary: primaryColor,
                 item: itemColor,
                 header: headerColor,
-                banner: bannerColor
+                banner: bannerColor,
+                avatar: avatarColor
             }
         }
 
