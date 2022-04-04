@@ -50,6 +50,12 @@ export const AppearanceCustomizing = () => {
             </div>
 
             <CustomizeColorInput 
+                value={colors?.background?.avatar || 'var(--background-avatar)'}
+                header={'Avatar Color'}
+                onChange={value => updateLocalColor('avatar', value)}
+                onChangeComplete={value => updateDatabaseColor('avatar', value)}
+            />
+            <CustomizeColorInput 
                 value={colors?.background?.banner || 'var(--background-secondary)'}
                 header={'Banner Color'}
                 onChange={value => updateLocalColor('banner', value)}

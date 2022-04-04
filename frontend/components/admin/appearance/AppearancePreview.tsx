@@ -20,7 +20,7 @@ export const AppearancePreview = () => {
                     )}
                 </div>
                 <div className={styles['preview-header']} style={{ backgroundColor: colors?.background?.header || 'var(--background-primary)' }}>
-                    <div className={styles['preview-avatar']} style={{ backgroundColor: colors?.background?.header || 'var(--background-primary)' }}>
+                    <div className={styles['preview-avatar']} style={{ borderColor: colors?.background?.header || 'var(--background-primary)', background: colors?.background?.avatar || 'var(--background-avatar)' }}>
                         {user.avatarURL && (
                             <img src={user.avatarURL} />
                         )}
