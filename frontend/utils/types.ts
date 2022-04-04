@@ -2,6 +2,7 @@ export type Item = {
     id: string;
     url: string;
     content: string;
+    isValid: boolean;
     order: number;
     icon?: string;
     iconURL?: string;

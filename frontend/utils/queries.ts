@@ -7,6 +7,7 @@ export const USER_ITEM_PROPERTIES = `
     order
     icon
     iconURL
+    isValid
 `
 
 export const USER_PROPERTIES = `
