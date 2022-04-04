@@ -4,8 +4,9 @@ import styles from '../styles/Tooltip.module.scss';
 import { motion } from 'framer-motion';
 import { Tooltip } from '../components/tooltip/Tooltip';
 
+export type Position = 'bottom' | 'top';
 type TooltipContextType = {
-    setTooltip: ({ tooltip,elementRef,position }: { tooltip: string | ReactElement, elementRef: React.RefObject<any>, position?: 'left' | 'right' | 'bottom' | 'top' }) => void;
+    setTooltip: ({ tooltip,elementRef,position }: { tooltip: string | ReactElement, elementRef: React.RefObject<any>, position?: Position }) => void;
     closeTooltip: () => void;
 }
 
@@ -21,20 +22,25 @@ export const TooltipProvider: React.FC = ({ children }) => {
     const closeTooltip = React.useCallback(() => setTooltip(null), [setTooltip]);
 
     // Function to get position
-    const getPosition = React.useCallback((ref: React.RefObject<any>) => {
+    const getPosition = React.useCallback((ref: React.RefObject<any>, position?: Position) => {
         if(!ref.current) return { x: 0, y: 0 };
 
         const { left, width, top, height } = ref.current.getBoundingClientRect();
 
         const x = left + width / 2;
-        const y = top - height - 5;
+        let y = top;
+        if(position === 'top') {
+            y -= height + 5
+        } else if(position === 'bottom') {
+            y += height + 5;
+        }
 
         return { x, y };
     }, []);
     // Function to show tooltip
     const _setTooltip: TooltipContextType['setTooltip'] = React.useCallback(({ tooltip, elementRef, position }) => {
         setTooltip(tooltip);
-        setPosition(getPosition(elementRef));
+        setPosition(getPosition(elementRef, position));
     }, [setTooltip, setPosition]);
 
     const value = {
