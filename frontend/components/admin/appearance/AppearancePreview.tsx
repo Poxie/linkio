@@ -24,6 +24,9 @@ export const AppearancePreview = () => {
                         {user.avatarURL && (
                             <img src={user.avatarURL} />
                         )}
+                        {!user.avatarURL && (
+                            '?'
+                        )}
                     </div>
                     <div>
                         {user.name}
