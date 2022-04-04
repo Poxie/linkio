@@ -36,6 +36,8 @@ export const CustomizeFileInput: React.FC<{
             />
         )
     }
+    const openFileSelector = () => input.current?.click();
+    const removeImage = () => onSubmit(null);
 
     const previewStyles = [
         styles['image-preview'],
@@ -49,14 +51,14 @@ export const CustomizeFileInput: React.FC<{
 
             <div 
                 className={previewStyles} 
-                onClick={() => input.current?.click()}
                 style={{ aspectRatio: `${aspectRatio}` }}
                 data-image-placeholder={placeholder}
+                onClick={!image ? openFileSelector : undefined}
             >
-                <img src={image} alt="" />
+                <img src={image} alt="" onClick={openFileSelector} />
                 {image && (
                     <HasTooltip tooltip={'Remove'} className={styles['remove-image']}>
-                        <CloseIcon onClick={() => onSubmit(null)} />
+                        <CloseIcon onClick={removeImage} />
                     </HasTooltip>
                 )}
             </div>
