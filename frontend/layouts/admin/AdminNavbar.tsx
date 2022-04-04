@@ -15,7 +15,7 @@ export const AdminNavbar = () => {
     const items = [
         { text: 'Links', path: getFullPath('') },
         { text: 'Appearance', path: getFullPath('/appearance') },
-        { text: 'Analytics', path: getFullPath('/analytics') }
+        { text: 'Analytics', path: getFullPath('/analytics'), comingSoon: true }
     ]
     const refs = useRef(items.map(() => React.createRef<HTMLDivElement>())).current;
 
@@ -41,12 +41,11 @@ export const AdminNavbar = () => {
         <div className={styles.navbar}>
             <div className={styles['navbar-content']} ref={container}>
                 {items.map((item, key) => {
-                    const { path, text } = item;
+                    const { path } = item;
 
                     return(
                         <AdminNavbarItem
-                            text={text}
-                            path={path}
+                            {...item}
                             active={asPath === path}
                             ref={refs[key]}
                             key={path}

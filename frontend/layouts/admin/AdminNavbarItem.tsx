@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import styles from './AdminLayout.module.scss';
 
 type Props = {
@@ -8,17 +7,23 @@ type Props = {
     path: string;
     active: boolean;
     ref: React.Ref<HTMLDivElement>
+    comingSoon?: boolean;
 }
-export const AdminNavbarItem = React.forwardRef<HTMLDivElement, Props>(({ text, path, active }, ref) => {
+export const AdminNavbarItem = React.forwardRef<HTMLDivElement, Props>(({ text, path, active, comingSoon }, ref) => {
     const className = [
         styles['navbar-item'],
         active && styles['active']
     ].join(' ');
-    return(
-        <Link href={path}>
-            <div className={className} ref={ref}>
-                {text}
-            </div>
-        </Link>
+    const content = (
+        <div className={className} ref={ref}>
+            {text}
+            {comingSoon && (
+                <div className={styles['coming-soon']}>
+                    Soon™
+                </div>
+            )}
+        </div>
     )
+
+    return comingSoon ? content : <Link href={path}>{content}</Link>
 });
