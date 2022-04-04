@@ -73,6 +73,7 @@ export const UserImageCustomize: React.FC<{type: 'Avatar' | 'Banner'}> = ({ type
                 file={file} 
                 onDone={updateImage} 
                 onCancel={closeModals}
+                aspectRatio={typeId === 'avatar' ? 1 : 3.5/1}
             />
         );
     }
