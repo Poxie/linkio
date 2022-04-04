@@ -24,6 +24,7 @@ export const USER_PROPERTIES = `
     colorScheme {
         background {
             primary
+            avatar
             banner
             header
             item

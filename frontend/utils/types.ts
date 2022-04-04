@@ -19,6 +19,7 @@ export type User = {
     colorScheme: {
         background: {
             primary?: string;
+            avatar?: string;
             banner?: string;
             header?: string;
             item?: string;
