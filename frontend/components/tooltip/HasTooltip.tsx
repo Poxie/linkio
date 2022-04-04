@@ -29,9 +29,12 @@ export const HasTooltip: React.FC<{
         timeout.current && clearTimeout(timeout.current);
         close();
     }, [close]);
+    const handleClick = useCallback(() => {
+        closeOnClick && closeTooltip();
+    }, [closeOnClick, closeTooltip]);
 
     return(
-        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className={className} ref={ref}>
+        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className={className} onClick={handleClick} ref={ref}>
             {children}
         </div>
     )
