@@ -203,6 +203,7 @@
     margin: 0 auto;
 }
 .preview-banner, .preview-banner img {
+    aspect-ratio: 3.5/1;
     width: 100%;
     border-top-left-radius: var(--border-radius-primary);
     border-top-right-radius: var(--border-radius-primary);
