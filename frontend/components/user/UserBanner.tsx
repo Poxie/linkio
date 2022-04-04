@@ -2,7 +2,7 @@ import Image from "next/image"
 import { useAppSelector } from "../../redux/store";
 import { selectUserColors, selectUserIsMe } from "../../redux/user/userSelectors";
 import styles from '../../styles/User.module.scss';
-import { UserBannerCustomize } from "./UserBannerCustomize";
+import { UserImageCustomize } from "./UserImageCustomize";
 
 export const UserBanner: React.FC<{bannerURL?: string}> = ({ bannerURL }) => {
     const isMe = useAppSelector(selectUserIsMe);
@@ -19,7 +19,7 @@ export const UserBanner: React.FC<{bannerURL?: string}> = ({ bannerURL }) => {
                 />
             )}
             {isMe && (
-                <UserBannerCustomize />
+                <UserImageCustomize type={'Banner'} />
             )}
         </div>
     )

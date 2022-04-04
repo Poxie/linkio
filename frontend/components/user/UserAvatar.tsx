@@ -1,21 +1,17 @@
 import React from 'react';
 import Image from 'next/image';
 import { useAppSelector } from '../../redux/store';
-import { selectUserIsMe } from '../../redux/user/userSelectors';
+import { selectUserColors, selectUserIsMe } from '../../redux/user/userSelectors';
 import styles from '../../styles/User.module.scss';
-import { EditButton } from './EditIcon';
-import { usePopup } from '../../contexts/PopupProvider';
-import { HeaderPopup } from '../../popups/header-popup/HeaderPopup';
-import { useModal } from '../../contexts/ModalProvider';
-import { FileModal } from '../../modals/file-modal/FileModal';
-import { UserAvatarCustomize } from './UserAvatarCustomize';
+import { UserImageCustomize } from './UserImageCustomize';
 
 export const UserAvatar: React.FC<{avatarURL?: string}> = ({ avatarURL }) => {
     const isMe = useAppSelector(selectUserIsMe);
+    const { avatar } = useAppSelector(selectUserColors)?.background || {};
 
     return(
         <div className={styles.avatar}>
-            <div className={styles['avatar-container']}>
+            <div className={styles['avatar-container']} style={{ backgroundColor: avatar ? avatar : 'var(--user-avatar-background)' }}>
                 {avatarURL ? (
                     <Image 
                         src={avatarURL}
@@ -30,7 +26,7 @@ export const UserAvatar: React.FC<{avatarURL?: string}> = ({ avatarURL }) => {
             </div>
             
             {isMe && (
-                <UserAvatarCustomize />
+                <UserImageCustomize type={'Avatar'} />
             )}
         </div>
     )

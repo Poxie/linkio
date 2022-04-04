@@ -13,14 +13,16 @@ import { User } from '../../utils/types';
 import { EditButton } from './EditIcon';
 import { selectMeId } from '../../redux/me/meSelectors';
 
-export const UserBannerCustomize = () => {
+export const UserImageCustomize: React.FC<{type: 'Avatar' | 'Banner'}> = ({ type }) => {
+    const typeId = type.toLowerCase() as 'avatar' | 'banner';
     const dispatch = useDispatch();
-    const { bannerURL } = useAppSelector(selectUserDisplay);
+    const { bannerURL, avatarURL } = useAppSelector(selectUserDisplay);
+    const hasImage = type === 'Avatar' ? (avatarURL !== null) : (bannerURL !== null);
     const myId = useAppSelector(selectMeId);
     const colors = useAppSelector(selectUserColors);
+    const { avatar: avatarColor, banner: bannerColor } = colors?.background || {};
     const button = createRef<HTMLDivElement>();
     const input = useRef<HTMLInputElement>(null);
-    const [file, setFile] = useState<File | null>(null);
     const currentButton = useRef<null | HTMLDivElement>(null);
     const { setPopup, pushPopup, closePopups } = usePopup();
     const { setModal, closeModals } = useModal();
@@ -32,11 +34,11 @@ export const UserBannerCustomize = () => {
     const setColor = (color: string) => {
         if(!colors) return;
 
-        // Setting new banner color
+        // Setting new background color
         const colorScheme: User['colorScheme'] = {
             background: {
                 ...colors?.background,
-                banner: color
+                [typeId]: color
             }
         }
 
@@ -47,14 +49,14 @@ export const UserBannerCustomize = () => {
     const updateColor = async (color: string) => {
         if(!myId) return;
 
-        // Updating user banner color
-        await updateUser(myId, { bannerColor: color });
+        // Updating user background color
+        await updateUser(myId, { [`${typeId}Color`]: color });
     }
 
     // On image upload
-    const updateBanner = async (file: File | null) => {
+    const updateImage = async (file: File | null) => {
         if(!myId) return;
-        const user = await updateUser(myId, { banner: file });
+        const user = await updateUser(myId, { [typeId]: file });
         dispatch(setUser(user));
         closeModals();
         closePopups();
@@ -69,7 +71,7 @@ export const UserBannerCustomize = () => {
         setModal(
             <FileModal 
                 file={file} 
-                onDone={updateBanner} 
+                onDone={updateImage} 
                 onCancel={closeModals}
             />
         );
@@ -81,18 +83,26 @@ export const UserBannerCustomize = () => {
     } 
     // Setting color picker popup
     const showColorPicker = () => {
-        pushPopup(<ColorPopup defaultColor={colors?.background.banner} onChange={setColor} onChangeComplete={updateColor} />, currentButton);
+        pushPopup(
+            <ColorPopup 
+                defaultColor={colors?.background[typeId]} 
+                onChange={setColor} 
+                onChangeComplete={updateColor} 
+            />, 
+            currentButton
+        );
     };
-    // Setting banner customization options popup
+    // Setting image customization options popup
     const edit = () => {
         setPopup(
             <HeaderPopup 
                 showImagePicker={showImagePicker} 
                 showColorPicker={showColorPicker} 
-                onRemove={() => updateBanner(null)}
-                hasImage={bannerURL !== null}
-                type={'Banner'} 
-            />, currentButton
+                onRemove={() => updateImage(null)}
+                hasImage={hasImage}
+                type={type} 
+            />, 
+            currentButton
         );
     };
 
