@@ -25,7 +25,7 @@ export const AppearanceCustomizing = () => {
         await updateUser(id, { [`${type}Color`]: color });
     }, [dispatch, id]);
 
-    const updateImage = async (type: 'banner' | 'avatar', file: File) => {
+    const updateImage = async (type: 'banner' | 'avatar', file: File | null) => {
         if(!id) return;
         const { bannerURL, avatarURL } = await updateUser(id, { [type]: file });
         dispatch(type === 'banner' ? setMeBanner(bannerURL) : setMeAvatar(avatarURL));

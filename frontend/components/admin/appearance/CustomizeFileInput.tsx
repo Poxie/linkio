@@ -7,7 +7,7 @@ import { HasTooltip } from '../../tooltip/HasTooltip';
 
 export const CustomizeFileInput: React.FC<{
     header: string;
-    onSubmit: (file: File) => void;
+    onSubmit: (file: File | null) => void;
     image?: string;
     aspectRatio?: number;
     placeholder?: string;
