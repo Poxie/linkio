@@ -19,6 +19,7 @@ export type UserItem = {
     id: string;
     userId: string;
     content: string;
+    isValid: boolean;
     url: string;
     order: number;
     icon?: string;

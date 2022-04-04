@@ -6,6 +6,7 @@ import { CreateUserArgs, CreateUserItemArgs, UpdateUserArgs, UpdateUserItemArgs 
 import { connection } from '../index';
 import { DELETE_USER_ITEM_BY_ID, SELECT_USER_BY_ID, SELECT_USER_BY_USERNAME, SELECT_USER_ITEMS_BY_USER_ID, SELECT_USER_ITEM_BY_ID, SELECT_USER_ITEM_COUNT } from "./queries";
 import { User, UserItem } from "../types";
+import { isValidItem } from '.';
 
 const request = async (query: string, values?: any[]) => {
     const [response] = await connection.promise().query(query, values);
@@ -241,6 +242,7 @@ export const createUserItemAction = async (itemArgs: CreateUserItemArgs) => {
     // Determining order of item
     const order = await selectUserItemCount(itemArgs.userId);
     itemArgs.order = order;
+    itemArgs.isValid = isValidItem(itemArgs.content, itemArgs.url);
 
     // If icon propertty is present, update iconURL
     if(itemArgs.icon) {
@@ -249,7 +251,6 @@ export const createUserItemAction = async (itemArgs: CreateUserItemArgs) => {
 
     // Creating query and values
     const { query, values } = keysToInsertQuery(itemArgs, 'items');
-    console.log(query, values);
     
     // Inserting item
     await request(query, values);
@@ -286,6 +287,14 @@ export const updateUserItemAction = async (item: UpdateUserItemArgs) => {
 
     // Retrieving new item
     const newItem = await selectUserItemById(item.id);
+
+    // Determining whether the new item is valid, if validity change, update
+    const isValid = isValidItem(newItem.content, newItem.url);
+    if(newItem.isValid !== isValid) {
+        newItem.isValid = isValid
+        updateUserItemAction({ isValid, id: item.id });
+    }
+
     return newItem;
 }
 
@@ -298,11 +307,22 @@ export const updateUserItemAction = async (item: UpdateUserItemArgs) => {
 export const updateUserItemsAction = async (userId: string, items: UserItem[]) => {
     const newItems = [];
     for(const item of items) {
+        // Creating update query
         const { query, values } = keysToUpdateQuery(item, 'items', 'WHERE id = ?');
         values.push(item.id as any);
 
+        // Updating and fetching new item
         await request(query, values);
         const newItem = await selectUserItemById(item.id);
+
+        // Determining whether the new item is valid, if validity change, update
+        const isValid = isValidItem(newItem.content, newItem.url);
+        if(newItem.isValid !== isValid) {
+            newItem.isValid = isValid
+            updateUserItemAction({ isValid, id: item.id });
+        }
+
+        // Pushing new item to array
         newItems.push(newItem);
     }
 

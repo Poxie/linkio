@@ -51,6 +51,7 @@ export default gql`
         order: Int!
         icon: String
         iconURL: String
+        isValid: Boolean!
     }
     input UserItemInput {
         id: String!
