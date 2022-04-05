@@ -51,7 +51,7 @@ export const LOGIN = gql`
 
 export const GET_ME = gql`
     query {
-        getMe {
+        getMe(includeInvisibleItems: true) {
             ${USER_PROPERTIES}
         }
     }

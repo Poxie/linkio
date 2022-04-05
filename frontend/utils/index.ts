@@ -31,8 +31,9 @@ const request = async (query: string, variables?: Object) => {
 }
 
 // Get user by username
-export const getUserByUsername: (username: string) => Promise<User | undefined> = async username => {
-    const user = await request(GET_USER_BY_USERNAME, { username }).catch(console.error);
+type GetUserByUsername = (username: string, options?: { includeInvisibleItems?: boolean }) => Promise<User | undefined>;
+export const getUserByUsername: GetUserByUsername = async (username, options) => {
+    const user = await request(GET_USER_BY_USERNAME, { username, ...options }).catch(console.error);
     return user;
 }
 
@@ -44,7 +45,7 @@ export const login = async (username: string, password: string) => {
 }
 // Get me
 export const getMe = async () => {
-    const me = await request(GET_ME);
+    const me = await request(GET_ME, { includeInvisibleItems: true });
     return me;
 }
 

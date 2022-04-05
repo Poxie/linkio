@@ -66,7 +66,7 @@ export default function User({ user }: UserProps) {
 
 export const getServerSideProps = async ({ params }: GetServerSidePropsContext) => {
     const username = params?.username as string;
-    const user = await getUserByUsername(username);
+    const user = await getUserByUsername(username, {includeInvisibleItems: true});
 
     // If user is not found, show error page
     if(!user) {
