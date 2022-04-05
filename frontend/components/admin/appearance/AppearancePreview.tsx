@@ -6,9 +6,10 @@ import { useAppSelector } from '../../../redux/store';
 
 export const AppearancePreview = () => {
     const user = useAppSelector(selectMeDisplay);
-    const items = useAppSelector(selectMeItems);
+    let items = useAppSelector(selectMeItems);
     const colors = useAppSelector(selectMeColors);
     
+    items = items?.filter(item => item.isValid);
     return(
         <div className={styles['preview']}>
             <PhoneScreenIcon />
