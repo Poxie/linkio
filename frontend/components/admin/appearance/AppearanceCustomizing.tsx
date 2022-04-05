@@ -8,11 +8,13 @@ import { CustomizeColorInput } from './CustomizeColorInput';
 import { User } from '../../../utils/types';
 import { updateUser } from '../../../utils';
 import { CustomizeFileInput } from './CustomizeFileInput';
+import { SortableItems } from '../../SortableItems';
 
 export const AppearanceCustomizing = () => {
     const dispatch = useDispatch();
     const id = useAppSelector(selectMeId);
     const colors = useAppSelector(selectMeColors);
+    const { avatar, header, banner, item, primary } = colors?.background || {} as User['colorScheme']['background'];
     const display = useAppSelector(selectMeDisplay);
 
     const updateLocalColor = useCallback(async (type: keyof User['colorScheme']['background'], color: string | null) => {
@@ -31,6 +33,13 @@ export const AppearanceCustomizing = () => {
         dispatch(type === 'banner' ? setMeBanner(bannerURL) : setMeAvatar(avatarURL));
     }
 
+    const items = [
+        { background: avatar || 'var(--user-avatar-background)', header: 'Avatar Color', id: 'avatar' },
+        { background: banner || 'var(--user-banner-background)', header: 'Banner Background', id: 'banner' },
+        { background: header || 'var(--user-header-background)', header: 'Header Background', id: 'header' },
+        { background: item || 'var(--user-item-background)', item: 'Item Background', id: 'item' },
+        { background: primary || 'var(--user-background-primary)', item: 'Background Color', id: 'primary' },
+    ] as {background: string, header: string, id: keyof User['colorScheme']['background']}[];
     return(
         <div className={styles['customize-container']}>
             <div className={styles['customize-images']}>
@@ -49,36 +58,18 @@ export const AppearanceCustomizing = () => {
                 />
             </div>
 
-            <CustomizeColorInput 
-                value={colors?.background?.avatar || 'var(--background-avatar)'}
-                header={'Avatar Color'}
-                onChange={value => updateLocalColor('avatar', value)}
-                onChangeComplete={value => updateDatabaseColor('avatar', value)}
-            />
-            <CustomizeColorInput 
-                value={colors?.background?.banner || 'var(--background-secondary)'}
-                header={'Banner Color'}
-                onChange={value => updateLocalColor('banner', value)}
-                onChangeComplete={value => updateDatabaseColor('banner', value)}
-            />
-            <CustomizeColorInput 
-                value={colors?.background?.header || 'var(--background-primary)'}
-                header={'Header Color'}
-                onChange={value => updateLocalColor('header', value)}
-                onChangeComplete={value => updateDatabaseColor('header', value)}
-            />
-            <CustomizeColorInput 
-                value={colors?.background?.item || 'var(--background-primary)'}
-                header={'Item Color'}
-                onChange={value => updateLocalColor('item', value)}
-                onChangeComplete={value => updateDatabaseColor('item', value)}
-            />
-            <CustomizeColorInput 
-                value={colors?.background?.primary || 'var(--background-secondary)'}
-                header={'Background Color'}
-                onChange={value => updateLocalColor('primary', value)}
-                onChangeComplete={value => updateDatabaseColor('primary', value)}
-            />
+            {items.map(item => {
+                const { background, header, id } = item;
+                return(
+                    <CustomizeColorInput 
+                        onChange={value => updateLocalColor(id, value)}
+                        onChangeComplete={value => updateDatabaseColor(id, value)}
+                        value={background}
+                        header={header}
+                        key={header}
+                    />
+                )
+            })}
         </div>
     )
 }
