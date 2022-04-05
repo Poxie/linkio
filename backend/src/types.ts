@@ -26,7 +26,7 @@ export type UserItem = {
     iconURL?: string;
 }
 
-export type getUserResolver = (_: any, args: { username: string }) => User | undefined;
+export type getUserResolver = (_: any, args: { username: string, includeInvisibleItems?: string }) => User | undefined;
 
 export type RequestAuth = {
     userId?: string;

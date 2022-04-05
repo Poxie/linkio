@@ -4,9 +4,9 @@ export default gql`
     scalar Upload
 
     type Query {
-        getUserByUsername(username: String!): User
+        getUserByUsername(username: String!, includeInvisibleItems: Boolean): User
         login(username: String!, password: String!): AuthResponse!
-        getMe: User
+        getMe(includeInvisibleItems: Boolean): User
     }
     type Mutation {
         createUser(username: String!, password: String!): User!

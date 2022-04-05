@@ -201,8 +201,13 @@ export const selectUserById = async (id: string, withPassword?: boolean) => {
  * @param userId required
  * @returns an array of item objects
 */
-export const selectItemsByUserId = async (userId: string) => {
-    const items = await request(SELECT_USER_ITEMS_BY_USER_ID, [userId]);
+export const selectItemsByUserId = async (userId: string, includeInvisibleItems?: boolean) => {
+    // Fetching items
+    let items = await request(SELECT_USER_ITEMS_BY_USER_ID, [userId]) as UserItem[];
+
+    // Filtering for valid items unless invisible items option
+    items = includeInvisibleItems ? items : items.filter(item => item.isValid);
+
     return items;
 }
 

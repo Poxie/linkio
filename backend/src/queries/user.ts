@@ -12,9 +12,9 @@ const users = [
 
 // @ts-ignore
 export const getUserByUsername: getUserResolver = async (_, args) => {
-    const { username } = args;
+    const { username, includeInvisibleItems } = args;
     const user = await selectUserByUsername(username);
-    return user;
+    return {...user, ...{ includeInvisibleItems }};
 }
 
 export const login = async (_:any, { username, password }: {username: string, password: string}) => {
@@ -35,11 +35,11 @@ export const login = async (_:any, { username, password }: {username: string, pa
     return { token, userId: user.id, expiration: 7 };
 }
 
-export const getMe = async (_:any, __:any, { userId }: RequestAuth) => {
+export const getMe = async (_:any, args:any, { userId }: RequestAuth) => {
     // Checking if user is logged in
     if(!userId) throw new Error('Not logged in.');
 
     // Else select user and return
     const user = await selectUserById(userId);
-    return user;
+    return {...user, ...{ includeInvisibleItems: args.includeInvisibleItems }};
 }
