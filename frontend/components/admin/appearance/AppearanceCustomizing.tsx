@@ -37,8 +37,8 @@ export const AppearanceCustomizing = () => {
         { background: avatar || 'var(--user-avatar-background)', header: 'Avatar Color', id: 'avatar' },
         { background: banner || 'var(--user-banner-background)', header: 'Banner Background', id: 'banner' },
         { background: header || 'var(--user-header-background)', header: 'Header Background', id: 'header' },
-        { background: item || 'var(--user-item-background)', item: 'Item Background', id: 'item' },
-        { background: primary || 'var(--user-background-primary)', item: 'Background Color', id: 'primary' },
+        { background: item || 'var(--user-item-background)', header: 'Item Background', id: 'item' },
+        { background: primary || 'var(--user-background-primary)', header: 'Background Color', id: 'primary' },
     ] as {background: string, header: string, id: keyof User['colorScheme']['background']}[];
     return(
         <div className={styles['customize-container']}>
