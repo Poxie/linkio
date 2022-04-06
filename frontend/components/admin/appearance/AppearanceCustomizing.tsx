@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import styles from '../../../styles/Admin.module.scss';
 import { useDispatch } from 'react-redux';
-import { setMeAvatar, setMeBanner, setMeColor } from '../../../redux/me/meActions';
+import { setMeAvatar, setMeBanner, setMeColor, setMeUpdating } from '../../../redux/me/meActions';
 import { selectMeColors, selectMeDisplay, selectMeId } from '../../../redux/me/meSelectors';
 import { useAppSelector } from '../../../redux/store';
 import { CustomizeColorInput } from './CustomizeColorInput';
@@ -24,7 +24,10 @@ export const AppearanceCustomizing = () => {
         if(!id) return;
 
         dispatch(setMeColor('background', type, color));
+        dispatch(setMeUpdating(true));
+
         await updateUser(id, { [`${type}Color`]: color });
+        dispatch(setMeUpdating(false));
     }, [dispatch, id]);
 
     const updateImage = async (type: 'banner' | 'avatar', file: File | null) => {

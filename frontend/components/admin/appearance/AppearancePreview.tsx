@@ -1,10 +1,12 @@
 import React from 'react';
 import styles from '../../../styles/Admin.module.scss'
 import { PhoneScreenIcon } from '../../../icons/PhoneScreenIcon';
-import { selectMeColors, selectMeDisplay, selectMeItems } from '../../../redux/me/meSelectors';
+import { selectMeColors, selectMeDisplay, selectMeItems, selectMeUpdating } from '../../../redux/me/meSelectors';
 import { useAppSelector } from '../../../redux/store';
+import { LoadingSpinner } from '../../loading-spinner/LoadingSpinner';
 
 export const AppearancePreview = () => {
+    const updating = useAppSelector(selectMeUpdating);
     const user = useAppSelector(selectMeDisplay);
     let items = useAppSelector(selectMeItems);
     const colors = useAppSelector(selectMeColors);
@@ -45,6 +47,10 @@ export const AppearancePreview = () => {
                         </div>
                     )
                 })}
+
+                {updating && (
+                    <LoadingSpinner className={styles['spinner']} />
+                )}
             </div>
         </div>
     )

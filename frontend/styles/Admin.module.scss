@@ -167,6 +167,7 @@
 }
 
 .preview {
+    --inner-padding: 25px;
     position: relative;
     width: 300px;
     aspect-ratio: 300/615;
@@ -181,7 +182,7 @@
     }
 }
 .preview-container {
-    padding: 25px;
+    padding: var(--inner-padding);
     height: 100%;
 }
 .preview-item {
@@ -240,4 +241,16 @@
     padding: var(--spacing-primary);
     text-align: center;
     position: relative;
+}
+.spinner {
+    --d-spinner: 26px;
+    position: absolute;
+    bottom: var(--inner-padding);
+    right: var(--inner-padding);
+    width: var(--d-spinner) !important;
+    height: var(--d-spinner) !important;
+    
+    circle {
+        stroke: var(--color-primary);
+    }
 }
