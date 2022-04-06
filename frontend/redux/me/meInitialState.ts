@@ -1,4 +1,5 @@
 export default {
     user: null,
-    loading: true
+    loading: true,
+    updating: false
 }

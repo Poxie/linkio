@@ -1,11 +1,18 @@
 import { User } from "../../utils/types";
 import meInitialState from "./meInitialState";
-import { SET_ME, MeAction, MeState, SET_ME_ITEMS, REMOVE_ME_ITEM, SET_ME_COLOR, SET_ME_BANNER, SET_ME_AVATAR } from "./meTypes";
+import { SET_ME, MeAction, MeState, SET_ME_ITEMS, REMOVE_ME_ITEM, SET_ME_COLOR, SET_ME_BANNER, SET_ME_AVATAR, SET_ME_UPDATING } from "./meTypes";
 
 export const meReducer: (state: MeState, action: MeAction) => any = (state=meInitialState, action: MeAction) => {
     switch(action.type) {
+        case SET_ME_UPDATING: {
+            return {
+                ...state,
+                updating: action.payload
+            }
+        }
         case SET_ME: {
             return {
+                ...state,
                 user: action.payload,
                 loading: false
             }
