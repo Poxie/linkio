@@ -1,251 +1,228 @@
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { Item } from '../utils/types';
+import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react';
 
-type Props = {
-    data: Item[];
-    renderComponent: any;
-    onDragEnd: (items: Item[]) => void;
-}
-type ItemProps = {
-    item: Item,
-    component: any;
-    ref: React.Ref<HTMLDivElement>
-};
-type ItemContextType = {
-    elementRefs: React.Ref<HTMLDivElement>[];
-    items: Item[];
-    swapItems: (draggedIndex: number, enteredIndex: number) => void;
-    onDragStart: (startIndex: number) => void;
-    onDragEnd: () => void;
-}
 type SortableContextType = {
-    toggleDragging: () => void;
-    enableDragging: () => void;
-    disableDragging: () => void;
-    isEnabled: boolean;
+    changeIndex: (currentIndex: number, newIndex: number) => void;
 }
-
-// Sortable context - allowing to disable/enable dragging
 const SortableContext = React.createContext({} as SortableContextType);
-export const useSortable = () => React.useContext(SortableContext);
-const SortableProvider: React.FC = ({ children }) => {
-    const [disabled, setDisabled] = useState(false);
+const useSortable = () => React.useContext(SortableContext);
 
-    const toggleDragging = () => setDisabled(!disabled);
-    const enableDragging = () => setDisabled(false);
-    const disableDragging = () => setDisabled(true);
+export type SortableItemsProps = {
+    items: any[];
+    component: FunctionComponent<any>;
+    onDragEnd: (items: any[]) => void;
+    spacing?: string | number;
+}
+export const SortableItems: React.FC<SortableItemsProps> = ({ items, component, onDragEnd, spacing='var(--spacing-primary)' }) => {
+    const refs = useRef<React.RefObject<HTMLDivElement>[]>([]);
+    const tempItems = useRef(items.map(item => ({...item})));
+    const [currentItems, setCurrentItems] = useState(items.map(item => ({...item})));
+
+    const changeIndex: SortableContextType['changeIndex'] = (currentIndex, newIndex) => {
+        updateElementOrder(currentIndex, newIndex);
+    }
+    const updateElementOrder = useCallback((prevIndex: number, draggedIndex: number) => {
+        refs.current.forEach(ref => {
+            if(!ref.current || ref.current.getAttribute('data-dragging') === "true") return;
+
+            // Getting dimensions
+            const { height } = ref.current.getBoundingClientRect();
+
+            // Getting self-order
+            const currentIndex = parseInt(ref.current.getAttribute('data-order') || '');
+            if(currentIndex === null) return;
+
+            // Getting item relation to dragged item
+            const draggedItemIsAbove = prevIndex < currentIndex;
+            const draggedItemEnteredMe = draggedIndex === currentIndex;
+
+            // Making sure only affected items go through process
+            if(draggedItemIsAbove && !draggedItemEnteredMe) return;
+            if(!draggedItemIsAbove && !draggedItemEnteredMe) return;
+            
+            // Defining translation threshholds
+            const isAnimated = !ref.current.style.transform.includes('0px');
+            const translateUp = isAnimated ? 'translateY(0)' : `translateY(calc(${-height}px - ${spacing}))`;
+            const translateDown = isAnimated ? 'translateY(0)' : `translateY(calc(${height}px + ${spacing}))`;
+
+            // Determining translation values based on relations
+            if(draggedItemIsAbove && draggedItemEnteredMe) {
+                ref.current.style.transform = translateUp;
+            } else if(!draggedItemIsAbove && draggedItemEnteredMe) {
+                ref.current.style.transform = translateDown;
+            }
+
+            // Updating my order attribute
+            let newIndex = 0;
+            if(draggedItemEnteredMe && draggedItemIsAbove) {
+                newIndex = currentIndex - 1
+            } else if(draggedItemEnteredMe && !draggedItemIsAbove) {
+                newIndex = currentIndex + 1
+            }
+            ref.current.setAttribute('data-order', newIndex.toString());
+            
+            // Updating temp items ref
+            const draggedItem = tempItems.current.find(item => item.order === prevIndex);
+            const currentItem = tempItems.current.find(item => item.order === currentIndex);
+            draggedItem.order = currentIndex;
+            currentItem.order = newIndex;
+
+            // Updating dragged item order attribute
+            if(draggedItemEnteredMe) {
+                document.querySelector('[data-dragging=true]')?.setAttribute('data-order', currentIndex.toString());
+            }
+        })
+    }, [refs]);
+    const handleDragEnd = useCallback(() => {
+        if(JSON.stringify(tempItems.current) === JSON.stringify(items)) return;
+        onDragEnd(tempItems.current);
+        setCurrentItems([...tempItems.current].sort((a,b) => a.order - b.order));
+        console.log(tempItems.current);
+    }, [items, onDragEnd, tempItems.current]);
+
+    useEffect(() => {
+        // Updating tempItems on items array change
+        if(JSON.stringify(tempItems.current) !== JSON.stringify(items)) {
+            tempItems.current = items.map(item => ({...item})).sort((a,b) => a.order - b.order);
+            setCurrentItems(items.map(item => ({...item})).sort((a,b) => a.order - b.order));
+        }
+
+        document.addEventListener('dragend', handleDragEnd);
+
+        return () => document.removeEventListener('dragend', handleDragEnd);
+    }, [items]);
+
+    // Fetching reference for sortable item
+    const getReference = useCallback((index: number) => {
+        // Checks if reference exist
+        if(refs.current[index]) return refs.current[index];
+
+        // Else create new
+        const ref = React.createRef<HTMLDivElement>();
+        refs.current.push(ref);
+        return ref;
+    }, []);
 
     const value = {
-        toggleDragging,
-        enableDragging,
-        disableDragging,
-        isEnabled: !disabled
+        changeIndex
     }
+
     return(
         <SortableContext.Provider value={value}>
-            {children}
+            {currentItems.map((item, index) => <SortableItem item={item} component={component} index={index} ref={getReference(index)} key={item.id} />)}
         </SortableContext.Provider>
     )
 }
 
-// Item context - allowing items to directly interactive with the context state
-const ItemContext = React.createContext({} as ItemContextType);
-const useItems = () => React.useContext(ItemContext);
-const ItemProvider: React.FC<{items: Item[], onDragEnd: (items: Item[]) => void}> = ({ children, items: _items, onDragEnd: _onDragEnd }) => {
-    const itemElements = _items.map(() => React.createRef<HTMLDivElement>());
-    const [items, setItems] = useState(_items);
-    const itemRef = useRef(items);
-
-    // If item data changes
-    useEffect(() => {
-        setItems(_items);
-        itemRef.current = _items;
-    }, [_items]);
-    
-    // Handling swapping of item indices
-    const swapItems = (draggedIndex: number, enteredIndex: number) => {
-        if(draggedIndex === enteredIndex) return;
-        
-        const draggedItem = itemRef.current.find(item => item.order === draggedIndex);
-        const enteredItem = itemRef.current.find(item => item.order === enteredIndex);
-        if(!draggedItem || !enteredItem) return;
-
-        draggedItem.order = enteredIndex;
-        enteredItem.order = draggedIndex;
-    }
-    const onDragEnd = () => {
-        // Updating UI
-        const newItems = [...itemRef.current.sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0))];
-        setItems(newItems);
-
-        // Restoring styles to initial styles
-        itemElements.forEach(item => {
-            if(!item.current) return;
-            const style = item.current.style;
-            style.transition = '';
-            style.transform = '';
-            style.zIndex = '';
-        })
-
-        // Providing parent with new values
-        _onDragEnd(newItems)
-    }
-    const onDragStart = (startIndex: number) => {
-        itemElements.forEach(element => {
-            const el = element.current;
-            if(!el) return;
-
-            // Checking if item is being dragged
-            const dragged = el.getAttribute('dragging');
-
-            // Adding initial styles
-            el.style.transition = 'transform .3s';
-            el.style.zIndex = dragged ? "1" : "2";
-
-            // Adding position attributes to all items
-            // This is based on their index and the item being dragged's index
-            const order = parseInt(el.getAttribute('data-order') || '');
-            if(order > startIndex) {
-                el.setAttribute('data-position', 'below');
-            } else {
-                el.setAttribute('data-position', 'above');
-            }
-        })
-    }
-
-    const value = {
-        elementRefs: itemElements,
-        items,
-        swapItems,
-        onDragEnd,
-        onDragStart
-    }
-    return(
-        <ItemContext.Provider value={value}>
-            {children}
-        </ItemContext.Provider>
-    )
+type SortableItemProps = {
+    index: number;
+    item: any;
+    component: FunctionComponent<any>;
+    ref: React.RefObject<HTMLDivElement>;
 }
-export const SortableItems: React.FC<Props> = (props) => {
-    const { data, renderComponent, onDragEnd } = props;
-
-    return(
-        <SortableProvider>
-            <ItemProvider items={data} onDragEnd={onDragEnd}>
-                <Items component={renderComponent} />
-            </ItemProvider>
-        </SortableProvider>
-    )
-}
-const Items: React.FC<{component: any}> = ({ component }) => {
-    const { items, elementRefs } = useItems();
-
-    return(
-        <>
-        {items.map((item, key) => {
-            return(
-                <SortableItem 
-                    item={item}
-                    component={component}
-                    ref={elementRefs[key]}
-                    key={item.id} 
-                />
-            )
-        })}
-        </>
-    )
-}
-const SortableItem = React.forwardRef<HTMLDivElement, ItemProps>(({ item, component: Component }, forwardRef) => {
-    const { swapItems, onDragEnd: _onDragEnd, onDragStart: _onDragStart } = useItems();
-    const { isEnabled } = useSortable();
+const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HTMLDivElement, SortableItemProps>(({ component: Component, index, item }, forwardRef) => {
+    const { changeIndex } = useSortable();
     const ref = useRef<HTMLDivElement>(null);
+    const [beingDragged, setBeingDragged] = useState(false);
     const dragging = useRef(false);
-    const initialMousePos = useRef({ x: 0, y: 0 });
-    const initialTop = useRef(0);
+    const initialPosition = useRef({ initialLeft: 0, initialTop: 0 });
+    const initialMousePos = useRef({ mouseLeft: 0, mouseTop: 0 });
+    const dimensions = useRef({ width: 0, height: 0 });
 
     // Allowing both ref and forwardRef
-    useImperativeHandle(forwardRef, () => ref.current as HTMLDivElement);
+    React.useImperativeHandle(forwardRef, () => ref.current as HTMLDivElement);
 
-    const onDragStart = (e: React.DragEvent) => {
-        // Removing dragging shadow
-        e.dataTransfer.setDragImage(e.target as HTMLDivElement, window.outerWidth, window.outerHeight);
+    const handleDragEnd = useCallback((e: DragEvent) => {
+        if(!ref.current)return;
 
-        if(!ref.current) return;
-
-        // Updating dragging properties
-        dragging.current = true;
-        ref.current.setAttribute('dragging', "true");
-
-        // Setting initial values
-        initialTop.current = ref.current.getBoundingClientRect().top;
-        initialMousePos.current = { x: e.pageX, y: e.pageY - initialTop.current };
-
-        _onDragStart(item.order);
-    }
-    const onDragEnd = (e: React.DragEvent) => {
-        if(!ref.current) return;
-
-        // Resetting inittial values
+        // Updating dragging state
         dragging.current = false;
-        ref.current.removeAttribute('dragging');
-
-        _onDragEnd();
-    }
-    const onDragEnter = (e: React.DragEvent) => {
-        // Getting current order of item being entered
-        const enteredItem = e.currentTarget as HTMLDivElement;
-        const enteredIndex = parseInt(enteredItem.getAttribute('data-order') || '');
+        setBeingDragged(false);
         
-        // Getting the item being dragged's position
-        const draggedItem = document.querySelector('[dragging]');
-        const draggedIndex = parseInt(draggedItem?.getAttribute('data-order') || '');
-
-        // Swapping items in context
-        swapItems(draggedIndex, enteredIndex);
-
-        // Updating attributes
-        enteredItem.setAttribute('data-order', draggedIndex.toString());
-        draggedItem?.setAttribute('data-order', enteredIndex.toString());
-
-        // If dragged element enters itself, don't animate
-        if(enteredIndex === draggedIndex) return;
-
-        // Animating item based on position relative to dragged element
-        const position = enteredItem.getAttribute('data-position') as 'above' | 'below';
-        if(position === 'below') {
-            if(draggedIndex > enteredIndex) {
-                enteredItem.style.transform = `translateY(0)`;
-            } else {
-                enteredItem.style.transform = `translateY(-74px)`;
-            }
-        } else {
-            if(draggedIndex > enteredIndex) {
-                enteredItem.style.transform = `translateY(74px)`;
-            } else {
-                enteredItem.style.transform = `translateY(0)`;
-            }
-        }
-    }
-    const onDrag = (e: React.DragEvent) => {
+        // Restoring initial values
+        initialPosition.current = { initialLeft: 0, initialTop: 0 };
+        initialMousePos.current = { mouseLeft: 0, mouseTop: 0 };
+        ref.current.style.transform = `translateY(0)`;
+        ref.current.style.pointerEvents = '';
+    }, []);
+    const handleDragStart = useCallback((e: DragEvent) => {
         if(!ref.current) return;
 
-        // Moving dragged element to be relative to mouse position
-        const diff = e.pageY - initialTop.current - initialMousePos.current.y;
-        ref.current.style.transition = `none`;
-        ref.current.style.transform = `translateY(${diff}px)`;
-    }
+        // Updating dragging state
+        dragging.current = true;
+        setBeingDragged(true);
+
+        // Getting drag event positional values
+        const { x, y } = e;
+        const { left, top } = ref.current.getBoundingClientRect();
+
+        // Determining mouse position relative to dragged div
+        const mouseLeft = x - left;
+        const mouseTop = y - top;
+
+        initialMousePos.current = { mouseLeft, mouseTop };
+        initialPosition.current = { initialLeft: x, initialTop: y };
+    }, []);
+    const handleDrag = useCallback((e: DragEvent) => {
+        if(!ref.current) return;
+
+        // Getting initial positional values
+        const { mouseLeft, mouseTop } = initialMousePos.current;
+        const { height } = dimensions.current;
+        const { initialTop, initialLeft } = initialPosition.current;
+
+        // Getting drag event positional values
+        const { x, y } = e;
+        const { left, top } = ref.current.getBoundingClientRect();
+
+        // Determining translate values
+        const newTop = y - mouseTop - initialTop + mouseTop;
+        const newLeft = x - mouseLeft - initialLeft + mouseLeft;
+
+        // Setting translate values
+        ref.current.style.transform = `translateY(${newTop}px) translateX(${newLeft}px)`;
+        ref.current.style.pointerEvents = 'none';
+    }, []);
+    const handleDragEnter = useCallback(() => {
+        if(dragging.current) return;
+        
+        // Getting current item index
+        const currentIndex = parseInt(ref.current?.getAttribute('data-order') || '');
+        if(currentIndex === null) return;
+
+        // Fetching dragged element
+        const draggedElement = document.querySelector('[data-dragging=true]');
+        const draggedElementIndex = parseInt(draggedElement?.getAttribute('data-order') || '');
+
+        // Updating dragged element index
+        changeIndex(draggedElementIndex, currentIndex);
+    }, []);
+
+    // Initial setup
+    useEffect(() => {
+        if(!ref.current) return;
+
+        // Setting up drag event handlers
+        ref.current.addEventListener('dragstart', handleDragStart);
+        ref.current.addEventListener('drag', handleDrag);
+        ref.current.addEventListener('dragenter', handleDragEnter);
+        document.addEventListener('dragend', handleDragEnd);
+        
+        // Getting item dimensions
+        const { width, height } = ref.current.getBoundingClientRect();
+        dimensions.current = { width, height };
+
+        // Setting item default styles
+        ref.current.style.transform = 'translateY(0px)';
+    }, []);
 
     return(
         <div 
-            onDrag={onDrag}
-            onDragStart={onDragStart}
-            onDragEnd={onDragEnd}
-            onDragEnter={onDragEnter}
+            ref={ref} 
+            draggable 
+            data-dragging={beingDragged}
             data-order={item.order}
-            draggable={isEnabled}
-            ref={ref}
         >
-            {<Component {...item} />}
+            <Component {...item} />
         </div>
     )
-});
+}));
