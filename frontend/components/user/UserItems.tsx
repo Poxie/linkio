@@ -4,11 +4,11 @@ import { useAppSelector } from '../../redux/store';
 import { selectUserIsMe, selectUserItems } from '../../redux/user/userSelectors';
 import { UserItem } from './UserItem';
 import { CreateItemButton } from './CreateItemButton';
-import { SortableItems } from '../SortableItems';
 import { Item } from '../../utils/types';
 import { updateUserItem, updateUserItems } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { selectMeId } from '../../redux/me/meSelectors';
+import { SortableItems } from '../SortableItems';
 
 export const UserItems = () => {
     const dispatch = useDispatch();
@@ -18,6 +18,12 @@ export const UserItems = () => {
 
     const onDragEnd = async (items: Item[]) => {
         if(!items || !myId) return;
+
+        items = items.map(item => {
+            // @ts-ignore: isValid cannot be updated
+            delete item.isValid;
+            return item;
+        })
 
         console.log(items);
         const newItems = await updateUserItems(myId, items);
@@ -31,9 +37,10 @@ export const UserItems = () => {
                 <>
                 <div className={styles['item-container']}> 
                     <SortableItems 
-                        data={items || []}
-                        renderComponent={UserItem}
+                        items={items || []}
+                        component={UserItem}
                         onDragEnd={onDragEnd}
+                        spacing={'var(--spacing-primary) / 1.5'}
                     />
                 </div>
                 <CreateItemButton />
