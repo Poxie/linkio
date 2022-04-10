@@ -141,8 +141,8 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
         // Restoring initial values
         initialPosition.current = { initialLeft: 0, initialTop: 0 };
         initialMousePos.current = { mouseLeft: 0, mouseTop: 0 };
-        ref.current.style.transform = `translateY(0)`;
         ref.current.style.pointerEvents = '';
+        ref.current.style.transform = '';
     }, []);
     const handleDragStart = useCallback((e: DragEvent) => {
         if(!ref.current) return;
@@ -184,14 +184,15 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
     }, []);
     const handleDragEnter = useCallback(() => {
         if(dragging.current) return;
-        
-        // Getting current item index
-        const currentIndex = parseInt(ref.current?.getAttribute('data-order') || '');
-        if(currentIndex === null) return;
 
         // Fetching dragged element
         const draggedElement = document.querySelector('[data-dragging=true]');
         const draggedElementIndex = parseInt(draggedElement?.getAttribute('data-order') || '');
+        if(!draggedElement) return;
+        
+        // Getting current item index
+        const currentIndex = parseInt(ref.current?.getAttribute('data-order') || '');
+        if(currentIndex === null) return;
 
         // Updating dragged element index
         changeIndex(draggedElementIndex, currentIndex);
@@ -210,9 +211,6 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
         // Getting item dimensions
         const { width, height } = ref.current.getBoundingClientRect();
         dimensions.current = { width, height };
-
-        // Setting item default styles
-        ref.current.style.transform = 'translateY(0px)';
     }, []);
 
     return(
