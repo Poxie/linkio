@@ -4,10 +4,10 @@ import { useCallback } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setMeItems } from '../../../redux/me/meActions';
+import { setMeItem, setMeItems } from '../../../redux/me/meActions';
 import { selectMeId, selectMeItems } from '../../../redux/me/meSelectors';
 import { useAppSelector } from '../../../redux/store';
-import { setUserItems } from '../../../redux/user/userActions';
+import { setUserItem, setUserItems } from '../../../redux/user/userActions';
 import { selectUserIsMe } from '../../../redux/user/userSelectors';
 import { updateUserItem, updateUserItems } from '../../../utils';
 import { Item } from '../../../utils/types';
@@ -43,16 +43,16 @@ export const AdminLinks = () => {
     }
 
     // Updating database with local changes on input blur
-    const onBlur: AdminLinkBlur = useCallback((id) => {
+    const onBlur: AdminLinkBlur = useCallback(async (id) => {
         const link = links.find(l => l.id === id);
         if(!link) return;
 
-        updateUserItem(link);
-        dispatch(setMeItems(links));
+        const newLink = await updateUserItem(link);
+        dispatch(setMeItem(newLink));
         
         // If user stored in redux store is me, update store
         if(isMe) {
-            dispatch(setUserItems(links));
+            dispatch(setUserItem(newLink));
         }
     }, [links]);
 
