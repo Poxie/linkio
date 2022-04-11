@@ -295,8 +295,8 @@ export const updateUserItemAction = async (item: UpdateUserItemArgs) => {
 
     // Determining whether the new item is valid, if validity change, update
     const isValid = isValidItem(newItem.content, newItem.url);
-    if(newItem.isValid !== isValid) {
-        newItem.isValid = isValid
+    if(newItem.isValid ? true : false !== isValid) {
+        newItem.isValid = isValid;
         updateUserItemAction({ isValid, id: item.id });
     }
 
