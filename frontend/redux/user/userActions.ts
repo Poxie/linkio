@@ -9,7 +9,7 @@ export const updateUser = (user: Partial<User>) => ({
     type: UPDATE_USER,
     payload: user
 })
-export const setUserDisplay = (type: 'name', value: string) => ({
+export const setUserDisplay = (type: 'name' | 'bio', value: string) => ({
     type: SET_USER_DISPLAY,
     payload: { type, value }
 })

@@ -9,7 +9,7 @@ export const setMeUpdating = (state: boolean) => ({
     type: SET_ME_UPDATING,
     payload: state
 })
-export const setMeDisplay = (type: 'name', value: string) => ({
+export const setMeDisplay = (type: 'name' | 'bio', value: string) => ({
     type: SET_ME_DISPLAY,
     payload: { type, value }
 })
