@@ -78,7 +78,7 @@ export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: Admi
                                     backgroundColor: !active ? '' : color,
                                     fill: active ? '#fff' : color
                                 }}
-                                onClick={() => onChange(id, 'icon', iconId, true)}
+                                onClick={() => onChange(id, 'icon', active ? null : iconId, true)}
                                 key={iconId}
                             >
                                 {i}
