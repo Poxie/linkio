@@ -76,6 +76,7 @@ export const AppearanceCustomizing = () => {
                     onBlur={value => updateDatabaseText('bio', value)}
                     className={styles['input-container']}
                     placeholder={'My Bio'}
+                    textarea={true}
                 />
             </div>
 

@@ -102,7 +102,7 @@
     padding-bottom: var(--spacing-primary);
 }
 .input-container {
-    input {
+    input, textarea {
         background-color: var(--background-primary) !important;
         border: 3px solid var(--background-tertiary) !important;
         font-size: 15px !important;
