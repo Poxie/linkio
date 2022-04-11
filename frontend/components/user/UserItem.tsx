@@ -17,6 +17,11 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     const { disableDragging, enableDragging } = useSortable();
     const itemBeforeChange = useRef(item);
 
+    // Enabling dragging if component unmount
+    useEffect(() => {
+        return enableDragging;
+    }, []);
+    
     const onChange = (item: Item) => {
         dispatch(setUserItem(item));
     }
