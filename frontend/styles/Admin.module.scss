@@ -97,6 +97,10 @@
     align-items: flex-start;
     padding-top: var(--spacing-primary);
 }
+.section {
+    border-bottom: 3px solid var(--background-tertiary);
+    padding-bottom: var(--spacing-primary);
+}
 .input-container {
     input {
         background-color: var(--background-primary) !important;

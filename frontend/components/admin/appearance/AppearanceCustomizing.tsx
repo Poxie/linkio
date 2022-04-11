@@ -60,14 +60,16 @@ export const AppearanceCustomizing = () => {
     ] as {background: string, header: string, id: keyof User['colorScheme']['background']}[];
     return(
         <div className={styles['customize-container']}>
-            <Input 
-                value={display.name || ''}
-                label={'Display Name'}
-                onChange={value => updateLocalText('name', value)}
-                onBlur={value => updateDatabaseText('name', value)}
-                className={styles['input-container']}
-                placeholder={'Display Name'}
-            />
+            <div className={styles['section']}>
+                <Input 
+                    value={display.name || ''}
+                    label={'Display Name'}
+                    onChange={value => updateLocalText('name', value)}
+                    onBlur={value => updateDatabaseText('name', value)}
+                    className={styles['input-container']}
+                    placeholder={'Display Name'}
+                />
+            </div>
 
             <div className={styles['customize-images']}>
                 <CustomizeFileInput 
