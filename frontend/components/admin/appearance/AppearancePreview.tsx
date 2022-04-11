@@ -33,7 +33,7 @@ export const AppearancePreview = () => {
                         )}
                     </div>
                     <div>
-                        {user.name}
+                        {user.name || `@${user.username}`}
                     </div>
                 </div>
 
