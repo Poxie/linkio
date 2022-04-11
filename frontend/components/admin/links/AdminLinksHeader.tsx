@@ -8,11 +8,14 @@ import { selectMeId, selectMeItems } from '../../../redux/me/meSelectors';
 import { createUserItem } from '../../../utils';
 import { useState } from 'react';
 import { LoadingSpinner } from '../../loading-spinner/LoadingSpinner';
+import { selectUserIsMe } from '../../../redux/user/userSelectors';
+import { setUserItems } from '../../../redux/user/userActions';
 
 export const AdminLinksHeader = () => {
     const dispatch = useDispatch();
     const myItems = useAppSelector(selectMeItems);
     const myId = useAppSelector(selectMeId);
+    const isMe = useAppSelector(selectUserIsMe);
     const [loading, setLoading] = useState(false);
 
     const addNewLink = async () => {
@@ -27,6 +30,11 @@ export const AdminLinksHeader = () => {
         
         // Pushing new item to redux
         dispatch(setMeItems([...myItems, ...[item]]));
+
+        // If user stored in redux store is me, update store
+        if(isMe) {
+            dispatch(setUserItems([...myItems, ...[item]]));
+        }
     }
 
     return(

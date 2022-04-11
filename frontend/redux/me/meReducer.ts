@@ -18,12 +18,15 @@ export const meReducer: (state: MeState, action: MeAction) => any = (state=meIni
             }
         }
         case SET_ME_ITEM: {
+            let exists;
             const items = state.user?.items.map(item => {
                 if(item.id === action.payload.id) {
+                    exists = true;
                     return action.payload;
                 }
                 return item;
             })
+            if(!exists) items?.push(action.payload);
 
             return {
                 ...state,

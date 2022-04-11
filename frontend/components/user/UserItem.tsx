@@ -1,6 +1,7 @@
 import React, { createRef, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { EditIcon } from '../../icons/EditIcon';
+import { setMeItem } from '../../redux/me/meActions';
 import { useAppSelector } from '../../redux/store';
 import { setUserItem } from '../../redux/user/userActions';
 import { selectUserIsMe } from '../../redux/user/userSelectors';
@@ -14,6 +15,7 @@ import { UserItemIcon } from './UserItemIcon';
 
 export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     const dispatch = useDispatch();
+    const isMe = useAppSelector(selectUserIsMe);
     const { disableDragging, enableDragging } = useSortable();
     const itemBeforeChange = useRef(item);
 
@@ -24,6 +26,10 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     
     const onChange = (item: Item) => {
         dispatch(setUserItem(item));
+        
+        if(isMe) {
+            dispatch(setMeItem(item));
+        }
     }
     const onSave = async (item: Item) => {
         await updateUserItem(item);

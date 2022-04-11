@@ -7,6 +7,8 @@ import { useDispatch } from 'react-redux';
 import { setMeItems } from '../../../redux/me/meActions';
 import { selectMeId, selectMeItems } from '../../../redux/me/meSelectors';
 import { useAppSelector } from '../../../redux/store';
+import { setUserItems } from '../../../redux/user/userActions';
+import { selectUserIsMe } from '../../../redux/user/userSelectors';
 import { updateUserItem, updateUserItems } from '../../../utils';
 import { Item } from '../../../utils/types';
 import { SortableItems } from '../../SortableItems';
@@ -17,7 +19,8 @@ export type AdminLinkBlur = (id: string) => void;
 export const AdminLinks = () => {
     const dispatch = useDispatch();
     const myId = useAppSelector(selectMeId);
-    const links = useAppSelector(selectMeItems) || [];
+    const isMe = useAppSelector(selectUserIsMe);
+    const links = (useAppSelector(selectMeItems) || []).sort((a,b) => a.order - b.order);
 
     // Updating local changes
     const onChange: AdminLinkChange = (id, type, value, update) => {
@@ -32,6 +35,11 @@ export const AdminLinks = () => {
             return link;
         })
         dispatch(setMeItems(newLinks));
+
+        // If user stored in redux store is me, update store
+        if(isMe) {
+            dispatch(setUserItems(newLinks));
+        }
     }
 
     // Updating database with local changes on input blur
@@ -40,7 +48,12 @@ export const AdminLinks = () => {
         if(!link) return;
 
         updateUserItem(link);
-        dispatch(setMeItems(links))
+        dispatch(setMeItems(links));
+        
+        // If user stored in redux store is me, update store
+        if(isMe) {
+            dispatch(setUserItems(links));
+        }
     }, [links]);
 
     // Updating link order
@@ -57,6 +70,11 @@ export const AdminLinks = () => {
 
         // Updating interface
         dispatch(setMeItems(newItems));
+
+        // If user stored in redux store is me, update store
+        if(isMe) {
+            dispatch(setUserItems(newItems));
+        }
     }
 
     const newLinks: (Item & {onChange: AdminLinkChange, onBlur: AdminLinkBlur})[] = links.map(link => ({

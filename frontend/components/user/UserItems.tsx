@@ -10,10 +10,11 @@ import { useDispatch } from 'react-redux';
 import { selectMeId } from '../../redux/me/meSelectors';
 import { SortableItems } from '../SortableItems';
 import { setUserItems } from '../../redux/user/userActions';
+import { setMeItems } from '../../redux/me/meActions';
 
 export const UserItems = () => {
     const dispatch = useDispatch();
-    const items = useAppSelector(selectUserItems);
+    const items = (useAppSelector(selectUserItems) || []).sort((a,b) => a.order - b.order);
     const isMe = useAppSelector(selectUserIsMe);
     const myId = useAppSelector(selectMeId);
 
@@ -28,6 +29,9 @@ export const UserItems = () => {
 
         const newItems = await updateUserItems(myId, items);
         dispatch(setUserItems(newItems));
+        if(isMe) {
+            dispatch(setMeItems(newItems));
+        }
     }
 
     return(

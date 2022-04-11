@@ -17,6 +17,9 @@ import { TwitterIcon } from '../../../icons/TwitterIcon';
 import { TwitchIcon } from '../../../icons/TwitchIcon';
 import { FacebookIcon } from '../../../icons/FacebookIcon';
 import { SnapchatIcon } from '../../../icons/SnapchatIcon';
+import { useAppSelector } from '../../../redux/store';
+import { selectUserIsMe } from '../../../redux/user/userSelectors';
+import { removeUserItem } from '../../../redux/user/userActions';
 
 const ICONS = [
     { icon: <YouTubeIcon />, id: 'youtube' },
@@ -28,12 +31,18 @@ const ICONS = [
 export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: AdminLinkBlur}> = ({ content, url, icon, onChange, onBlur, id }) => {
     const { setModal, closeModals } = useModal();
     const dispatch = useDispatch();
+    const isMe = useAppSelector(selectUserIsMe);
 
     const cancelDeletion = closeModals;
     const deleteItem = async () => {
         closeModals();
         await destroyUserItem(id);
         dispatch(removeMeItem(id));
+
+        // If user stored in redux store is me, update store
+        if(isMe) {
+            dispatch(removeUserItem(id));
+        }
     }
     const openDeleteModal = () => {
         setModal(<DeleteModal onSubmit={deleteItem} onCancel={cancelDeletion} />);

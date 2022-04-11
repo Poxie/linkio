@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { removeMeItem, setMeItem, setMeItems } from '../../redux/me/meActions';
+import { useAppSelector } from '../../redux/store';
 import { removeUserItem, setUser, setUserItem } from '../../redux/user/userActions';
+import { selectUserIsMe } from '../../redux/user/userSelectors';
 import styles from '../../styles/User.module.scss';
 import { destroyUserItem, updateUserItem } from '../../utils';
 import { IMAGE_ENDPOINT } from '../../utils/constants';
@@ -23,6 +26,7 @@ type Props = {
 }
 export const EditorContainer: React.FC<Props> = React.forwardRef<HTMLDivElement, Props>(({ item, onChange, onCancel: _onCancel, onSave: _onSave, creating }, forwardRef) => {
     const dispatch = useDispatch();
+    const isMe = useAppSelector(selectUserIsMe);
     const initialItem = useRef(item);
     const [deleting, setDeleting] = useState(false);
     const [hasContentError, setHasContentError] = useState(false);
@@ -41,6 +45,10 @@ export const EditorContainer: React.FC<Props> = React.forwardRef<HTMLDivElement,
 
         // Updating user
         _onSave && _onSave(item);
+
+        if(isMe) {
+            dispatch(setMeItem(item));
+        }
     }
     // Handling cancel click
     const onCancel = () => {
@@ -58,6 +66,9 @@ export const EditorContainer: React.FC<Props> = React.forwardRef<HTMLDivElement,
 
         // Updating UI
         dispatch(removeUserItem(item.id));
+        if(isMe) {
+            dispatch(removeMeItem(item.id));
+        }
 
         setDeleting(false);
     }
