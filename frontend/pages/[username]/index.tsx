@@ -5,9 +5,9 @@ import { useDispatch } from "react-redux";
 import { UserPage } from "../../components/user/UserPage";
 import { selectMe } from "../../redux/me/meSelectors";
 import { useAppSelector } from "../../redux/store";
-import { setUser, setUserIsMe } from "../../redux/user/userActions";
+import { setUser, setUserIsMe, setUserItems } from "../../redux/user/userActions";
 import { selectUser } from "../../redux/user/userSelectors";
-import { getUserByUsername } from "../../utils";
+import { getMe, getUserByUsername } from "../../utils";
 import { User as UserType } from "../../utils/types";
 
 type UserProps = {
@@ -29,6 +29,7 @@ export default function User({ user }: UserProps) {
         // Updating isMe property based on conditions
         if(isMe && !_user?.isMe) {
             dispatch(setUserIsMe(true));
+            getMe().then(user => dispatch(setUser({...user, ...{ isMe: true }})));
         } else if(!isMe && _user?.isMe) {
             dispatch(setUserIsMe(false));
         }
