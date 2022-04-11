@@ -53,7 +53,15 @@ export const userReducer: (state: UserState, action: UserAction) => any = (state
             }
         }
         case REMOVE_USER_ITEM: {
-            const items = state.user?.items.filter(item => item.id !== action.payload) || [];
+            const item = state.user?.items.find(item => item.id === action.payload);
+            if(!item) return {...state};
+
+            const items = state.user?.items.filter(i => {
+                if(i.order > item.order) {
+                    i.order--;
+                }
+                return i.id !== item.id; 
+            });
             const user = {
                 ...state.user,
                 items
