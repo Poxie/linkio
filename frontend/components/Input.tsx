@@ -14,10 +14,12 @@ export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onCh
     const ref = useRef<HTMLInputElement>(null);
     const [value, setValue] = useState(_value);
 
+    useEffect(() => setValue(_value), [_value]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         setValue(val);
-        
+
         if(onChange) {
             onChange(val);
         }
