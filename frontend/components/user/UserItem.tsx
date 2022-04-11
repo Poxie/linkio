@@ -57,6 +57,11 @@ const Item: React.FC<Item> = (item) => {
 
                 <span className={styles['item-text']}>
                     {item.content}
+                    {!item.content && (
+                        <i style={{ opacity: .8 }}>
+                            Enter text...
+                        </i>
+                    )}
                 </span>
 
                 {isMe && (
