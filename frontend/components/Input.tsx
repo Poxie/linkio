@@ -9,8 +9,10 @@ type Props = {
     onSubmit?: (text: string) => void;
     onBlur?: (text: string) => void;
     className?: string;
+    textarea?: boolean;
+    resize?: 'horizontal' | 'vertical' | 'none';
 }
-export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onChange, onSubmit, onBlur, className }) => {
+export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onChange, onSubmit, onBlur, className, textarea=false, resize='vertical' }) => {
     const ref = useRef<HTMLInputElement>(null);
     const [value, setValue] = useState(_value);
 
@@ -36,6 +38,14 @@ export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onCh
         onBlur && onBlur(ref.current?.value || '');
     }
 
+    const options = {
+        id: label,
+        placeholder: placeholder,
+        onChange: handleChange,
+        onBlur: handleBlur,
+        value: value,
+        ref: ref
+    } as any;
     className = [styles.form, className].join(' ');
     return(
         <form onSubmit={handleSubmit} className={className}>
@@ -44,15 +54,16 @@ export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onCh
                     {label}
                 </label>
             )}
-            <input 
-                id={label}
-                type="text"
-                placeholder={placeholder}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={value}
-                ref={ref}
-            />
+            {textarea ? (
+                <textarea 
+                    {...options}
+                    style={{ resize }}
+                />
+            ) : (
+                <input
+                    {...options} 
+                />
+            )}
         </form>
     )
 }

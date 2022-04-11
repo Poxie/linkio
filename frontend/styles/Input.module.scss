@@ -2,7 +2,7 @@
     margin: 0;
     width: 100%;
 
-    input {
+    input, textarea {
         padding: 12px; 
         border-radius: var(--border-radius);
         border: none;
@@ -10,6 +10,10 @@
         width: 100%;
         font-size: 18px;
         outline: none;
+        font-family: unset;
+    }
+    textarea {
+        min-height: 50px;
     }
 }
 .label {
