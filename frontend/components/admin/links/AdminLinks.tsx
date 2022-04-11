@@ -12,7 +12,7 @@ import { Item } from '../../../utils/types';
 import { SortableItems } from '../../SortableItems';
 import { AdminLink } from './AdminLink';
 
-export type AdminLinkChange = (id: string, type: keyof Item, value: any) => void;
+export type AdminLinkChange = (id: string, type: keyof Item, value: any, update?: boolean) => void;
 export type AdminLinkBlur = (id: string) => void;
 export const AdminLinks = () => {
     const dispatch = useDispatch();
@@ -20,11 +20,14 @@ export const AdminLinks = () => {
     const links = useAppSelector(selectMeItems) || [];
 
     // Updating local changes
-    const onChange: AdminLinkChange = (id, type, value) => {
+    const onChange: AdminLinkChange = (id, type, value, update) => {
         const newLinks = links.map(link => {
             if(link.id === id) {
                 link = {...link};
                 link[type] = value as never;
+                if(update) {
+                    updateUserItem(link);
+                }
             }
             return link;
         })
