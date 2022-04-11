@@ -295,8 +295,8 @@ export const updateUserItemAction = async (item: UpdateUserItemArgs) => {
 
     // Determining whether the new item is valid, if validity change, update
     const isValid = isValidItem(newItem.content, newItem.url);
-    if(newItem.isValid ? true : false !== isValid) {
-        newItem.isValid = isValid;
+    if(Boolean(newItem.isValid) != isValid) {
+        newItem.isValid = isValid ? 1 : 0;
         updateUserItemAction({ isValid, id: item.id });
     }
 
@@ -323,6 +323,7 @@ export const updateUserItemsAction = async (userId: string, items: UserItem[]) =
         // Updating and fetching new item
         await request(query, values);
         const newItem = await selectUserItemById(item.id);
+        if(!newItem) continue;
 
         // Determining whether the new item is valid, if validity change, update
         const isValid = isValidItem(newItem.content, newItem.url);
