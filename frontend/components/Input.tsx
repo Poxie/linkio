@@ -10,11 +10,14 @@ type Props = {
     onBlur?: (text: string) => void;
     className?: string;
 }
-export const Input: React.FC<Props> = ({ label, placeholder, value, onChange, onSubmit, onBlur, className }) => {
+export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onChange, onSubmit, onBlur, className }) => {
     const ref = useRef<HTMLInputElement>(null);
+    const [value, setValue] = useState(_value);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
+        setValue(val);
+        
         if(onChange) {
             onChange(val);
         }
