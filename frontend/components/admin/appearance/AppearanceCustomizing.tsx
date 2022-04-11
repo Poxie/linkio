@@ -39,10 +39,10 @@ export const AppearanceCustomizing = () => {
         const { bannerURL, avatarURL } = await updateUser(id, { [type]: file });
         dispatch(type === 'banner' ? setMeBanner(bannerURL) : setMeAvatar(avatarURL));
     }
-    const updateLocalText = async (type: 'name', value: string) => {
+    const updateLocalText = async (type: 'name' | 'bio', value: string) => {
         dispatch(setMeDisplay(type, value));
     }
-    const updateDatabaseText = async (type: 'name', value: string) => {
+    const updateDatabaseText = async (type: 'name' | 'bio', value: string) => {
         if(!id) return;
         await updateUser(id, { [type]: value });
 
@@ -68,6 +68,14 @@ export const AppearanceCustomizing = () => {
                     onBlur={value => updateDatabaseText('name', value)}
                     className={styles['input-container']}
                     placeholder={'Display Name'}
+                />
+                <Input 
+                    value={display.bio || ''}
+                    label={'My Bio'}
+                    onChange={value => updateLocalText('bio', value)}
+                    onBlur={value => updateDatabaseText('bio', value)}
+                    className={styles['input-container']}
+                    placeholder={'My Bio'}
                 />
             </div>
 

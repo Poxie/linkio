@@ -35,6 +35,11 @@ export const AppearancePreview = () => {
                     <div>
                         {user.name || `@${user.username}`}
                     </div>
+                    {user.bio && (
+                        <div className={styles['preview-bio']}>
+                            {user.bio}
+                        </div>
+                    )}
                 </div>
 
                 {items?.map(item => {
