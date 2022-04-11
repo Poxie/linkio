@@ -4,6 +4,7 @@ import { PhoneScreenIcon } from '../../../icons/PhoneScreenIcon';
 import { selectMeColors, selectMeDisplay, selectMeItems, selectMeUpdating } from '../../../redux/me/meSelectors';
 import { useAppSelector } from '../../../redux/store';
 import { LoadingSpinner } from '../../loading-spinner/LoadingSpinner';
+import { getIconURL } from '../../../utils/functions';
 
 export const AppearancePreview = () => {
     const updating = useAppSelector(selectMeUpdating);
@@ -39,7 +40,7 @@ export const AppearancePreview = () => {
                 {items?.map(item => {
                     return(
                         <div className={styles['preview-item']} style={{ backgroundColor: colors?.background?.item || 'var(--background-primary)' }} key={item.id}>
-                            {item.iconURL && <img src={item.iconURL} />}
+                            {item.icon && <img src={getIconURL(item.icon)} alt={item.icon} />}
                             
                             <div className={styles['preview-item-content']}>
                                 {item.content}
