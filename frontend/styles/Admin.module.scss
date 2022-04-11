@@ -203,7 +203,8 @@
 
 .preview {
     --inner-padding: 25px;
-    position: relative;
+    position: sticky;
+    top: calc(var(--spacing-primary) + var(--navbar-height));
     width: 300px;
     max-width: 100%;
     aspect-ratio: 300/615;
@@ -230,6 +231,8 @@
     }
     .preview {
         margin-bottom: var(--spacing-primary);
+        position: relative;
+        top: unset;
     }
     .customize-images {
         flex-direction: column;
