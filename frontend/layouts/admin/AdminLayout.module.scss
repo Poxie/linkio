@@ -10,6 +10,7 @@
     height: var(--navbar-height);
     width: 100%;
     top: 0;
+    z-index: 14;
 }
 .navbar-content {
     display: flex;
