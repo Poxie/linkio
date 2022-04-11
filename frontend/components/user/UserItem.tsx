@@ -7,13 +7,14 @@ import { selectUserIsMe } from '../../redux/user/userSelectors';
 import styles from '../../styles/User.module.scss';
 import { updateUserItem } from '../../utils';
 import { Item, User } from '../../utils/types';
+import { useSortable } from '../SortableItems';
 import { EditButton } from './EditIcon';
 import { HasEditorContainer, useEditor } from './HasEditorContainer';
 import { UserItemIcon } from './UserItemIcon';
 
 export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     const dispatch = useDispatch();
-    // const { disableDragging, enableDragging } = useSortable();
+    const { disableDragging, enableDragging } = useSortable();
     const itemBeforeChange = useRef(item);
 
     const onChange = (item: Item) => {
@@ -25,10 +26,10 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     }
     const onCancel = async () => {
         dispatch(setUserItem(itemBeforeChange.current));
-        // enableDragging();
+        enableDragging();
     }
     const onStartEditing = () => {
-        // disableDragging();
+        disableDragging();
     }
 
     return(
