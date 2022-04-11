@@ -153,6 +153,10 @@
     display: flex;
     transition: transform .2s, box-shadow .2s;
 
+    &.my-item {
+        cursor: grab;
+    }
+
     &:not(.my-item):hover {
         transform: translateY(-4px);
         box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px 0px;
