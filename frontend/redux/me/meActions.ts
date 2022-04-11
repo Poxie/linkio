@@ -1,5 +1,5 @@
 import { Item, User } from "../../utils/types";
-import { REMOVE_ME_ITEM, SET_ME, SET_ME_AVATAR, SET_ME_BANNER, SET_ME_COLOR, SET_ME_ITEMS, SET_ME_UPDATING } from "./meTypes";
+import { REMOVE_ME_ITEM, SET_ME, SET_ME_AVATAR, SET_ME_BANNER, SET_ME_COLOR, SET_ME_ITEM, SET_ME_ITEMS, SET_ME_UPDATING } from "./meTypes";
 
 export const setMe = (me: User | null) => ({
     type: SET_ME,
@@ -8,6 +8,10 @@ export const setMe = (me: User | null) => ({
 export const setMeUpdating = (state: boolean) => ({
     type: SET_ME_UPDATING,
     payload: state
+})
+export const setMeItem = (item: Item) => ({
+    type: SET_ME_ITEM,
+    payload: item
 })
 export const setMeItems = (items: Item[]) => ({
     type: SET_ME_ITEMS,

@@ -1,6 +1,6 @@
 import { User } from "../../utils/types";
 import meInitialState from "./meInitialState";
-import { SET_ME, MeAction, MeState, SET_ME_ITEMS, REMOVE_ME_ITEM, SET_ME_COLOR, SET_ME_BANNER, SET_ME_AVATAR, SET_ME_UPDATING } from "./meTypes";
+import { SET_ME, MeAction, MeState, SET_ME_ITEMS, REMOVE_ME_ITEM, SET_ME_COLOR, SET_ME_BANNER, SET_ME_AVATAR, SET_ME_UPDATING, SET_ME_ITEM } from "./meTypes";
 
 export const meReducer: (state: MeState, action: MeAction) => any = (state=meInitialState, action: MeAction) => {
     switch(action.type) {
@@ -15,6 +15,22 @@ export const meReducer: (state: MeState, action: MeAction) => any = (state=meIni
                 ...state,
                 user: action.payload,
                 loading: false
+            }
+        }
+        case SET_ME_ITEM: {
+            const items = state.user?.items.map(item => {
+                if(item.id === action.payload.id) {
+                    return action.payload;
+                }
+                return item;
+            })
+
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    items
+                }
             }
         }
         case SET_ME_ITEMS: {
