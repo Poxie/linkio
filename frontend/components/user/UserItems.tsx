@@ -9,6 +9,7 @@ import { updateUserItem, updateUserItems } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { selectMeId } from '../../redux/me/meSelectors';
 import { SortableItems } from '../SortableItems';
+import { setUserItems } from '../../redux/user/userActions';
 
 export const UserItems = () => {
     const dispatch = useDispatch();
@@ -25,10 +26,8 @@ export const UserItems = () => {
             return item;
         })
 
-        console.log(items);
         const newItems = await updateUserItems(myId, items);
-        console.log(newItems);
-        // dispatch(setUserItems(itemsToUpdate));
+        dispatch(setUserItems(newItems));
     }
 
     return(

@@ -50,10 +50,10 @@ export const AdminLinks = () => {
             delete item.isValid;
             return item;
         })
-        await updateUserItems(myId, dbItems);
+        const newItems = await updateUserItems(myId, dbItems);
 
         // Updating interface
-        dispatch(setMeItems(items));
+        dispatch(setMeItems(newItems));
     }
 
     const newLinks: (Item & {onChange: AdminLinkChange, onBlur: AdminLinkBlur})[] = links.map(link => ({
