@@ -56,6 +56,7 @@ export const userReducer: (state: UserState, action: UserAction) => any = (state
         }
         case SET_USER_ITEMS: {
             const user = {...state.user, items: [...action.payload]};
+            console.log(user.items);
             return {
                 ...state,
                 user
@@ -65,12 +66,14 @@ export const userReducer: (state: UserState, action: UserAction) => any = (state
             const item = state.user?.items.find(item => item.id === action.payload);
             if(!item) return {...state};
 
-            const items = state.user?.items.filter(i => {
-                if(i.order > item.order) {
-                    i.order--;
+            // Updating order of affected items and filter out removed item
+            const items = state.user?.items.map(i => {
+                const newItem = {...i};
+                if(newItem.order > item.order) {
+                    newItem.order--;
                 }
-                return i.id !== item.id; 
-            });
+                return newItem;
+            }).filter(i => i.id !== item.id);
             const user = {
                 ...state.user,
                 items
