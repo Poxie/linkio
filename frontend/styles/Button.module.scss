@@ -5,6 +5,18 @@
     cursor: pointer;
     transition: background-color .2s;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a {
+        height: 100%;
+        width: 100%;
+        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
     &.primary {
         background-color: var(--button-primary);
