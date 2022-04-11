@@ -51,6 +51,24 @@
         font-size: 15px !important;
     }
 }
+.link-icons {
+    display: flex;
+    gap: calc(var(--spacing-primary) / 2);
+    margin-top: var(--spacing-primary);
+}
+.link-icon {
+    width: 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+
+    img {
+        width: 100%;
+    }
+}
 .link-options {
     svg {
         fill: var(--color-secondary);

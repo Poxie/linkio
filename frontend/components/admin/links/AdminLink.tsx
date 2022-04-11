@@ -11,8 +11,21 @@ import { Item } from '../../../utils/types';
 import { Input } from '../../Input';
 import { AdminLinkBlur, AdminLinkChange } from './AdminLinks';
 import { HasTooltip } from '../../tooltip/HasTooltip';
+import { MEDIA_COLORS } from '../../../utils/constants';
+import { YouTubeIcon } from '../../../icons/YouTubeIcon';
+import { TwitterIcon } from '../../../icons/TwitterIcon';
+import { TwitchIcon } from '../../../icons/TwitchIcon';
+import { FacebookIcon } from '../../../icons/FacebookIcon';
+import { SnapchatIcon } from '../../../icons/SnapchatIcon';
 
-export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: AdminLinkBlur}> = ({ content, url, onChange, onBlur, id }) => {
+const ICONS = [
+    { icon: <YouTubeIcon />, id: 'youtube' },
+    { icon: <TwitterIcon />, id: 'twitter' },
+    { icon: <TwitchIcon />, id: 'twitch' },
+    { icon: <FacebookIcon />, id: 'facebook' },
+    { icon: <SnapchatIcon />, id: 'snapchat' }
+]
+export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: AdminLinkBlur}> = ({ content, url, icon, onChange, onBlur, id }) => {
     const { setModal, closeModals } = useModal();
     const dispatch = useDispatch();
 
@@ -50,6 +63,28 @@ export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: Admi
                         onChange={value => onChange(id, 'url', value)}
                         onBlur={() => onBlur(id)}
                     />
+                </div>
+
+                <div className={styles['link-icons']}>
+                    {ICONS.map(_icon => {
+                        const { id: iconId, icon: i } = _icon;
+                        const active = iconId === icon;
+                        const color = MEDIA_COLORS[iconId as keyof typeof MEDIA_COLORS];
+                        
+                        return(
+                            <div
+                                className={styles['link-icon'] + (active ? ` ${styles['active']}` : '')}
+                                style={{ 
+                                    backgroundColor: !active ? '' : color,
+                                    fill: active ? '#fff' : color
+                                }}
+                                onClick={() => onChange(id, 'icon', iconId, true)}
+                                key={iconId}
+                            >
+                                {i}
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
             <div className={styles['link-options']}>
