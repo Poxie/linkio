@@ -2,9 +2,12 @@ import React, { FunctionComponent, useCallback, useEffect, useRef, useState } fr
 
 type SortableContextType = {
     changeIndex: (currentIndex: number, newIndex: number) => void;
+    enableDragging: () => void;
+    disableDragging: () => void;
+    draggable: boolean;
 }
 const SortableContext = React.createContext({} as SortableContextType);
-const useSortable = () => React.useContext(SortableContext);
+export const useSortable = () => React.useContext(SortableContext);
 
 export type SortableItemsProps = {
     items: any[];
@@ -16,6 +19,7 @@ export const SortableItems: React.FC<SortableItemsProps> = ({ items, component, 
     const refs = useRef<React.RefObject<HTMLDivElement>[]>([]);
     const tempItems = useRef(items.map(item => ({...item})));
     const [currentItems, setCurrentItems] = useState(items.map(item => ({...item})));
+    const [draggable, setDraggable] = useState(true);
 
     const changeIndex: SortableContextType['changeIndex'] = (currentIndex, newIndex) => {
         updateElementOrder(currentIndex, newIndex);
@@ -106,8 +110,15 @@ export const SortableItems: React.FC<SortableItemsProps> = ({ items, component, 
         return ref;
     }, []);
 
+    // Updating if items are draggable
+    const disableDragging = useCallback(() => setDraggable(false), [setDraggable]);
+    const enableDragging = useCallback(() => setDraggable(true), [setDraggable]);
+
     const value = {
-        changeIndex
+        changeIndex,
+        disableDragging,
+        enableDragging,
+        draggable
     }
 
     return(
@@ -124,7 +135,7 @@ type SortableItemProps = {
     ref: React.RefObject<HTMLDivElement>;
 }
 const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HTMLDivElement, SortableItemProps>(({ component: Component, index, item }, forwardRef) => {
-    const { changeIndex } = useSortable();
+    const { changeIndex, draggable } = useSortable();
     const ref = useRef<HTMLDivElement>(null);
     const [beingDragged, setBeingDragged] = useState(false);
     const dragging = useRef(false);
@@ -220,7 +231,7 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
     return(
         <div 
             ref={ref} 
-            draggable 
+            draggable={draggable}
             data-dragging={beingDragged}
             data-order={item.order}
         >
