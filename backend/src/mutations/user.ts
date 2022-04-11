@@ -1,5 +1,6 @@
 import { RequestAuth, User, UserItem } from "../types";
-import { createUserAction, createUserItemAction, destroyUserItemAction, selectUserItemById, updateUserAction, updateUserItemAction, updateUserItemsAction } from "../utils/databaseActions";
+import { reorderItems } from "../utils";
+import { createUserAction, createUserItemAction, destroyUserItemAction, selectItemsByUserId, selectUserItemById, updateUserAction, updateUserItemAction, updateUserItemsAction } from "../utils/databaseActions";
 const presetIcons = ['youtube', 'snapchat', 'instagram', 'twitch'];
 
 export type CreateUserArgs = Partial<User> & {
@@ -45,6 +46,12 @@ export const destroyUserItem = async (_: any, { id }: {id: string}, { userId }: 
 
     // Destroying item
     const response = await destroyUserItemAction(item.id);
+
+    // Updating order properties of other items
+    const items = await selectItemsByUserId(userId, true);
+    const newItems = reorderItems(items, item.order);
+    updateUserItemsAction(userId, newItems);
+    
     return response;
 }
 

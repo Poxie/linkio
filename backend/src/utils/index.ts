@@ -21,3 +21,12 @@ export const hasValidOrderProperties = (items: UserItem[]) => {
 
     return valid;
 }
+
+export const reorderItems = (items: UserItem[], missingIndex: number) => {
+    items.forEach(item => {
+        if(item.order > missingIndex) {
+            item.order--;
+        }
+    })
+    return items;
+}
