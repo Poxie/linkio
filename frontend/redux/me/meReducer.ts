@@ -46,11 +46,21 @@ export const meReducer: (state: MeState, action: MeAction) => any = (state=meIni
             }
         }
         case REMOVE_ME_ITEM: {
+            const item = state.user?.items.find(item => item.id === action.payload);
+            if(!item) return {...state};
+
+            const items = state.user?.items.filter(i => {
+                if(i.order > item.order) {
+                    i.order--;
+                }
+                return i.id !== item.id; 
+            });
+
             return {
                 ...state,
                 user: {
                     ...state.user,
-                    items: state.user?.items.filter(item => item.id !== action.payload)
+                    items
                 }
             }
         }
