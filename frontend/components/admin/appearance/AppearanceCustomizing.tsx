@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import styles from '../../../styles/Admin.module.scss';
 import { useDispatch } from 'react-redux';
-import { setMeAvatar, setMeBanner, setMeColor, setMeUpdating } from '../../../redux/me/meActions';
+import { setMeAvatar, setMeBanner, setMeColor, setMeDisplay, setMeUpdating } from '../../../redux/me/meActions';
 import { selectMeColors, selectMeDisplay, selectMeId } from '../../../redux/me/meSelectors';
 import { useAppSelector } from '../../../redux/store';
 import { CustomizeColorInput } from './CustomizeColorInput';
@@ -9,10 +9,14 @@ import { User } from '../../../utils/types';
 import { updateUser } from '../../../utils';
 import { CustomizeFileInput } from './CustomizeFileInput';
 import { SortableItems } from '../../SortableItems';
+import { Input } from '../../Input';
+import { selectUserIsMe } from '../../../redux/user/userSelectors';
+import { setUserDisplay } from '../../../redux/user/userActions';
 
 export const AppearanceCustomizing = () => {
     const dispatch = useDispatch();
     const id = useAppSelector(selectMeId);
+    const isMe = useAppSelector(selectUserIsMe);
     const colors = useAppSelector(selectMeColors);
     const { avatar, header, banner, item, primary } = colors?.background || {} as User['colorScheme']['background'];
     const display = useAppSelector(selectMeDisplay);
@@ -35,6 +39,17 @@ export const AppearanceCustomizing = () => {
         const { bannerURL, avatarURL } = await updateUser(id, { [type]: file });
         dispatch(type === 'banner' ? setMeBanner(bannerURL) : setMeAvatar(avatarURL));
     }
+    const updateLocalText = async (type: 'name', value: string) => {
+        dispatch(setMeDisplay(type, value));
+    }
+    const updateDatabaseText = async (type: 'name', value: string) => {
+        if(!id) return;
+        await updateUser(id, { [type]: value });
+
+        if(isMe) {
+            dispatch(setUserDisplay(type, value));
+        }
+    }
 
     const items = [
         { background: avatar || 'var(--user-avatar-background)', header: 'Avatar Color', id: 'avatar' },
@@ -45,6 +60,15 @@ export const AppearanceCustomizing = () => {
     ] as {background: string, header: string, id: keyof User['colorScheme']['background']}[];
     return(
         <div className={styles['customize-container']}>
+            <Input 
+                value={display.name || ''}
+                label={'Display Name'}
+                onChange={value => updateLocalText('name', value)}
+                onBlur={value => updateDatabaseText('name', value)}
+                className={styles['input-container']}
+                placeholder={'Display Name'}
+            />
+
             <div className={styles['customize-images']}>
                 <CustomizeFileInput 
                     header={'Avatar'}
