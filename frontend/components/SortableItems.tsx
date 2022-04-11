@@ -147,7 +147,7 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
     React.useImperativeHandle(forwardRef, () => ref.current as HTMLDivElement);
 
     const handleDragEnd = useCallback((e: DragEvent) => {
-        if(!ref.current)return;
+        if(!ref.current) return;
 
         // Updating dragging state
         dragging.current = false;
@@ -176,7 +176,7 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
 
         initialMousePos.current = { mouseLeft, mouseTop };
         initialPosition.current = { initialLeft: x, initialTop: y };
-    }, []);
+    }, [draggable]);
     const handleDrag = useCallback((e: DragEvent) => {
         if(!ref.current) return;
 
@@ -196,7 +196,7 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
         // Setting translate values
         ref.current.style.transform = `translateY(${newTop}px) translateX(${newLeft}px)`;
         ref.current.style.pointerEvents = 'none';
-    }, []);
+    }, [draggable]);
     const handleDragEnter = useCallback(() => {
         if(dragging.current) return;
 
@@ -215,7 +215,7 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
 
     // Initial setup
     useEffect(() => {
-        if(!ref.current) return;
+        if(!ref.current || !draggable) return;
 
         // Setting up drag event handlers
         ref.current.addEventListener('dragstart', handleDragStart);
@@ -226,7 +226,14 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
         // Getting item dimensions
         const { width, height } = ref.current.getBoundingClientRect();
         dimensions.current = { width, height };
-    }, []);
+
+        return () => {
+            if(!ref.current) return;
+            ref.current.removeEventListener('dragstart', handleDragStart);
+            ref.current.removeEventListener('drag', handleDrag);
+            ref.current.removeEventListener('dragenter', handleDragEnter);
+        }
+    }, [draggable]);
 
     return(
         <div 
