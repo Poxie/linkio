@@ -6,7 +6,7 @@ import { CreateUserArgs, CreateUserItemArgs, UpdateUserArgs, UpdateUserItemArgs 
 import { connection } from '../index';
 import { DELETE_USER_ITEM_BY_ID, SELECT_USER_BY_ID, SELECT_USER_BY_USERNAME, SELECT_USER_ITEMS_BY_USER_ID, SELECT_USER_ITEM_BY_ID, SELECT_USER_ITEM_COUNT } from "./queries";
 import { User, UserItem } from "../types";
-import { isValidItem } from '.';
+import { hasValidOrderProperties, isValidItem } from '.';
 
 const request = async (query: string, values?: any[]) => {
     const [response] = await connection.promise().query(query, values);
@@ -310,6 +310,10 @@ export const updateUserItemAction = async (item: UpdateUserItemArgs) => {
  * @returns an array of item objects
 */
 export const updateUserItemsAction = async (userId: string, items: UserItem[]) => {
+    // Checking if order properties are valid
+    const valid = hasValidOrderProperties(items);
+    if(!valid) throw new Error('Order properties are invalid.'); 
+
     const newItems = [];
     for(const item of items) {
         // Creating update query
