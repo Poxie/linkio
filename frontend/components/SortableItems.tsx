@@ -40,9 +40,9 @@ export const SortableItems: React.FC<SortableItemsProps> = ({ items, component, 
             if(!draggedItemIsAbove && !draggedItemEnteredMe) return;
             
             // Defining translation threshholds
-            const isAnimated = !ref.current.style.transform.includes('0px');
-            const translateUp = isAnimated ? 'translateY(0)' : `translateY(calc(${-height}px - ${spacing}))`;
-            const translateDown = isAnimated ? 'translateY(0)' : `translateY(calc(${height}px + ${spacing}))`;
+            const isAnimated = ref.current.getAttribute('style')?.indexOf('transform') !== -1 && ref.current.getAttribute('style')?.indexOf('transform') !== undefined;
+            const translateUp = isAnimated ? '' : `translateY(calc(${-height}px - ${spacing}))`;
+            const translateDown = isAnimated ? '' : `translateY(calc(${height}px + ${spacing}))`;
 
             // Determining translation values based on relations
             if(draggedItemIsAbove && draggedItemEnteredMe) {
@@ -76,7 +76,11 @@ export const SortableItems: React.FC<SortableItemsProps> = ({ items, component, 
         if(JSON.stringify(tempItems.current) === JSON.stringify(items)) return;
         onDragEnd(tempItems.current);
         setCurrentItems([...tempItems.current].sort((a,b) => a.order - b.order));
-        console.log(tempItems.current);
+        
+        refs.current.forEach(ref => {
+            if(!ref.current) return;
+            ref.current.style.transform = '';
+        })
     }, [items, onDragEnd, tempItems.current]);
 
     useEffect(() => {
