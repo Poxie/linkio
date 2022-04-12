@@ -23,6 +23,11 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
     useEffect(() => {
         return enableDragging;
     }, []);
+
+    // Updating itemBeforeChange ref on item order change
+    useEffect(() => {
+        itemBeforeChange.current = item;
+    }, [item.order]);
     
     const onChange = (item: Item) => {
         dispatch(setUserItem(item));
