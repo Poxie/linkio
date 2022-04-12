@@ -60,6 +60,7 @@ export default gql`
         order: Int!
         icon: String
         iconURL: String
+        isValid: Boolean
     }
 
     type ColorScheme {

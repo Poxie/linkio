@@ -316,6 +316,9 @@ export const updateUserItemsAction = async (userId: string, items: UserItem[]) =
 
     const newItems = [];
     for(const item of items) {
+        // @ts-ignore: We delete this property, as it cannot be updated by users
+        delete item.isValid;
+
         // Creating update query
         const { query, values } = keysToUpdateQuery(item, 'items', 'WHERE id = ?');
         values.push(item.id as any);
