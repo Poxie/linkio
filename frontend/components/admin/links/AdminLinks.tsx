@@ -61,12 +61,7 @@ export const AdminLinks = () => {
         if(!myId) return;
 
         // Updating database
-        const dbItems = items.map(item => {
-            // @ts-ignore: we can't update isValid property
-            delete item.isValid;
-            return item;
-        })
-        const newItems = await updateUserItems(myId, dbItems);
+        const newItems = await updateUserItems(myId, items);
 
         // Updating interface
         dispatch(setMeItems(newItems));
