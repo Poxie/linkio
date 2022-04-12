@@ -28,7 +28,7 @@ const ICONS = [
     { icon: <FacebookIcon />, id: 'facebook' },
     { icon: <SnapchatIcon />, id: 'snapchat' }
 ]
-export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: AdminLinkBlur}> = ({ content, url, icon, onChange, onBlur, id }) => {
+export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: AdminLinkBlur}> = ({ content, url, icon, onChange, onBlur, id, isValid }) => {
     const { setModal, closeModals } = useModal();
     const dispatch = useDispatch();
     const isMe = useAppSelector(selectUserIsMe);
@@ -48,9 +48,13 @@ export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: Admi
         setModal(<DeleteModal onSubmit={deleteItem} onCancel={cancelDeletion} />);
     }
 
+    const className = [
+        styles['link'],
+        !isValid && styles['invalid']
+    ].join(' ');
     return(
         <motion.div 
-            className={styles['link']}
+            className={className}
             exit={{ height: 0, paddingTop: 0, paddingBottom: 0, margin: 0, borderWidth: 0, overflow: 'hidden' }}
         >
             <div className={styles['link-main']}>
@@ -95,6 +99,17 @@ export const AdminLink: React.FC<Item & {onChange: AdminLinkChange, onBlur: Admi
                         )
                     })}
                 </div>
+
+                {!isValid && (
+                    <HasTooltip 
+                        tooltip={'This link is incomplete.'}
+                        className={styles['invalid-notice']}
+                    >
+                        <span>
+                            !
+                        </span>
+                    </HasTooltip>
+                )}
             </div>
             <div className={styles['link-options']}>
                 <HasTooltip tooltip={'Delete Item'}>
