@@ -15,10 +15,12 @@ type Props = {
 export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onChange, onSubmit, onBlur, className, textarea=false, resize='vertical' }) => {
     const ref = useRef<HTMLInputElement>(null);
     const [value, setValue] = useState(_value);
+    const hasChanged = useRef(false);
 
     useEffect(() => setValue(_value), [_value]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        hasChanged.current = true;
         const val = e.target.value;
         setValue(val);
 
@@ -28,6 +30,7 @@ export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onCh
     }
     const handleSubmit = (e: React.FormEvent) => {
         if(!ref.current) return;
+        hasChanged.current = false;
 
         e.preventDefault();
         if(onSubmit) {
@@ -35,7 +38,9 @@ export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onCh
         }
     }
     const handleBlur = () => {
+        if(!hasChanged.current) return;
         onBlur && onBlur(ref.current?.value || '');
+        hasChanged.current = false;
     }
 
     const options = {
