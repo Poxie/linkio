@@ -40,47 +40,54 @@ export const SortableItems: React.FC<SortableItemsProps> = ({ items, component, 
             const draggedItemEnteredMe = draggedIndex === currentIndex;
 
             // Making sure only affected items go through process
-            if(draggedItemIsAbove && !draggedItemEnteredMe) return;
-            if(!draggedItemIsAbove && !draggedItemEnteredMe) return;
-            
+            if(draggedItemIsAbove && !draggedItemEnteredMe && !(draggedIndex >= currentIndex)) return;
+            if(!draggedItemIsAbove && !draggedItemEnteredMe && !(draggedIndex <= currentIndex)) return;
+
             // Defining translation threshholds
             const isAnimated = ref.current.getAttribute('style')?.indexOf('transform') !== -1 && ref.current.getAttribute('style')?.indexOf('transform') !== undefined;
             const translateUp = isAnimated ? '' : `translateY(calc(${-height}px - ${spacing}))`;
             const translateDown = isAnimated ? '' : `translateY(calc(${height}px + ${spacing}))`;
 
             // Determining translation values based on relations
-            if(draggedItemIsAbove && draggedItemEnteredMe) {
+            const shouldTranslateUp = draggedItemIsAbove && draggedItemEnteredMe || draggedItemIsAbove && !draggedItemEnteredMe;
+            const shouldTranslateDown = !draggedItemIsAbove && draggedItemEnteredMe || !draggedItemIsAbove && !draggedItemEnteredMe;
+            if(shouldTranslateUp) {
                 ref.current.style.transform = translateUp;
-            } else if(!draggedItemIsAbove && draggedItemEnteredMe) {
+            } else if(shouldTranslateDown) {
                 ref.current.style.transform = translateDown;
             }
 
             // Updating my order attribute
             let newIndex = 0;
-            if(draggedItemEnteredMe && draggedItemIsAbove) {
+            if(shouldTranslateUp) {
                 newIndex = currentIndex - 1
-            } else if(draggedItemEnteredMe && !draggedItemIsAbove) {
+            } else if(shouldTranslateDown) {
                 newIndex = currentIndex + 1
             }
             ref.current.setAttribute('data-order', newIndex.toString());
-            
-            // Updating temp items ref
-            const draggedItem = tempItems.current.find(item => item.order === prevIndex);
-            const currentItem = tempItems.current.find(item => item.order === currentIndex);
-            draggedItem.order = currentIndex;
-            currentItem.order = newIndex;
 
-            // Updating dragged item order attribute
+            // Updating dragged item order
             if(draggedItemEnteredMe) {
                 document.querySelector('[data-dragging=true]')?.setAttribute('data-order', currentIndex.toString());
             }
         })
     }, [refs]);
     const handleDragEnd = useCallback(() => {
+        // Updating tempItems ref with orders
+        refs.current.forEach(ref => {
+            const id = ref.current?.getAttribute('data-item-id');
+            const order = parseInt(ref.current?.getAttribute('data-order') || "");
+            tempItems.current.find(item => item.id === id).order = order;
+        })
+
+        // If no change, return
         if(JSON.stringify(tempItems.current) === JSON.stringify(items)) return;
-        onDragEnd(tempItems.current);
-        setCurrentItems([...tempItems.current].sort((a,b) => a.order - b.order));
         
+        // Else update
+        setCurrentItems([...tempItems.current].sort((a,b) => a.order - b.order));
+        onDragEnd([...tempItems.current].sort((a,b) => a.order - b.order));
+        
+        // Resetting transform style
         refs.current.forEach(ref => {
             if(!ref.current) return;
             ref.current.style.transform = '';
@@ -241,6 +248,7 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
             draggable={draggable}
             data-dragging={beingDragged}
             data-order={item.order}
+            data-item-id={item.id}
         >
             <Component {...item} />
         </div>
