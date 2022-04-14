@@ -12,7 +12,7 @@ export const HomeInput = () => {
     const [isFocusing, setIsFocusing] = useState(false);
 
     const create = () => {
-        router.push(`${WEBSITE_ORIGIN}/create?username=${username}`);
+        router.push(`${WEBSITE_ORIGIN}/login?type=create&username=${username}`);
     }
 
     return(
