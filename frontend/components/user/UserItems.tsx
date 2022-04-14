@@ -21,12 +21,6 @@ export const UserItems = () => {
     const onDragEnd = async (items: Item[]) => {
         if(!items || !myId) return;
 
-        items = items.map(item => {
-            // @ts-ignore: isValid cannot be updated
-            delete item.isValid;
-            return item;
-        })
-
         const newItems = await updateUserItems(myId, items);
         dispatch(setUserItems(newItems));
         if(isMe) {
