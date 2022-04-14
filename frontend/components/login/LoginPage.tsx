@@ -7,6 +7,7 @@ import { createUser, login } from '../../utils';
 import { capitalizeFirstLetter } from '../../utils/functions';
 import { Button } from '../Button';
 import { Input } from '../Input';
+import { LoadingSpinner } from '../loading-spinner/LoadingSpinner';
 
 type QueryParams = {
     type?: string;
@@ -23,6 +24,7 @@ export const LoginPage = () => {
     const [username, setUsername] = useState(_username || '');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     // Removing error notice on input change
     useEffect(() => setError(''), [username, password]);
@@ -31,9 +33,14 @@ export const LoginPage = () => {
     const onSubmit = async () => {
         if(!username || !password) return setError('Fields may not be empty.')
 
+        // Updating loading state
+        setLoading(true);
+
         // Handling login
         if(type === 'login') {
             const user = await login(username, password);
+            setLoading(false);
+
             if(!user) {
                 return setError('Invalid credentials.');
             }
@@ -45,6 +52,8 @@ export const LoginPage = () => {
         if(password.length < 5) return setError('Password must include 5 or more characters.');
 
         const user = await createUser(username, password);
+        setLoading(false);
+
         if(!user) return setError('Username is unavailable.');
 
         dispatch(setMe(user));
@@ -84,7 +93,7 @@ export const LoginPage = () => {
                     onChange={setPassword}
                     label={'Password'}
                     className={styles['input-container']}
-                    onSubmit={onSubmit}
+                    onSubmit={!loading ? onSubmit : undefined}
                 />
 
                 {error && (
@@ -94,10 +103,14 @@ export const LoginPage = () => {
                 )}
                 
                 <Button
-                    onClick={onSubmit}
+                    onClick={!loading ? onSubmit : undefined}
                     type={valid ? 'primary' : 'secondary'}
                 >
-                    {header}
+                    {loading ? (
+                        <LoadingSpinner className={styles['spinner']} />
+                    ) : (
+                        header
+                    )}
                 </Button>
 
                 <div className={styles['footer']} onClick={swap}>
