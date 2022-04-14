@@ -17,6 +17,7 @@ export const UserAvatar: React.FC<{avatarURL?: string}> = ({ avatarURL }) => {
                         src={avatarURL}
                         layout={'fill'}
                         objectFit={'cover'}
+                        priority
                     />
                 ) : (
                     <span>
