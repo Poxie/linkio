@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useRef } from 'react';
+import React, { ReactElement, useCallback, useEffect, useRef } from 'react';
 import { Position, useTooltip } from '../../contexts/TooltipProvider';
 
 export const HasTooltip: React.FC<{
@@ -33,6 +33,11 @@ export const HasTooltip: React.FC<{
     const handleClick = useCallback(() => {
         closeOnClick && closeTooltip();
     }, [closeOnClick, closeTooltip]);
+
+    // Closing tooltip on unmount
+    useEffect(() => {
+        return close;
+    }, []);
 
     return(
         <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className={className} onClick={handleClick} ref={ref}>
