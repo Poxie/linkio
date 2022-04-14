@@ -75,8 +75,9 @@ export const SortableItems: React.FC<SortableItemsProps> = ({ items, component, 
     const handleDragEnd = useCallback(() => {
         // Updating tempItems ref with orders
         refs.current.forEach(ref => {
-            const id = ref.current?.getAttribute('data-item-id');
-            const order = parseInt(ref.current?.getAttribute('data-order') || "");
+            if(!ref.current) return;
+            const id = ref.current.getAttribute('data-item-id');
+            const order = parseInt(ref.current.getAttribute('data-order') || "");
             tempItems.current.find(item => item.id === id).order = order;
         })
 
@@ -97,6 +98,7 @@ export const SortableItems: React.FC<SortableItemsProps> = ({ items, component, 
     useEffect(() => {
         // Updating tempItems on items array change
         if(JSON.stringify(tempItems.current) !== JSON.stringify(items)) {
+            console.log(items.map(item => ({...item})).sort((a,b) => a.order - b.order));
             tempItems.current = items.map(item => ({...item})).sort((a,b) => a.order - b.order);
             setCurrentItems(items.map(item => ({...item})).sort((a,b) => a.order - b.order));
         }
