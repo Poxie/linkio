@@ -98,7 +98,6 @@ export const SortableItems: React.FC<SortableItemsProps> = ({ items, component, 
     useEffect(() => {
         // Updating tempItems on items array change
         if(JSON.stringify(tempItems.current) !== JSON.stringify(items)) {
-            console.log(items.map(item => ({...item})).sort((a,b) => a.order - b.order));
             tempItems.current = items.map(item => ({...item})).sort((a,b) => a.order - b.order);
             setCurrentItems(items.map(item => ({...item})).sort((a,b) => a.order - b.order));
         }

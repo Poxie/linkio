@@ -56,7 +56,6 @@ export const userReducer: (state: UserState, action: UserAction) => any = (state
         }
         case SET_USER_ITEMS: {
             const user = {...state.user, items: [...action.payload]};
-            console.log(user.items);
             return {
                 ...state,
                 user
