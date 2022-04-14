@@ -1,6 +1,14 @@
 import { gql } from "graphql-request";
 import { USER_ITEM_PROPERTIES, USER_PROPERTIES } from "./queries";
 
+export const CREATE_USER = gql`
+    mutation($username: String!, $password: String!) {
+        createUser(username: $username, password: $password) {
+            ${USER_PROPERTIES}
+        }
+    }
+`
+
 export const UPDATE_USER = gql`
     mutation($id: String!, $user: UserInput) {
         updateUser(id: $id, user: $user) {

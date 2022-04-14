@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { API_ENDPOINT } from './constants';
-import { CREATE_USER_ITEM, DESTROY_USER_ITEM, UPDATE_USER, UPDATE_USER_ITEM, UPDATE_USER_ITEMS } from './mutation';
+import { CREATE_USER, CREATE_USER_ITEM, DESTROY_USER_ITEM, UPDATE_USER, UPDATE_USER_ITEM, UPDATE_USER_ITEMS } from './mutation';
 import { GET_ME, GET_USER_BY_USERNAME, LOGIN } from './queries';
 import { Item, User } from './types';
 
@@ -37,9 +37,25 @@ export const getUserByUsername: GetUserByUsername = async (username, options) =>
     return user;
 }
 
+// Creating user
+type CreateUser = (username: string, password: string) => Promise<User | undefined>;
+export const createUser: CreateUser = async (username, password) => {
+    const user = await request(CREATE_USER, { username, password }).catch(console.error);
+    if(!user) return;
+
+    // Loggin user in
+    await login(username, password);
+
+    // Returning created user
+    return user;
+}
+
 // Login
 export const login = async (username: string, password: string) => {
-    const { token } = await request(LOGIN, { username, password }).catch(console.error);
+    const data = await request(LOGIN, { username, password }).catch(console.error);
+    if(!data) return;
+    
+    const token = data.token;
     localStorage.accessToken = token;
     return token;
 }
