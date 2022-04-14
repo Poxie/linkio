@@ -18,7 +18,7 @@ export const AppearancePreview = () => {
             <PhoneScreenIcon />
             
             <div className={styles['preview-container']} style={{ backgroundColor: colors?.background.primary || 'var(--background-secondary)' }}>
-                <div className={styles['preview-banner']} style={{ backgroundColor: colors?.background?.banner }}>
+                <div className={styles['preview-banner']} style={{ backgroundColor: colors?.background?.banner || 'var(--user-banner-background)' }}>
                     {user.bannerURL && (
                         <img src={user.bannerURL} />
                     )}
