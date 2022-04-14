@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setMe } from '../../redux/me/meActions';
+import { selectMe } from '../../redux/me/meSelectors';
+import { useAppSelector } from '../../redux/store';
 import styles from '../../styles/Login.module.scss';
 import { createUser, login } from '../../utils';
 import { capitalizeFirstLetter } from '../../utils/functions';
@@ -15,12 +17,13 @@ type QueryParams = {
     redirect_uri: string;
 }
 export const LoginPage = () => {
+    const dispatch = useDispatch();
+
     const router = useRouter();
     let { redirect_uri, type, username: _username } = router.query as QueryParams;
     if(!type) type = 'login';
     if(!redirect_uri) redirect_uri = '/admin';
     
-    const dispatch = useDispatch();
     const [username, setUsername] = useState(_username || '');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -28,6 +31,13 @@ export const LoginPage = () => {
 
     // Removing error notice on input change
     useEffect(() => setError(''), [username, password]);
+
+    // Checking if user is already logged in
+    const me = useAppSelector(selectMe);
+    if(me) {
+        router.replace(redirect_uri);
+        return <></>;
+    }
 
     // Handling submit action
     const onSubmit = async () => {
