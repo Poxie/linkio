@@ -46,6 +46,20 @@
 .add-item-button {
     height: 46px;
 }
+.empty-links {
+    padding: calc(var(--spacing-primary) * 2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-primary);
+    border-radius: var(--border-radius);
+    border: 2px solid var(--background-tertiary);
+
+    span {
+        font-size: 17px;
+    }
+}
 .link {
     padding: var(--spacing-primary);
     background-color: var(--background-primary);

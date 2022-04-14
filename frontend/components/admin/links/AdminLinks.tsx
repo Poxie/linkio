@@ -1,5 +1,6 @@
-import { AnimatePresence } from 'framer-motion';
 import React from 'react';
+import styles from '../../../styles/Admin.module.scss';
+import { AnimatePresence } from 'framer-motion';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -13,6 +14,7 @@ import { updateUserItem, updateUserItems } from '../../../utils';
 import { Item } from '../../../utils/types';
 import { SortableItems } from '../../SortableItems';
 import { AdminLink } from './AdminLink';
+import { Button } from '../../Button';
 
 export type AdminLinkChange = (id: string, type: keyof Item, value: any, update?: boolean) => void;
 export type AdminLinkBlur = (id: string) => void;
@@ -79,6 +81,11 @@ export const AdminLinks = () => {
     }));
     return(
         <AnimatePresence>
+            {newLinks.length === 0 && (
+                <div className={styles['empty-links']}>
+                    Looks like you don't have any items yet.
+                </div>
+            )}
             <SortableItems 
                 items={newLinks}
                 component={AdminLink}
