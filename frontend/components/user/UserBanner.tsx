@@ -9,7 +9,7 @@ export const UserBanner: React.FC<{bannerURL?: string}> = ({ bannerURL }) => {
     const colors = useAppSelector(selectUserColors);
 
     return(
-        <div className={styles['banner']} style={{ backgroundColor: colors?.background.banner }}>
+        <div className={styles['banner']} style={{ backgroundColor: colors?.background.banner || 'var(--user-banner-background)' }}>
             {bannerURL && (
                 <Image 
                     src={bannerURL}
