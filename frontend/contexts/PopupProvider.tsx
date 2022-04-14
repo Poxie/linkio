@@ -20,7 +20,7 @@ type Popup = {
 }
 type PopupContextType = {
     setPopup: (component: Component, ref: Ref, options?: Options ) => void;
-    pushPopup: (component: Component, ref: Ref ) => void;
+    pushPopup: (component: Component, ref: Ref, options?: Options ) => void;
     closePopups: () => void;
     goBack: () => void;
     canGoBack: boolean;
@@ -84,7 +84,7 @@ export const PopupProvider: React.FC = ({ children }) => {
      * @param component required, the popup component to display
      * @param ref required, the ref of the element the popup should be relative to
      */
-    const setPopup = (component: Component, ref: Ref, options?: Options) => {
+    const setPopup: PopupContextType['setPopup'] = (component, ref, options) => {
         isCentered.current = options?.centered;
         closePopups();
         setOptions(options)
@@ -96,7 +96,7 @@ export const PopupProvider: React.FC = ({ children }) => {
      * @param component required, the popup component to display
      * @param ref required, the ref of the element the popup should be relative to
     */
-    const pushPopup = (component: Component, ref: Ref, options?: Options) => {
+    const pushPopup: PopupContextType['pushPopup'] = (component, ref, options) => {
         isCentered.current = options?.centered;
         setOptions(options)
         const popup = createPopup(component, ref);
