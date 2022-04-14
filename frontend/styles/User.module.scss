@@ -335,6 +335,9 @@
     display: flex;
     gap: var(--spacing-primary);
     margin-top: var(--spacing-primary);
+    position: sticky;
+    bottom: -1px;
+    background-color: var(--background-primary);
 }
 .editor-footer-button {
     flex: 1;
@@ -346,12 +349,20 @@
 @media only screen and (max-width: 600px) {
     .editor-container {
         overflow: auto;
+
+        // Because of sticky footer
+        padding-bottom: 0;
+
+        &::after {
+            display: none;
+        }
     }
     .preset-container, .editor-footer {
         flex-direction: column;
     }
     .editor-footer {
         gap: calc(var(--spacing-primary) / 2);
+        padding: var(--spacing-primary) 0;
     }
     .header-content {
         margin-top: -100px;
