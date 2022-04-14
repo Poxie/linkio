@@ -84,6 +84,7 @@ export const LoginPage = () => {
                     onChange={setPassword}
                     label={'Password'}
                     className={styles['input-container']}
+                    onSubmit={onSubmit}
                 />
 
                 {error && (
