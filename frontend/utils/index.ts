@@ -51,7 +51,8 @@ export const createUser: CreateUser = async (username, password) => {
 }
 
 // Login
-export const login = async (username: string, password: string) => {
+type Login = (username: string, password: string) => Promise<string | undefined>;
+export const login: Login = async (username, password) => {
     const data = await request(LOGIN, { username, password }).catch(console.error);
     if(!data) return;
     

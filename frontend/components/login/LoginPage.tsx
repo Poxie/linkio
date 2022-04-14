@@ -38,7 +38,7 @@ export const LoginPage = () => {
                 return setError('Invalid credentials.');
             }
 
-            return router.replace(redirect_uri);
+            return window.location.replace(redirect_uri);
         }
 
         // Handling creation of account
