@@ -27,12 +27,15 @@ export const AppearanceCustomizing = () => {
     const updateDatabaseColor = useCallback(async (type: keyof User['colorScheme']['background'], color: string | null) => {
         if(!id) return;
 
+        // Making sure we don't make a request if value doesn't change
+        if(!colors || colors['background'][type] === color) return;
+
         dispatch(setMeColor('background', type, color));
         dispatch(setMeUpdating(true));
 
         await updateUser(id, { [`${type}Color`]: color });
         dispatch(setMeUpdating(false));
-    }, [dispatch, id]);
+    }, [dispatch, id, colors]);
 
     const updateImage = async (type: 'banner' | 'avatar', file: File | null) => {
         if(!id) return;
@@ -42,14 +45,17 @@ export const AppearanceCustomizing = () => {
     const updateLocalText = async (type: 'name' | 'bio', value: string) => {
         dispatch(setMeDisplay(type, value));
     }
-    const updateDatabaseText = async (type: 'name' | 'bio', value: string) => {
+    const updateDatabaseText = useCallback(async (type: 'name' | 'bio', value: string) => {
         if(!id) return;
+
+        dispatch(setMeUpdating(true));
         await updateUser(id, { [type]: value });
+        dispatch(setMeUpdating(false));
 
         if(isMe) {
             dispatch(setUserDisplay(type, value));
         }
-    }
+    }, [dispatch]);
 
     const items = [
         { background: avatar || 'var(--user-avatar-background)', header: 'Avatar Color', id: 'avatar' },
