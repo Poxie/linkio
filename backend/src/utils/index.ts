@@ -5,6 +5,9 @@ export const isValidItem = (content: string, url: string) => {
 }
 
 export const hasValidOrderProperties = (items: UserItem[]) => {
+    // If item array is empty, return valid
+    if(!items.length) return true;
+
     // Ordering order properties
     const orders = items.map(item => item.order);
     orders.sort();
