@@ -32,7 +32,7 @@ export const AppearancePreview = () => {
                             '?'
                         )}
                     </div>
-                    <div>
+                    <div className={styles['preview-name']}>
                         {user.name || `@${user.username}`}
                     </div>
                     {user.bio && (
