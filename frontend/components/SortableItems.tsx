@@ -148,7 +148,8 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
     const ref = useRef<HTMLDivElement>(null);
     const [beingDragged, setBeingDragged] = useState(false);
     const dragging = useRef(false);
-    const initialPosition = useRef({ initialLeft: 0, initialTop: 0 });
+    const initialPosition = useRef({ initialLeft: 0, initialTop: 0, fixedInitialTop: 0, fixedInitialLeft: 0 });
+    const prevPosition = useRef({ top: 0, left: 0  });
     const initialMousePos = useRef({ mouseLeft: 0, mouseTop: 0 });
     const dimensions = useRef({ width: 0, height: 0 });
 
@@ -163,8 +164,9 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
         setBeingDragged(false);
         
         // Restoring initial values
-        initialPosition.current = { initialLeft: 0, initialTop: 0 };
+        initialPosition.current = { initialLeft: 0, initialTop: 0, fixedInitialTop: 0, fixedInitialLeft: 0 };
         initialMousePos.current = { mouseLeft: 0, mouseTop: 0 };
+        prevPosition.current = { top: 0, left: 0 };
         ref.current.style.pointerEvents = '';
         ref.current.style.transform = '';
     }, []);
@@ -184,7 +186,7 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
         const mouseTop = y - top;
 
         initialMousePos.current = { mouseLeft, mouseTop };
-        initialPosition.current = { initialLeft: x, initialTop: y };
+        initialPosition.current = { initialLeft: x, initialTop: y, fixedInitialTop: top, fixedInitialLeft: left };
     }, [draggable]);
     const handleDrag = useCallback((e: DragEvent) => {
         if(!ref.current) return;
@@ -192,15 +194,24 @@ const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwardRef<HT
         // Getting initial positional values
         const { mouseLeft, mouseTop } = initialMousePos.current;
         const { height } = dimensions.current;
-        const { initialTop, initialLeft } = initialPosition.current;
+        const { initialTop, initialLeft, fixedInitialTop, fixedInitialLeft } = initialPosition.current;
 
         // Getting drag event positional values
         const { x, y } = e;
         const { left, top } = ref.current.getBoundingClientRect();
 
         // Determining translate values
-        const newTop = y - mouseTop - initialTop + mouseTop;
-        const newLeft = x - mouseLeft - initialLeft + mouseLeft;
+        let newTop = y - initialTop;
+        let newLeft = x - initialLeft;
+
+        // Making sure item doesn't exceed viewport
+        if(newTop < -fixedInitialTop) {
+            newTop = prevPosition.current.top;
+        }
+        if(Math.abs(newLeft) > fixedInitialLeft) {
+            newLeft = prevPosition.current.left;
+        }
+        prevPosition.current = { top: newTop, left: newLeft };
 
         // Setting translate values
         ref.current.style.transform = `translateY(${newTop}px) translateX(${newLeft}px)`;
