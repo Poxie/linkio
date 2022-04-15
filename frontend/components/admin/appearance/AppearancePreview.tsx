@@ -65,6 +65,7 @@ export const AppearancePreview = () => {
                 href={`/${user.username}`}
                 className={styles['link-to-page']}
                 target={'_blank'}
+                rel={'noreferrer'}
             >
                 <span>
                     To my page

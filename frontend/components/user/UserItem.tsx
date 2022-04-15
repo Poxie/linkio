@@ -67,7 +67,7 @@ const Item: React.FC<Item> = (item) => {
 
     const className = [styles['item'], isMe && styles['my-item']].join(' ');
     return(
-        <a href={!isMe ? item.url : undefined} target="_blank">
+        <a href={!isMe ? item.url : undefined} target="_blank" rel="noreferrer">
             <div className={className} ref={ref}>
                 <UserItemIcon iconURL={item.iconURL} />
 
