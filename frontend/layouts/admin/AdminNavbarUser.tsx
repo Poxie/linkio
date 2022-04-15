@@ -24,15 +24,15 @@ export const AdminNavbarUser = () => {
             onClick={openPopup} 
             ref={ref}
         >
-            <div className={styles['avatar']}>
-                {avatarURL && (
-                    <Image 
-                        src={avatarURL}
-                        layout={'fill'}
-                        objectFit={'contain'}
-                    />
-                )}
-            </div>
+            {avatarURL && (
+                <div className={styles['avatar']}>
+                        <Image 
+                            src={avatarURL}
+                            layout={'fill'}
+                            objectFit={'contain'}
+                        />
+                </div>
+            )}
             <span>
                 {name || username}
             </span>
