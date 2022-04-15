@@ -60,6 +60,10 @@ export const login: Login = async (username, password) => {
     localStorage.accessToken = token;
     return token;
 }
+// Logout
+export const logout = () => {
+    localStorage.accessToken = '';
+}
 // Get me
 export const getMe = async () => {
     const me = await request(GET_ME, { includeInvisibleItems: true });
