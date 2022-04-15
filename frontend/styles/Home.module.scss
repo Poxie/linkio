@@ -191,6 +191,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    animation: preview-item forwards .6s;
+    animation-delay: .2s;
+    opacity: 0;
 }
 .preview-banner {
     background-color: var(--background-secondary);
