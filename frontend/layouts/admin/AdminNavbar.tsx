@@ -2,12 +2,14 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { useEffect } from 'react';
 import { useRef } from 'react';
+import { useDimensions } from '../../hooks/useDimensions';
 import styles from './AdminLayout.module.scss';
 import { AdminNavbarItem } from './AdminNavbarItem';
 
 const PATH_PREFIX = '/admin';
 const getFullPath = (path: string) => `${PATH_PREFIX}${path}`;
 export const AdminNavbar = () => {
+    const { width } = useDimensions();
     const { asPath } = useRouter();
     const stripe = useRef<HTMLDivElement>(null);
     const container = useRef<HTMLDivElement>(null);
@@ -35,7 +37,7 @@ export const AdminNavbar = () => {
         stripe.current.style.width = `${width}px`;
         stripe.current.style.left = `${left - containerLeft}px`;
         stripe.current.style.top = `${top + height}px`;
-    }, [asPath]);
+    }, [asPath, width]);
 
     return(
         <div className={styles.navbar}>
