@@ -5,8 +5,11 @@ import { selectMeColors, selectMeDisplay, selectMeItems, selectMeUpdating } from
 import { useAppSelector } from '../../../redux/store';
 import { LoadingSpinner } from '../../loading-spinner/LoadingSpinner';
 import { getIconURL } from '../../../utils/functions';
+import { ExternalLinkIcon } from '../../../icons/ExternalLinkIcon';
+import { useRouter } from 'next/router';
 
 export const AppearancePreview = () => {
+    const router = useRouter();
     const updating = useAppSelector(selectMeUpdating);
     const user = useAppSelector(selectMeDisplay);
     let items = useAppSelector(selectMeItems);
@@ -58,6 +61,16 @@ export const AppearancePreview = () => {
                     <LoadingSpinner className={styles['spinner']} />
                 )}
             </div>
+            <a 
+                href={`/${user.username}`}
+                className={styles['link-to-page']}
+                target={'_blank'}
+            >
+                <span>
+                    To my page
+                </span>
+                <ExternalLinkIcon />
+            </a>
         </div>
     )
 }

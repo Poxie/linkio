@@ -235,6 +235,28 @@
     cursor: pointer;
 }
 
+.link-to-page {
+    transform: translateY(-65px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-primary);
+    border-top: 1px solid var(--background-tertiary);
+    padding: 15px 0;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    svg {
+        height: 14px !important;
+        width: 14px !important;
+        margin-left: 10px;
+        margin-top: 2px;
+        position: relative !important;
+        fill: var(--color-primary);
+    }
+}
 .preview {
     --inner-padding: 25px;
     position: sticky;
@@ -287,6 +309,12 @@
 .preview-container {
     padding: var(--inner-padding);
     height: 100%;
+    overflow: auto;
+    padding-bottom: 65px;
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
 }
 .preview-item {
     position: relative;
