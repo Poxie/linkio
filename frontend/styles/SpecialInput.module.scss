@@ -1,0 +1,66 @@
+.input-container {
+    width: 720px;
+    max-width: 95%;
+    height: 57px;
+    background-color: var(--background-primary);
+    display: flex;
+    align-items: center;
+    padding-left: var(--spacing-primary);
+    border-radius: var(--border-radius-primary);
+    overflow: hidden;
+    font-size: 20px;
+}
+.input-prefix {
+    display: block;
+    margin-top: -3px;
+}
+.input {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    font-size: 20px !important;
+    color: var(--text-primary) !important;
+    
+    input {
+        padding: 0 !important;
+        width: 100%;
+        height: 100%;
+        border: none !important;
+        background-color: transparent !important;
+    }
+}
+.placeholder-container {
+    position: relative;
+    height: 100%;
+    flex: 1;
+}
+.submit-button {
+    --btn-w: 34px;
+    --btn-h: 34px;
+    opacity: 0;
+    position: absolute;
+    right: calc(-10px - var(--btn-w));
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--btn-w);
+    height: var(--btn-h);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--button-primary);
+    border-radius: 50%;
+    transition: opacity .2s ease, right .3s ease, box-shadow .3s ease;
+    cursor: pointer;
+
+    svg {
+        height: 16px;
+        fill: #fff;
+    }
+    &.active {
+        opacity: 1;
+        right: 10px;
+    }
+    &:hover {
+        box-shadow: rgb(0 0 0 / 25%) 0px 4px 6px 0px;
+    }
+}

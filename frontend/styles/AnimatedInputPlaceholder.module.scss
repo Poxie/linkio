@@ -1,0 +1,20 @@
+.input-placeholder {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-top: -2px;
+    pointer-events: none;
+    color: var(--color-secondary);
+}
+.pivot {
+    animation: pivot-in-out .5s infinite alternate;
+}
+@keyframes pivot-in-out {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
