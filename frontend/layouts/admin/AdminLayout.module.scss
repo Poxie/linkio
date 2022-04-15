@@ -1,6 +1,6 @@
 .container {
     --width: 1100px;
-    --max-width: 95%;
+    --max-width: 90%;
     --navbar-height: 62px;
 }
 .navbar {
@@ -16,7 +16,6 @@
 }
 .navbar-content {
     justify-content: space-between;
-    max-width: 90%;
 }
 .navbar-content, .navbar-options {
     display: flex;
