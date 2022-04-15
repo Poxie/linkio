@@ -4,6 +4,8 @@
     --navbar-height: 62px;
 }
 .navbar {
+    display: flex;
+    align-items: center;
     background-color: var(--background-primary);
     border-bottom: 1px solid var(--border-primary-color);
     position: fixed;
@@ -14,6 +16,7 @@
 }
 .navbar-content {
     justify-content: space-between;
+    max-width: 90%;
 }
 .navbar-content, .navbar-options {
     display: flex;
@@ -51,6 +54,42 @@
     position: absolute;
     transition: left .3s, width .3s, top .3s;
 }
+.mobile-navbar-items {
+    .ham-button {
+        cursor: pointer;
+        padding: 7px;
+        margin-left: -7px;
+    }
+    svg {
+        height: 20px;
+        display: block;
+        fill: var(--color-primary);
+    }
+}
+.mobile-navbar-item-container {
+    position: fixed;
+    top: var(--navbar-height);
+    left: -100%;
+    height: 100%;
+    width: 100%;
+    background-color: var(--background-primary);
+    text-align: center;
+    transition: left .3s ease;
+
+    &.active {
+        left: 0;
+    }
+
+    .navbar-item {
+        margin: 0;
+    }
+    .coming-soon {
+        position: relative;
+        top: -30px;
+        right: -35px;
+    }
+}
+
 .main, .navbar-content {
     width: var(--width);
     max-width: var(--max-width);
@@ -79,10 +118,4 @@
     position: relative;
     border-radius: 50%;
     overflow: hidden;
-}
-
-@media only screen and (max-width: 600px) {
-    .navbar-content {
-        justify-content: space-around;
-    }
 }
