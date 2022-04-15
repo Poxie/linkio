@@ -7,12 +7,14 @@ type Props = {
     value: string;
     onChange?: (text: string) => void;
     onSubmit?: (text: string) => void;
+    onFocus?: (text: string) => void;
     onBlur?: (text: string) => void;
+    methodsOnlyOnChange?: boolean;
     className?: string;
     textarea?: boolean;
     resize?: 'horizontal' | 'vertical' | 'none';
 }
-export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onChange, onSubmit, onBlur, className, textarea=false, resize='vertical' }) => {
+export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onChange, onSubmit, onBlur, onFocus, methodsOnlyOnChange=true, className, textarea=false, resize='vertical' }) => {
     const ref = useRef<HTMLInputElement>(null);
     const [value, setValue] = useState(_value);
     const hasChanged = useRef(false);
@@ -38,8 +40,13 @@ export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onCh
         }
     }
     const handleBlur = () => {
-        if(!hasChanged.current) return;
+        if(!hasChanged.current && methodsOnlyOnChange) return;
         onBlur && onBlur(ref.current?.value || '');
+        hasChanged.current = false;
+    }
+    const handleFocus = () => {
+        if(!hasChanged.current && methodsOnlyOnChange) return;
+        onFocus && onFocus(ref.current?.value || '');
         hasChanged.current = false;
     }
 
@@ -48,6 +55,7 @@ export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onCh
         placeholder: placeholder,
         onChange: handleChange,
         onBlur: handleBlur,
+        onFocus: handleFocus,
         value: value,
         ref: ref
     } as any;
