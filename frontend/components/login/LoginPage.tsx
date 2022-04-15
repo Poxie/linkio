@@ -49,9 +49,9 @@ export const LoginPage = () => {
         // Handling login
         if(type === 'login') {
             const user = await login(username, password);
-            setLoading(false);
-
+            
             if(!user) {
+                setLoading(false);
                 return setError('Invalid credentials.');
             }
 
@@ -62,9 +62,12 @@ export const LoginPage = () => {
         if(password.length < 5) return setError('Password must include 5 or more characters.');
 
         const user = await createUser(username, password);
-        setLoading(false);
 
-        if(!user) return setError('Username is unavailable.');
+        if(!user) {
+            setLoading(false);
+            setError('Username is unavailable.');
+            return;
+        }
 
         dispatch(setMe(user));
         return router.replace(redirect_uri);
