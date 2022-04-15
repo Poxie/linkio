@@ -145,6 +145,11 @@
     display: block;
 }
 
+.empty-items {
+    padding: var(--spacing-primary);
+    text-align: center;
+    color: var(--color-secondary);
+}
 .item-container {
     margin-top: var(--spacing-primary);
     display: flex;
