@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <TooltipProvider>
           <ModalProvider>
             <PopupProvider>
-              {getLayout(<Component {...pageProps} />)}
+              {getLayout(<Component {...pageProps} /> as ReactElement)}
             </PopupProvider>
           </ModalProvider>
         </TooltipProvider>
