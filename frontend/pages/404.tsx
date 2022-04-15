@@ -26,7 +26,7 @@ export default function index() {
             </h1>
 
             <span className={styles['description']}>
-                Ouch, that's an error. Perhaps you entered it incorrectly?
+                Ouch, that&apos;s an error. Perhaps you entered it incorrectly?
             </span>
             
             <SpecialInput 

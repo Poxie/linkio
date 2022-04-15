@@ -49,7 +49,7 @@ export const UserItems = () => {
 
                     {items.length === 0 && (
                         <div className={styles['empty-items']}>
-                            {name || `@${username}`} doesn't have any items yet. :(
+                            {name || `@${username}`} doesn&apos;t have any items yet. :(
                         </div>
                     )}
                 </div>

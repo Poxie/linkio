@@ -79,7 +79,7 @@ export const AdminLinks = () => {
         <>
             {newLinks.length === 0 && (
                 <div className={styles['empty-links']}>
-                    Looks like you don't have any items yet.
+                    Looks like you don&apos;t have any items yet.
                 </div>
             )}
             <SortableItems 
