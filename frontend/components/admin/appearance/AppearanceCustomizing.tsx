@@ -37,11 +37,11 @@ export const AppearanceCustomizing = () => {
         dispatch(setMeUpdating(false));
     }, [dispatch, id, colors]);
 
-    const updateImage = async (type: 'banner' | 'avatar', file: File | null) => {
+    const updateImage = useCallback(async (type: 'banner' | 'avatar', file: File | null) => {
         if(!id) return;
         const { bannerURL, avatarURL } = await updateUser(id, { [type]: file });
         dispatch(type === 'banner' ? setMeBanner(bannerURL) : setMeAvatar(avatarURL));
-    }
+    }, [id]);
     const updateLocalText = async (type: 'name' | 'bio', value: string) => {
         dispatch(setMeDisplay(type, value));
     }
@@ -55,7 +55,7 @@ export const AppearanceCustomizing = () => {
         if(isMe) {
             dispatch(setUserDisplay(type, value));
         }
-    }, [dispatch]);
+    }, [dispatch, id, isMe]);
 
     const items = [
         { background: avatar || 'var(--user-avatar-background)', header: 'Avatar Color', id: 'avatar' },
