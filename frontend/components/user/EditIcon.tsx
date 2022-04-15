@@ -18,3 +18,4 @@ export const EditButton = React.forwardRef<HTMLDivElement, Props>(({ className, 
         </div>
     )
 });
+EditButton.displayName = 'EditButton';

@@ -136,4 +136,4 @@ export const SortableItems: React.FC<SortableItemsProps> = ({ items, component, 
         </SortableContext.Provider>
     )
 }
-SortableItem.displayName = 'SortableItem';
+SortableItems.displayName = 'SortableItems';

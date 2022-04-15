@@ -131,3 +131,4 @@ export const SortableItem: React.FC<SortableItemProps> = React.memo(React.forwar
         </div>
     )
 }));
+SortableItem.displayName = 'SortableItem';

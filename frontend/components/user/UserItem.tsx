@@ -60,6 +60,8 @@ export const UserItem: React.FC<User['items'][0]> = React.memo((item) => {
         </HasEditorContainer>
     )
 });
+UserItem.displayName = 'UserItem';
+
 const Item: React.FC<Item> = (item) => {
     const isMe = useAppSelector(selectUserIsMe);
     const { startEditing, cancel, editing } = useEditor();
@@ -89,3 +91,4 @@ const Item: React.FC<Item> = (item) => {
         </a>
     )
 }
+Item.displayName = 'Item';
