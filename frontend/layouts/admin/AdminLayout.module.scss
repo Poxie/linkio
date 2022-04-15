@@ -13,6 +13,9 @@
     z-index: 14;
 }
 .navbar-content {
+    justify-content: space-between;
+}
+.navbar-content, .navbar-options {
     display: flex;
     align-items: center;
     position: relative;
@@ -55,6 +58,27 @@
 }
 .main {
     padding-top: var(--navbar-height);
+}
+.user-dropdown {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px 10px;
+    margin-right: -10px;
+    border-radius: var(--border-radius);
+    transition: background-color .2s;
+
+    &:hover {
+        background-color: var(--background-tertiary);
+    }
+}
+.avatar {
+    margin-right: 10px;
+    height: 28px;
+    width: 28px;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
 }
 
 @media only screen and (max-width: 600px) {
