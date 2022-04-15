@@ -1,7 +1,9 @@
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { SpecialInput } from '../components/SpecialInput';
 import styles from '../styles/NotFound.module.scss';
+import { WEBSITE_NAME } from '../utils/constants';
 
 export default function index() {
     const router = useRouter();
@@ -12,6 +14,12 @@ export default function index() {
     }
 
     return(
+        <>
+        <Head>
+            <title>
+                {WEBSITE_NAME} | Page not found
+            </title>
+        </Head>
         <div className={styles['container']}>
             <h1>
                 404 - Not Found
@@ -26,5 +34,6 @@ export default function index() {
                 onSubmit={onSubmit}
             />
         </div>
+        </>
     )
 }
