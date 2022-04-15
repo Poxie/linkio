@@ -16,6 +16,7 @@ export const HomeInput = () => {
         <SpecialInput 
             onSubmit={create}
             onChange={setUsername}
+            placeholder={'yourusernamehere'}
         />
     )
 }

@@ -9,7 +9,8 @@ export const SpecialInput: React.FC<{
     value?: string;
     onSubmit?: (text: string) => void;
     onChange?: (text: string) => void;
-}> = ({ onSubmit, onChange, value: _value }) => {
+    placeholder: string;
+}> = ({ onSubmit, onChange, placeholder, value: _value }) => {
     const [value, setValue] = useState(_value || '');
     const [isFocusing, setIsFocusing] = useState(false);
 
@@ -38,7 +39,7 @@ export const SpecialInput: React.FC<{
                     onSubmit={onSubmit}
                 />
                 {!value && !isFocusing && (
-                    <AnimatedInputPlaceholder placeholder={'namehere'} />
+                    <AnimatedInputPlaceholder placeholder={placeholder} />
                 )}
                 <div 
                     className={styles['submit-button'] + (value ? ` ${styles['active']}` : '')}

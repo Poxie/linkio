@@ -32,6 +32,7 @@ export default function index() {
             <SpecialInput 
                 onChange={setSearch}
                 onSubmit={onSubmit}
+                placeholder={'namehere'}
             />
         </div>
         </>
