@@ -123,3 +123,4 @@ export const EditorContainer: React.FC<Props> = React.forwardRef<HTMLDivElement,
         </motion.div>
     )
 });
+EditorContainer.displayName = 'EditorContainer';

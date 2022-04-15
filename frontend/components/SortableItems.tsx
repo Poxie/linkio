@@ -135,6 +135,7 @@ export const SortableItems: React.FC<SortableItemsProps> = ({ items, component, 
         </SortableContext.Provider>
     )
 }
+SortableItems.displayName = 'SortableItems';
 
 type SortableItemProps = {
     index: number;
