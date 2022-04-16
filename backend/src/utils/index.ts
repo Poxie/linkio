@@ -1,7 +1,10 @@
 import { UserItem } from "../types";
 
+const regexURL = new RegExp('^(http(s?):\\/\\/)|(www.)((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|((\\d{1,3}\\.){3}\\d{1,3}))(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*(\\?[;&a-z\\d%_.~+=-]*)?(\\#[-a-z\\d_]*)?$','i');
 export const isValidItem = (content: string, url: string) => {
-    return !!content && !!url;
+    const hasRequiredValues = !!content && !!url;
+    const hasValidLink = regexURL.test(url);
+    return hasRequiredValues && hasValidLink;
 }
 
 export const hasValidOrderProperties = (items: UserItem[]) => {
