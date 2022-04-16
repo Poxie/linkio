@@ -21,6 +21,9 @@ export default function User({ user }: UserProps) {
                 <meta name="og:title" content={user.name} />
                 <meta name="og:description" content={user.bio} />
                 <meta name="og:url" content={`${WEBSITE_ORIGIN}/${user.username}`} />
+                {user.avatarURL && (
+                    <meta name="og:image" content={user.avatarURL} />
+                )}
             </Head>
 
             <style jsx global>{`
