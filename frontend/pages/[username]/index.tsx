@@ -1,12 +1,7 @@
+import React from 'react';
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { UserPage } from "../../components/user/UserPage";
-import { selectMe } from "../../redux/me/meSelectors";
-import { useAppSelector } from "../../redux/store";
-import { setUser, setUserIsMe, setUserItems } from "../../redux/user/userActions";
-import { selectUser } from "../../redux/user/userSelectors";
 import { getMe, getUserByUsername } from "../../utils";
 import { User as UserType } from "../../utils/types";
 
