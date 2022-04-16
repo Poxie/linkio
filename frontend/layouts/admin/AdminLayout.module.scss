@@ -3,6 +3,33 @@
     --max-width: 90%;
     --navbar-height: 62px;
 }
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    span {
+        font-size: 16px;
+        display: block;
+        margin-bottom: 15px;
+        animation: scale-loading-text 1s forwards alternate infinite ease;
+    }
+}
+@keyframes scale-loading-text {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.15);
+    }
+}
+
 .navbar {
     display: flex;
     align-items: center;
