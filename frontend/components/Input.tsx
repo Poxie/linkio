@@ -53,6 +53,7 @@ export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onCh
 
     const options = {
         id: label,
+        name: label?.toLowerCase(),
         placeholder: placeholder,
         onChange: handleChange,
         onBlur: handleBlur,
