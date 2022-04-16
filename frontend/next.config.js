@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: [process.env.NEXT_PUBLIC_API_ORIGIN]
+    domains: [process.env.NEXT_PUBLIC_IMAGE_ORIGIN]
   }
 }
