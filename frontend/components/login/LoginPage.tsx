@@ -107,6 +107,7 @@ export const LoginPage = () => {
                     label={'Password'}
                     className={styles['input-container']}
                     onSubmit={!loading ? onSubmit : undefined}
+                    type={'password'}
                 />
 
                 {error && (
