@@ -4,6 +4,7 @@ import Head from "next/head";
 import { UserPage } from "../../components/user/UserPage";
 import { getMe, getUserByUsername } from "../../utils";
 import { User as UserType } from "../../utils/types";
+import { WEBSITE_ORIGIN } from '../../utils/constants';
 
 type UserProps = {
     user: UserType;
@@ -17,6 +18,9 @@ export default function User({ user }: UserProps) {
                     {user.name}
                 </title>
                 <meta name="description" content={user.bio} />
+                <meta name="og:title" content={user.name} />
+                <meta name="og:description" content={user.bio} />
+                <meta name="og:url" content={`${WEBSITE_ORIGIN}/${user.username}`} />
             </Head>
 
             <style jsx global>{`
