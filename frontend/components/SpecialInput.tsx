@@ -4,6 +4,7 @@ import { Input } from './Input';
 import styles from '../styles/SpecialInput.module.scss';
 import { HomeInputPlaceholder } from './home/HomeInputPlaceholder';
 import { AnimatedInputPlaceholder } from './AnimatedInputPlaceholder';
+import { WEBSITE_NAME } from '../utils/constants';
 
 export const SpecialInput: React.FC<{
     value?: string;
@@ -26,7 +27,7 @@ export const SpecialInput: React.FC<{
     return(
         <div className={styles['input-container']}>
             <span className={styles['input-prefix']}>
-                {process.env.NEXT_PUBLIC_WEBSITE_NAME.toLowerCase()}.com/
+                {WEBSITE_NAME.toLowerCase()}.com/
             </span>
             <div className={styles['placeholder-container']}>
                 <Input 
