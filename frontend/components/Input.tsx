@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { HTMLInputTypeAttribute, useEffect, useRef, useState } from 'react';
 import styles from '../styles/Input.module.scss';
 
 type Props = {
@@ -13,8 +13,9 @@ type Props = {
     className?: string;
     textarea?: boolean;
     resize?: 'horizontal' | 'vertical' | 'none';
+    type?: HTMLInputTypeAttribute;
 }
-export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onChange, onSubmit, onBlur, onFocus, methodsOnlyOnChange=true, className, textarea=false, resize='vertical' }) => {
+export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onChange, onSubmit, onBlur, onFocus, methodsOnlyOnChange=true, className, textarea=false, resize='vertical', type }) => {
     const ref = useRef<HTMLInputElement>(null);
     const [value, setValue] = useState(_value);
     const hasChanged = useRef(false);
@@ -57,6 +58,7 @@ export const Input: React.FC<Props> = ({ label, placeholder, value: _value, onCh
         onBlur: handleBlur,
         onFocus: handleFocus,
         value: value,
+        type: type,
         ref: ref
     } as any;
     className = [styles.form, className].join(' ');
