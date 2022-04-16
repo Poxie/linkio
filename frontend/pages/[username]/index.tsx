@@ -14,32 +14,6 @@ type UserProps = {
     user: UserType;
 }
 export default function User({ user }: UserProps) {
-    const dispatch = useDispatch();
-    const _user = useAppSelector(selectUser);
-    const me = useAppSelector(selectMe);
-
-    // Checking if user is owner
-    useEffect(() => {
-        // If user or me is undefined, return
-        if(!_user || !me) return;
-
-        // Determining if user is me
-        const isMe = _user?.id === me?.id;
-
-        // Updating isMe property based on conditions
-        if(isMe && !_user?.isMe) {
-            dispatch(setUserIsMe(true));
-            getMe().then(user => dispatch(setUser({...user, ...{ isMe: true }})));
-        } else if(!isMe && _user?.isMe) {
-            dispatch(setUserIsMe(false));
-        }
-    }, [_user, me]);
-    
-    // On user update, update redux store
-    if(user && _user?.username !== user.username) {
-        dispatch(setUser(user));
-    }
-
     const { primary, banner, avatar, header, item } = user.colorScheme.background;
     return(
         <>
@@ -60,7 +34,7 @@ export default function User({ user }: UserProps) {
                 }
             `}</style>
             
-            <UserPage />
+            <UserPage user={user} />
         </>
     )
 }
